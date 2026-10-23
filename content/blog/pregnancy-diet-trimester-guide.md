@@ -5,6 +5,8 @@ date: 2026-10-23
 category: Pregnancy
 image: svc-pregnancy-maternal-care
 service: pregnancy-maternal-care
+sources: NHS – Have a healthy diet in pregnancy|https://www.nhs.uk/pregnancy/keeping-well/have-a-healthy-diet/ ;; NHS – Foods to avoid in pregnancy|https://www.nhs.uk/pregnancy/keeping-well/foods-to-avoid/
+reviewed_by: 
 ---
 Good nutrition is one of the most powerful things you can do for your baby's growth and your own energy and recovery. You do not need a complicated diet — a balanced, home-cooked Indian thali, eaten regularly and in the right amounts, covers most needs.
 

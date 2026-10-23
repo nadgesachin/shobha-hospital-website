@@ -664,3 +664,16 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); c
   .reviews { grid-template-columns: 1fr; }
   .post-cover { aspect-ratio: 16 / 10; }
 }
+
+/* ---------- SEO additions ---------- */
+.h1-kicker { display: block; font-family: var(--font-sans); font-size: clamp(.95rem, 1.4vw, 1.05rem); font-weight: 600; letter-spacing: .01em; color: var(--green-700); margin-bottom: .6em; line-height: 1.4; }
+.from-towns { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 22px; font-size: .92rem; }
+.from-towns > span { display: inline-flex; align-items: center; gap: .4em; font-weight: 600; color: var(--green-900); margin-right: 4px; }
+.from-towns a { padding: .4em .9em; border-radius: 999px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); }
+.from-towns a:hover { border-color: var(--coral-600); color: var(--coral-700); }
+.sources { margin-top: 36px; padding: 22px 24px; border-radius: var(--radius); background: var(--sand); }
+.sources h2 { font-family: var(--font-sans); font-size: .85rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.sources ol { margin: 0; padding-left: 1.2em; font-size: .95rem; }
+.sources a { color: var(--green-700); }
+.svc-faq .faq details { background: var(--cream); }
+.post-meta a { color: var(--green-700); font-weight: 600; }

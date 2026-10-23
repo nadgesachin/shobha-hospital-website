@@ -1,10 +1,12 @@
 ---
 title: PCOS: Symptoms, Causes and How It Is Managed
-description: Polycystic ovary syndrome (PCOS) is one of the most common hormonal conditions in women. Learn the signs, why it happens, and how lifestyle care, medicine and Ayurveda can help.
+description: PCOS/PCOD is one of the most common hormonal conditions in women. Learn the signs, causes, and how lifestyle care, medicine and Ayurveda help.
 date: 2026-10-23
 category: Women’s Health
 image: svc-womens-health-integrative-care
 service: womens-health-integrative-care
+sources: NHS – Polycystic ovary syndrome (PCOS/PMOS)|https://www.nhs.uk/conditions/polyendocrine-metabolic-ovarian-syndrome-pmos/ ;; WHO – Polycystic ovary syndrome fact sheet|https://www.who.int/news-room/fact-sheets/detail/polycystic-ovary-syndrome
+reviewed_by: 
 ---
 Polycystic ovary syndrome (PCOS, also called PCOD) is one of the most common hormonal conditions in women of reproductive age. It affects periods, skin, weight and fertility — but with the right care, most women with PCOS manage it well and go on to have healthy pregnancies.
 

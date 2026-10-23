@@ -5,6 +5,8 @@ date: 2026-10-23
 category: Ayurveda & Wellness
 image: about-1
 service: garbhasanskar
+sources: NHS – Exercise in pregnancy|https://www.nhs.uk/pregnancy/keeping-well/exercise/ ;; WHO – Recommendations on antenatal care for a positive pregnancy experience|https://www.who.int/publications/i/item/9789241549912
+reviewed_by: 
 ---
 *Garbha* means womb and *sanskar* means positive influence or nurturing. Garbhasanskar is a traditional Indian practice that focuses on the physical, mental and emotional wellbeing of the mother during pregnancy — with the understanding that a calm, healthy and well-nourished mother provides the best environment for her baby.
 

@@ -12,11 +12,11 @@
     "locality": "Khanvel",
     "district": "Dadra and Nagar Haveli",
     "region": "Dadra and Nagar Haveli and Daman and Diu",
+    "region_code": "IN-DH",
     "postal": "396230",
     "country": "IN",
     "short": "Khanvel, Dadra & Nagar Haveli",
-    "display": "Shobha Hospital, Ground & First Floor, ND Complex, Char Rasta, Khanvel, Dadra & Nagar Haveli 396230",
-    "building": "Shobha Hospital"
+    "display": "Ground & First Floor, ND Complex, Char Rasta, Khanvel, Dadra and Nagar Haveli and Daman and Diu 396230"
   },
   "maps_link": "https://maps.app.goo.gl/XJpH6NXiiyLyzR5Y6",
   "hours": [
@@ -223,10 +223,12 @@
     "Silvassa",
     "Talasari",
     "Dadra",
+    "Vapi",
     "Kherdi",
     "Surangi",
     "Dudhani"
   ],
   "google_cid": "3980436002316379231",
-  "google_place_url": "https://maps.google.com/?cid=3980436002316379231"
+  "google_place_url": "https://maps.google.com/?cid=3980436002316379231",
+  "google_site_verification": ""
 }

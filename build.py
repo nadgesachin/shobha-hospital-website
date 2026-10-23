@@ -27,6 +27,12 @@ SERVICES = json.loads((ROOT / "content" / "services.json").read_text())
 DOCTORS = json.loads((ROOT / "content" / "doctors.json").read_text())
 DOC_BY = {d["slug"]: d for d in DOCTORS}
 REVIEWS = json.loads((ROOT / "content" / "reviews.json").read_text())
+SEO = json.loads((ROOT / "content" / "seo.json").read_text())
+OG_IMAGES = set()  # image names that need a 1200x630 JPEG share image
+FONTS_CSS = ("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600"
+             "&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Tiro+Devanagari+Hindi&display=swap")
+UNIVERSITIES = {"BHU": "Banaras Hindu University", "MUHS": "Maharashtra University of Health Sciences",
+                "GAMC, Bengaluru": "Government Ayurveda Medical College, Bengaluru"}
 SVC_BY = {s["slug"]: s for s in SERVICES}
 TODAY = dt.date.today().isoformat()
 
@@ -131,16 +137,20 @@ def clinic_ld():
         "@type": "MedicalClinic",
         "@id": SITE["url"] + "/#clinic",
         "name": SITE["name"],
+        "alternateName": "Suvacha Healthcare Khanvel",
+        "description": SITE["about_short"],
         "slogan": SITE["tagline"],
         "url": SITE["url"],
         "logo": SITE["url"] + "/assets/img/logo.png",
-        "image": SITE["url"] + "/assets/img/og-image.jpg",
+        "image": SITE["url"] + "/assets/og/hero.jpg",
         "telephone": SITE["phone"],
         "email": SITE["email"],
         "address": {"@type": "PostalAddress", "streetAddress": a["street"], "addressLocality": a["locality"],
                     "addressRegion": a["region"], "postalCode": a["postal"], "addressCountry": a["country"]},
         "hasMap": SITE["google_place_url"],
-        "areaServed": [SITE["address"]["locality"], *SITE["nearby"]],
+        "areaServed": [{"@type": "City", "name": n} for n in [SITE["address"]["locality"], *SITE["nearby"]]],
+        "sameAs": [SITE["google_place_url"]],
+        "isAcceptingNewPatients": True,
         "geo": {"@type": "GeoCoordinates", "latitude": SITE["geo"]["lat"], "longitude": SITE["geo"]["lng"]},
         "contactPoint": [{"@type": "ContactPoint", "telephone": SITE["emergency_phone"], "contactType": "emergency"}],
         "openingHoursSpecification": [
@@ -148,7 +158,8 @@ def clinic_ld():
              "opens": h["open"], "closes": h["close"]} for h in SITE["hours"]],
         "medicalSpecialty": ["Obstetric", "Gynecologic", "Pediatric", "Surgical"],
         "availableService": [{"@type": "MedicalTherapy", "name": s["title"]} for s in SERVICES],
-        "founder": {"@type": "Person", "name": "Dr. Sachin Ladak Shedad"},
+        "founder": {"@id": SITE["url"] + "/doctor/sachin/#physician"},
+        "employee": [{"@id": f"{SITE['url']}/doctor/{d['slug']}/#physician"} for d in DOCTORS],
     }
 
 
@@ -279,34 +290,55 @@ def footer():
 </nav>'''
 
 
-def page(path, title, description, body, extra_ld=(), og_image="/assets/img/og-image.jpg"):
-    full_title = f"{title} | Suvacha Healthcare" if title else "Suvacha Healthcare — Women’s Health, Pregnancy & Ayurveda in Khanvel, Silvassa"
+def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="website", preload=None, noindex=False, published=None, suffix=True):
+    override = SEO["pages"].get(path)
+    if override:
+        title, description = override["title"], override["description"]
+    full_title = title if ("Suvacha" in title or not suffix) else f"{title} | Suvacha Healthcare"
     canonical = SITE["url"] + path
     cfg = {"whatsapp": SITE["whatsapp"], "hours": SITE["hours"]}
+    if path == "/":
+        extra_ld = [{"@context": "https://schema.org", "@type": "WebSite", "@id": SITE["url"] + "/#website", "name": SITE["name"],
+                     "url": SITE["url"] + "/", "inLanguage": "en-IN", "publisher": {"@id": SITE["url"] + "/#clinic"}}, *extra_ld]
     lds = "".join(ld_script(x) for x in (clinic_ld(), *extra_ld))
+    OG_IMAGES.add(og_image)
+    g = SITE["geo"]
+    verify = f'<meta name="google-site-verification" content="{e(SITE["google_site_verification"])}">\n' if SITE.get("google_site_verification") else ""
+    robots = "noindex, follow" if noindex else "index, follow, max-image-preview:large, max-snippet:-1"
+    pre = (f'<link rel="preload" as="image" href="/assets/img/{preload}-960.webp" '
+           f'imagesrcset="/assets/img/{preload}-480.webp 480w, /assets/img/{preload}-960.webp 960w" imagesizes="(max-width: 860px) 90vw, 480px" fetchpriority="high">\n') if preload else ""
+    art = f'<meta property="article:published_time" content="{published}">\n' if published else ""
     html = f'''<!doctype html>
-<html lang="en" class="no-js">
+<html lang="en-IN" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(full_title)}</title>
 <meta name="description" content="{e(description)}">
+<meta name="robots" content="{robots}">
 <link rel="canonical" href="{canonical}">
-<meta name="theme-color" content="#1f2e1c">
-<meta property="og:type" content="website">
+{verify}<meta name="theme-color" content="#1f2e1c">
+<meta name="geo.region" content="{SITE["address"]["region_code"]}">
+<meta name="geo.placename" content="{SITE["address"]["locality"]}, {SITE["address"]["district"]}">
+<meta name="geo.position" content="{g["lat"]};{g["lng"]}">
+<meta name="ICBM" content="{g["lat"]}, {g["lng"]}">
+<meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Suvacha Healthcare">
 <meta property="og:title" content="{e(full_title)}">
 <meta property="og:description" content="{e(description)}">
 <meta property="og:url" content="{canonical}">
-<meta property="og:image" content="{SITE["url"]}{og_image}">
+<meta property="og:image" content="{SITE["url"]}/assets/og/{og_image}.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_IN">
-<meta name="twitter:card" content="summary_large_image">
+{art}<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Tiro+Devanagari+Hindi&display=swap">
+{pre}<link rel="preload" as="style" href="{FONTS_CSS}" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{FONTS_CSS}"></noscript>
 <link rel="stylesheet" href="/assets/css/style.css">
 <script>window.SUVACHA={json.dumps(cfg)};</script>
 <script src="/assets/js/main.js" defer></script>
@@ -461,6 +493,7 @@ def map_section(sand=True):
     </div>
     <div class="map-card__map"><iframe src="{MAP_EMBED}" title="Map showing Suvacha Healthcare, Khanvel" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
   </div>
+  <nav class="from-towns reveal" aria-label="Directions from nearby towns"><span>{icon("navigation")} Directions from:</span>{"".join(f'<a href="https://www.google.com/maps/dir/?api=1&amp;origin={quote(t + ", India")}&amp;destination={GEO}" target="_blank" rel="noopener">{e(t)}</a>' for t in SITE["nearby"])}</nav>
 </div></section>'''
 
 
@@ -544,7 +577,7 @@ def build_home():
 <section class="hero"><div class="container">
   <div class="reveal">
     <span class="eyebrow">{e(h["eyebrow"])}</span>
-    <h1>{title_html}</h1>
+    <h1><span class="h1-kicker">Gynecology, Maternity &amp; Ayurveda Clinic in Khanvel, Silvassa</span>{title_html}</h1>
     <p class="hero__lead">{e(h["lead"])}</p>
     <div class="hero__cta">
       <a class="btn btn--coral" href="/appointment/">{icon("calendar")} Book Appointment</a>
@@ -635,8 +668,7 @@ def build_home():
 
 {map_section()}
 '''
-    page("/", "", "Suvacha Healthcare, Khanvel (near Silvassa) — integrative women’s health, pregnancy, infertility, gynecology surgery, Garbhasanskar and Panchakarma by IMS–BHU trained doctors. Book on WhatsApp.",
-         body, extra_ld=[faq_ld(SITE["faqs"])])
+    page("/", "", "", body, extra_ld=[faq_ld(SITE["faqs"])], preload="hero")
 
 
 def build_about():
@@ -708,6 +740,8 @@ def build_services():
   <div class="detail__main">
     <div class="intro reveal">{"".join(f"<p>{e(p)}</p>" for p in s["intro"])}</div>
     {section_blocks(s["sections"])}
+    <div class="block reveal svc-faq"><div class="block__head"><span class="block__num">?</span><h2>Frequently asked questions</h2></div>
+      <div class="faq">{"".join(f'<details><summary>{e(f["q"])}<span class="faq__plus">{icon("plus")}</span></summary><p>{e(f["a"])}</p></details>' for f in SEO["services"][s["slug"]]["faqs"])}</div></div>
     <p class="closing reveal">Creating <span class="deva">श्रेयसी प्रजा</span> — healthy mothers, strong families, and a balanced society.</p>
   </div>
   <aside class="aside">
@@ -721,8 +755,9 @@ def build_services():
 '''
         ld = {"@context": "https://schema.org", "@type": "MedicalWebPage", "name": s["title"], "about": {"@type": "MedicalTherapy", "name": s["title"]},
               "description": s["short"], "url": SITE["url"] + url, "provider": {"@id": SITE["url"] + "/#clinic"}}
-        page(url, s["title"], f'{s["title"]} at Suvacha Healthcare, Khanvel — {s["tagline"]}. {s["short"]}', body,
-             extra_ld=[breadcrumb_ld(trail), ld], og_image=f"/assets/img/svc-{s['slug']}-960.webp")
+        seo = SEO["services"][s["slug"]]
+        page(url, seo["title"], seo["description"], body,
+             extra_ld=[breadcrumb_ld(trail), ld, faq_ld(seo["faqs"])], og_image=f"svc-{s['slug']}", preload=f"svc-{s['slug']}")
 
 
 def build_doctors():
@@ -782,10 +817,21 @@ def build_doctors():
 '''
         ld = {"@context": "https://schema.org", "@type": "Physician", "name": name, "description": d["role"],
               "image": f"{SITE['url']}/assets/img/dr-{d['slug']}-960.webp", "url": SITE["url"] + url,
-              "medicalSpecialty": d["specialty"], "hasCredential": d["qualification"],
+              "@id": SITE["url"] + url + "#physician",
+              "medicalSpecialty": d["specialty"], "hasCredential": d["qualification"], "jobTitle": d["role"],
+              "alumniOf": [{"@type": "CollegeOrUniversity", "name": v} for k, v in UNIVERSITIES.items() if k in d["qualification"]],
+              "address": clinic_ld()["address"], "isAcceptingNewPatients": True,
               "worksFor": {"@id": SITE["url"] + "/#clinic"}, "telephone": SITE["phone"]}
-        page(url, f"{name} — {d['specialty']}", f"{name}, {d['role']} at Suvacha Healthcare, Khanvel. {d['qualification']}.", body,
-             extra_ld=[breadcrumb_ld(trail), ld], og_image=f"/assets/img/dr-{d['slug']}-960.webp")
+        kw = SEO["doctors"][d["slug"]]
+        t = f"{name} – {kw}, Khanvel | Suvacha"
+        if len(t) > 70:
+            t = f"{name} – {kw}, Khanvel"
+        desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. {d['qualification']}. Book in-clinic or online."
+        if len(desc) > 158:
+            desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. {d['qualification']}."
+        if len(desc) > 158:
+            desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. Book in-clinic or online."
+        page(url, t, desc, body, extra_ld=[breadcrumb_ld(trail), ld], og_image=f"dr-{d['slug']}", preload=f"dr-{d['slug']}", suffix=False)
 
 
 def build_appointment():
@@ -944,6 +990,8 @@ def load_posts():
             meta[k.strip()] = v.strip()
         html, toc = md_to_html(body)
         words = len(re.findall(r"\w+", body))
+        meta["sources"] = [tuple(x.strip().split("|", 1)) for x in meta.get("sources", "").split(";;") if "|" in x]
+        meta["reviewer"] = DOC_BY.get(meta.get("reviewed_by", "").strip())
         posts.append({**meta, "slug": f.stem, "html": html, "toc": toc, "minutes": max(2, round(words / 200)),
                       "cat_slug": slugify(meta["category"]),
                       "date_display": dt.date.fromisoformat(meta["date"]).strftime("%-d %b %Y")})
@@ -1020,6 +1068,10 @@ def build_blog():
         related += [q for q in POSTS if q is not p and q not in related]
         toc = "".join(f'<li><a href="#{hid}">{e(t)}{icon("chev-right")}</a></li>' for hid, t in p["toc"])
         share = wa_link(f"{p['title']} — {SITE['url']}{url}")
+        rv = p["reviewer"]
+        reviewed = (f'<li>{icon("shield")} Medically reviewed by <a href="/doctor/{rv["slug"]}/">{e(dr_name(rv))}</a></li>') if rv else ""
+        sources = ('<div class="sources"><h2>Sources &amp; further reading</h2><ol>' + "".join(
+            f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in p["sources"]) + "</ol></div>") if p["sources"] else ""
         svc_card = (f'<a class="aside-card aside-tool" href="/service/{svc["slug"]}/"><span class="pillar__icon">{icon("stethoscope")}</span>'
                     f'<span><strong>{e(svc["title"])}</strong><span>Learn about our care and specialists.</span></span></a>') if svc else ""
         body = f'''
@@ -1028,12 +1080,13 @@ def build_blog():
   <span class="eyebrow">{e(p["category"])}</span>
   <h1>{e(p["title"])}</h1>
   <p class="lead">{e(p["description"])}</p>
-  <ul class="post-meta"><li>{icon("user")} Suvacha Healthcare Team</li><li>{icon("calendar")} {p["date_display"]}</li><li>{icon("clock")} {p["minutes"]} min read</li></ul>
+  <ul class="post-meta"><li>{icon("user")} Suvacha Healthcare Team</li>{reviewed}<li>{icon("calendar")} {p["date_display"]}</li><li>{icon("clock")} {p["minutes"]} min read</li></ul>
 </div></section>
 <section class="section"><div class="container detail">
   <article class="detail__main">
     <div class="post-cover">{img(p["image"], p["title"], "(max-width: 1100px) 100vw, 760px", eager=True)}</div>
     <div class="prose">{p["html"]}</div>
+    {sources}
     <div class="post-foot">
       <a class="btn btn--wa btn--sm" href="{share}" target="_blank" rel="noopener">{icon("whatsapp")} Share on WhatsApp</a>
       <a class="btn btn--ghost btn--sm" href="/blog/">{icon("arrow-left")} All articles</a>
@@ -1056,8 +1109,16 @@ def build_blog():
               "datePublished": p["date"], "dateModified": p["date"], "url": SITE["url"] + url,
               "image": f"{SITE['url']}/assets/img/{p['image']}-960.webp",
               "author": {"@type": "Organization", "name": SITE["name"]}, "publisher": {"@id": SITE["url"] + "/#clinic"},
-              "inLanguage": "en-IN"}
-        page(url, p["title"], p["description"], body, extra_ld=[breadcrumb_ld(trail), ld], og_image=f"/assets/img/{p['image']}-960.webp")
+              "inLanguage": "en-IN", "lastReviewed": p["date"],
+              "citation": [{"@type": "CreativeWork", "name": t_, "url": u_} for t_, u_ in p["sources"]],
+              "about": {"@type": "MedicalCondition", "name": p["category"]} if p["category"] != "Ayurveda & Wellness" else None,
+              "mainEntityOfPage": SITE["url"] + url}
+        if rv:
+            ld["reviewedBy"] = {"@id": f"{SITE['url']}/doctor/{rv['slug']}/#physician"}
+        ld = {k: v for k, v in ld.items() if v is not None}
+        t = f"{p['title']} | Suvacha" if len(p["title"]) <= 56 else p["title"]
+        page(url, t, p["description"], body, extra_ld=[breadcrumb_ld(trail), ld],
+             og_image=p["image"], og_type="article", published=p["date"], suffix=False)
 
 
 def build_404():
@@ -1068,7 +1129,47 @@ def build_404():
     <a class="btn" href="/">Home</a><a class="btn btn--ghost" href="/services/">Services</a>
     <a class="btn btn--ghost" href="/doctors/">Doctors</a><a class="btn btn--coral" href="/appointment/">Book appointment</a></div>
 </div></section>'''
-    page("/404.html", "Page not found", "Page not found.", body)
+    page("/404.html", "Page not found", "Page not found.", body, noindex=True)
+
+
+def llms_txt():
+    """Plain-text site summary for AI search engines (llmstxt.org convention)."""
+    a = SITE["address"]
+    hours = "; ".join(f'{h["days"]} {h["label"]}' for h in SITE["hours"])
+    lines = [f"# {SITE['name']}", "",
+             f"> {SITE['about_short']}", "",
+             "## Key facts",
+             f"- Address: {a['display']}",
+             f"- Location: Khanvel, near Silvassa, Dadra and Nagar Haveli, India (lat {SITE['geo']['lat']}, lng {SITE['geo']['lng']})",
+             f"- Appointments & WhatsApp: {SITE['phone_display']}",
+             f"- Emergency: {SITE['emergency_display']}",
+             f"- Email: {SITE['email']}",
+             f"- Hours: {hours}",
+             "- Founder & Clinical Director: Dr. Sachin Ladak Shedad, MS (PTSR) – IMS, Banaras Hindu University; FMAS – MUHS",
+             "- Approach: modern obstetrics & gynecology integrated with classical Ayurveda; normal delivery preferred when medically safe",
+             "- Consultations: in-clinic in Khanvel and online", "",
+             "## Services"]
+    lines += [f"- [{s['title']}]({SITE['url']}/service/{s['slug']}/): {s['short']}" for s in SERVICES]
+    lines += ["", "## Doctors"]
+    lines += [f"- [{dr_name(d)}]({SITE['url']}/doctor/{d['slug']}/): {d['role']} — {d['qualification']}" for d in DOCTORS]
+    lines += ["", "## Health articles"]
+    lines += [f"- [{p['title']}]({SITE['url']}/blog/{p['slug']}/): {p['description']}" for p in POSTS]
+    lines += ["", "## Tools", f"- [Pregnancy due date & ovulation calculator]({SITE['url']}/pregnancy-tools/)", ""]
+    return "\n".join(lines)
+
+
+def build_og_images():
+    """1200x630 JPEG share images (WhatsApp/Facebook don't reliably show WebP)."""
+    out = OUT / "assets" / "og"
+    out.mkdir(parents=True, exist_ok=True)
+    for name in sorted(OG_IMAGES):
+        with Image.open(SRC / "img" / f"{name}-960.webp") as im:
+            im = im.convert("RGB")
+            scale = max(1200 / im.width, 630 / im.height)
+            im = im.resize((round(im.width * scale), round(im.height * scale)), Image.LANCZOS)
+            top = int((im.height - 630) * (0.15 if name.startswith("dr-") else 0.35))
+            left = (im.width - 1200) // 2
+            im.crop((left, top, left + 1200, top + 630)).save(out / f"{name}.jpg", quality=80, optimize=True, progressive=True)
 
 
 def build_meta(paths):
@@ -1097,7 +1198,10 @@ def build_meta(paths):
 /wp-login.php    /            301
 /?p=*            /            301
 """)
-    (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE['url']}/sitemap.xml\n")
+    bots = ["Googlebot", "Bingbot", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot"]
+    (OUT / "robots.txt").write_text("".join(f"User-agent: {x}\nAllow: /\n\n" for x in bots) +
+                                    f"User-agent: *\nAllow: /\n\nSitemap: {SITE['url']}/sitemap.xml\n")
+    (OUT / "llms.txt").write_text(llms_txt())
     (OUT / "site.webmanifest").write_text(json.dumps({
         "name": SITE["name"], "short_name": "Suvacha", "start_url": "/", "display": "standalone",
         "background_color": "#fbf7f1", "theme_color": "#1f2e1c",
@@ -1124,6 +1228,7 @@ def main():
     paths += [f"/service/{s['slug']}/" for s in SERVICES] + [f"/doctor/{d['slug']}/" for d in DOCTORS]
     paths += ["/blog/"] + [f"/blog/{p['slug']}/" for p in POSTS]
     build_meta(paths)
+    build_og_images()
     print(f"Built {len(paths) + 1} pages into {OUT.relative_to(ROOT)}/")
 
 

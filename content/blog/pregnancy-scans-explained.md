@@ -5,6 +5,8 @@ date: 2026-10-23
 category: Pregnancy
 image: svc-garbhasanskar
 service: pregnancy-maternal-care
+sources: NHS – 12-week scan|https://www.nhs.uk/pregnancy/your-pregnancy-care/12-week-scan/ ;; NHS – 20-week scan|https://www.nhs.uk/pregnancy/your-pregnancy-care/20-week-scan/ ;; WHO – Recommendations on antenatal care for a positive pregnancy experience|https://www.who.int/publications/i/item/9789241549912
+reviewed_by: 
 ---
 Ultrasound scans are safe, painless and one of the most important parts of antenatal care. Each scan is timed to answer specific questions about your baby's development. Here is what to expect at each stage.
 

@@ -1,0 +1,280 @@
+{
+  "_note": "Search titles (aim for ≤ 65 characters) and meta descriptions (aim for ≤ 155 characters) per page. Keys are page paths.",
+  "pages": {
+    "/": {
+      "title": "Suvacha Healthcare – Gynecology & Maternity Care in Khanvel, Silvassa",
+      "description": "Women’s health, pregnancy care, normal delivery, infertility & Ayurveda clinic in Khanvel near Silvassa (DNH). IMS–BHU trained doctors. Book on WhatsApp."
+    },
+    "/about/": {
+      "title": "About Suvacha Healthcare – Ayurveda + Modern Women’s Care, Khanvel",
+      "description": "Suvacha Healthcare by Dr. Sachin Ladak Shedad integrates Ayurveda with modern obstetrics & gynecology for women and families in Khanvel and Silvassa."
+    },
+    "/services/": {
+      "title": "Women’s Health & Maternity Services in Khanvel, Silvassa | Suvacha",
+      "description": "Pregnancy care, infertility, PCOS, gynec surgery, Garbhasanskar, Panchakarma, child wellness & male fertility care in Khanvel, Dadra & Nagar Haveli."
+    },
+    "/doctors/": {
+      "title": "Our Doctors – Gynecology, Fertility & Ayurveda Team, Khanvel | Suvacha",
+      "description": "Meet 11 IMS–BHU trained specialists at Suvacha Healthcare, Khanvel: obstetrics, gynecology, infertility, Panchakarma, paediatrics, surgery & yoga."
+    },
+    "/appointment/": {
+      "title": "Book a Gynecology Appointment in Khanvel, Silvassa | Suvacha",
+      "description": "Book an in-clinic visit in Khanvel or an online consultation with Suvacha Healthcare specialists. Quick confirmation on WhatsApp: +91 88677 61598."
+    },
+    "/contact/": {
+      "title": "Contact & Directions – Suvacha Healthcare, Khanvel (DNH)",
+      "description": "Suvacha Healthcare, ND Complex, Char Rasta, Khanvel 396230. Open Mon–Fri 8–7, Sat 10–5, Sun 10–2. Call +91 88677 61598 · Emergency +91 72733 37999."
+    },
+    "/pregnancy-tools/": {
+      "title": "Pregnancy Due Date & Ovulation Calculator (Free) | Suvacha",
+      "description": "Free due date calculator with your personal pregnancy scan schedule (NT, anomaly, growth scans), plus an ovulation & fertile window calculator."
+    },
+    "/blog/": {
+      "title": "Women’s Health & Pregnancy Tips | Suvacha Healthcare Blog",
+      "description": "Doctor-written guides on PCOS, pregnancy diet, warning signs, pregnancy scans, Garbhasanskar, male fertility and irregular periods."
+    }
+  },
+  "services": {
+    "womens-health-integrative-care": {
+      "title": "PCOS, Period & Menopause Treatment in Khanvel, Silvassa | Suvacha",
+      "description": "Care for PCOS/PCOD, irregular or painful periods, white discharge, menopause and breast health in Khanvel — modern gynecology with Ayurveda.",
+      "faqs": [
+        {
+          "q": "Do you treat PCOS / PCOD?",
+          "a": "Yes. PCOS care at Suvacha includes hormonal and ultrasound evaluation, lifestyle and diet planning, medical treatment where needed, and supportive Ayurvedic therapies to help regulate cycles and improve metabolic health."
+        },
+        {
+          "q": "When should I see a gynecologist for irregular periods?",
+          "a": "See a gynecologist if your cycles are regularly shorter than 21 days or longer than 35 days, you miss periods for three months, bleeding is very heavy or lasts more than 7 days, or you have bleeding between periods or after menopause."
+        },
+        {
+          "q": "Do you offer menopause care?",
+          "a": "Yes. We help with hot flashes, sleep and mood changes, bone and heart health, and lifestyle planning during perimenopause and menopause, combining medical evaluation with diet, yoga and Ayurvedic support."
+        },
+        {
+          "q": "Can I consult a lady doctor?",
+          "a": "Our team includes women gynecologists and obstetricians, including online consultations. Mention your preference when booking and we will do our best to arrange it."
+        }
+      ]
+    },
+    "pregnancy-maternal-care": {
+      "title": "Pregnancy Care & Normal Delivery in Khanvel, Silvassa | Suvacha",
+      "description": "Antenatal check-ups, pregnancy scans, high-risk pregnancy care, normal & caesarean delivery and postnatal support in Khanvel near Silvassa.",
+      "faqs": [
+        {
+          "q": "Do you prefer normal delivery?",
+          "a": "Yes. We strongly support normal delivery whenever it is medically safe, with continuous labour monitoring. A caesarean section is advised only when it is medically indicated for the safety of mother or baby."
+        },
+        {
+          "q": "When should I have my first pregnancy visit?",
+          "a": "As soon as your pregnancy test is positive — ideally by 6–8 weeks. The first visit confirms the pregnancy, dates it with an ultrasound and starts essential supplements and blood tests."
+        },
+        {
+          "q": "Which scans are needed during pregnancy?",
+          "a": "Typically an early pregnancy scan (6–8 weeks), NT scan (11–13 weeks), anomaly scan (18–20 weeks) and growth scans in the third trimester. Use our free due date planner to see your own scan dates."
+        },
+        {
+          "q": "Do you manage high-risk pregnancies?",
+          "a": "Yes — including high blood pressure, diabetes, thyroid disorders, twins, IVF pregnancies, previous caesarean and recurrent pregnancy loss, with closer monitoring and individualised care plans."
+        }
+      ]
+    },
+    "infertility-reproductive-health": {
+      "title": "Infertility Treatment & Fertility Clinic in Khanvel, Silvassa | Suvacha",
+      "description": "Step-by-step fertility evaluation for couples, ovulation & PCOS management, recurrent miscarriage care and integrative fertility support in Khanvel.",
+      "faqs": [
+        {
+          "q": "When should we see a fertility specialist?",
+          "a": "If you have been trying to conceive for 12 months without success — or for 6 months if the woman is over 35 — or earlier if there are irregular periods, known PCOS, previous pelvic surgery or male factor concerns."
+        },
+        {
+          "q": "Are both partners evaluated?",
+          "a": "Yes. Male factors contribute to many cases of infertility, so we evaluate both partners together, including a semen analysis for the male partner."
+        },
+        {
+          "q": "Do you treat recurrent miscarriage?",
+          "a": "Yes. We investigate possible causes of recurrent pregnancy loss and plan supportive care for the next pregnancy with close monitoring."
+        },
+        {
+          "q": "Is Ayurveda used in fertility treatment?",
+          "a": "Ayurvedic therapies, diet and lifestyle guidance are used alongside evidence-based medical evaluation and treatment — never as a replacement for necessary medical care."
+        }
+      ]
+    },
+    "gynecology-surgical-care": {
+      "title": "Laparoscopic Gynecology Surgery in Khanvel, Silvassa | Suvacha",
+      "description": "Laparoscopy, hysteroscopy, fibroid & ovarian cyst surgery, prolapse care and safe caesarean sections with a minimally invasive, safety-first approach.",
+      "faqs": [
+        {
+          "q": "What is laparoscopic (keyhole) surgery?",
+          "a": "Laparoscopy uses small incisions and a camera to operate. Compared with open surgery it usually means less pain, a smaller scar, a shorter hospital stay and faster recovery."
+        },
+        {
+          "q": "Which conditions can be treated surgically?",
+          "a": "Common examples include ovarian cysts, fibroids, endometriosis, uterine polyps, uterine prolapse, ectopic pregnancy and certain causes of heavy bleeding or infertility, depending on individual evaluation."
+        },
+        {
+          "q": "Where are surgeries performed?",
+          "a": "Surgical procedures are carried out in an established hospital setting under the clinical leadership of Dr. Sachin Ladak Shedad, with our surgical team. Our staff will share the details when your procedure is planned."
+        },
+        {
+          "q": "Will I need surgery?",
+          "a": "Not always. We recommend surgery only when it is medically indicated, after explaining all options, risks and benefits so you can make an informed decision."
+        }
+      ]
+    },
+    "garbhasanskar": {
+      "title": "Garbhasanskar Program in Khanvel, Silvassa | Suvacha Healthcare",
+      "description": "Garbhasanskar antenatal wellness — pregnancy diet, prenatal yoga, meditation, music and bonding — alongside modern obstetric care in Khanvel.",
+      "faqs": [
+        {
+          "q": "What is Garbhasanskar?",
+          "a": "Garbhasanskar is a traditional Indian approach to supporting a mother’s physical, emotional and mental wellbeing during pregnancy through diet, yoga, meditation, music and positive bonding with the baby."
+        },
+        {
+          "q": "When should I start Garbhasanskar?",
+          "a": "It can begin with preconception preparation, and most mothers start once pregnancy is confirmed and their obstetrician has cleared them for yoga and other activities."
+        },
+        {
+          "q": "Does Garbhasanskar replace regular check-ups?",
+          "a": "No. Garbhasanskar complements — and never replaces — antenatal check-ups, scans, blood tests and medicines advised by your doctor."
+        },
+        {
+          "q": "Can the father join?",
+          "a": "Yes. Involving the father and family in bonding activities and parenting preparation is encouraged."
+        }
+      ]
+    },
+    "panchakarma-therapies": {
+      "title": "Panchakarma Treatment Centre in Khanvel, Silvassa | Suvacha",
+      "description": "Doctor-supervised Panchakarma — Vamana, Virechana, Basti, Abhyanga, Shirodhara — for detox, rejuvenation, joint pain, stress and women’s health.",
+      "faqs": [
+        {
+          "q": "What is Panchakarma?",
+          "a": "Panchakarma is a classical Ayurvedic programme of cleansing and rejuvenation therapies, planned according to your constitution, health condition and season, and carried out under medical supervision."
+        },
+        {
+          "q": "How many days does Panchakarma take?",
+          "a": "It depends on the therapy and your condition — from single-day supportive therapies to programmes of one to three weeks. Your doctor will advise after consultation."
+        },
+        {
+          "q": "Is Panchakarma safe for everyone?",
+          "a": "Not every therapy suits everyone. Pregnancy, certain medical conditions and age need special care, so every plan begins with an Ayurvedic doctor’s assessment."
+        },
+        {
+          "q": "Which problems can Panchakarma help with?",
+          "a": "It is commonly used as supportive care for joint pain and arthritis, stress and sleep problems, digestive and lifestyle disorders, skin conditions and hormonal balance."
+        }
+      ]
+    },
+    "basic-pediatrics": {
+      "title": "Child Specialist & Suvarna Prashan in Khanvel, Silvassa | Suvacha",
+      "description": "Newborn care, immunisation guidance, Suvarna Prashan, growth & nutrition monitoring and care for common childhood illnesses in Khanvel.",
+      "faqs": [
+        {
+          "q": "What is Suvarna Prashan?",
+          "a": "Suvarna Prashan is a traditional Ayurvedic preparation given to children, usually on Pushya Nakshatra days, to support immunity and overall development. It is given only after assessment by our paediatrician."
+        },
+        {
+          "q": "Do you guide on vaccinations?",
+          "a": "Yes. We counsel parents on the national immunisation schedule and recommended optional vaccines, and help you keep track of due dates."
+        },
+        {
+          "q": "Do you treat common childhood illnesses?",
+          "a": "Yes — such as fever, cough and cold, diarrhoea, skin problems and feeding difficulties — along with growth, nutrition and development monitoring."
+        }
+      ]
+    },
+    "holistic-wellness-preventive-care": {
+      "title": "Yoga, Diet & Preventive Health Care in Khanvel, Silvassa | Suvacha",
+      "description": "Preventive health check guidance, yoga therapy, weight & diet planning, stress management and lifestyle disease prevention in Khanvel.",
+      "faqs": [
+        {
+          "q": "Do you offer yoga therapy?",
+          "a": "Yes. Personalised yoga and pranayama programmes are planned by our yoga and preventive medicine specialist for stress, weight, metabolic health, women’s health and fertility."
+        },
+        {
+          "q": "Can you help with weight loss and diet?",
+          "a": "Yes. We create practical diet and lifestyle plans based on your health, routine and food habits, with regular follow-ups."
+        },
+        {
+          "q": "Who should consider preventive care?",
+          "a": "Anyone with a family history of diabetes, high blood pressure or heart disease, a sedentary lifestyle, high stress, or anyone who simply wants to stay healthy as they age."
+        }
+      ]
+    },
+    "andrology-male-infertility": {
+      "title": "Male Infertility Treatment in Khanvel, Silvassa | Suvacha Healthcare",
+      "description": "Semen analysis, hormone evaluation and integrative treatment for low sperm count, poor motility and sexual health concerns — confidential care.",
+      "faqs": [
+        {
+          "q": "What is the first test for male infertility?",
+          "a": "A semen analysis, which checks sperm count, movement (motility) and shape (morphology). Hormone tests and other investigations may follow depending on the result."
+        },
+        {
+          "q": "Can low sperm count improve?",
+          "a": "Often, yes. Sperm take about three months to develop, so treating underlying causes and improving lifestyle — stopping smoking and alcohol, healthy weight, diet and avoiding heat — can improve results over a few months."
+        },
+        {
+          "q": "Is the consultation confidential?",
+          "a": "Yes. Andrology and sexual health consultations are handled with complete privacy and sensitivity, without stigma or blame."
+        }
+      ]
+    }
+  },
+  "doctors": {
+    "sachin": "Gynaecologist (Ay) & Laparoscopic Surgeon",
+    "vaishali-mishra": "Infertility Specialist (Ay)",
+    "lalita": "Gynaecologist (Ay)",
+    "anushka": "Obstetrician (Ay)",
+    "manish": "Paediatrician (Ay) & Suvarna Prashan",
+    "neha-sunia": "Ayurveda & Panchakarma Physician",
+    "shailesh": "Neuro & Psychosexual Medicine (Ay)",
+    "shobhan": "Yoga & Preventive Medicine Specialist",
+    "rangaswamy": "Geriatric & Arthritis Care (Ayurveda)",
+    "srinivasa": "Piles, Fissure & Fistula Surgeon (Ay)",
+    "randheer-kadam": "General Surgeon (Ay)"
+  },
+  "nearby": [
+    {
+      "name": "Silvassa",
+      "lat": 20.2766,
+      "lng": 73.0108
+    },
+    {
+      "name": "Talasari",
+      "lat": 20.133,
+      "lng": 72.9333
+    },
+    {
+      "name": "Vapi",
+      "lat": 20.3893,
+      "lng": 72.9106
+    },
+    {
+      "name": "Dadra",
+      "lat": 20.322,
+      "lng": 72.96
+    },
+    {
+      "name": "Umbergaon",
+      "lat": 20.2,
+      "lng": 72.75
+    },
+    {
+      "name": "Dahanu",
+      "lat": 19.97,
+      "lng": 72.73
+    },
+    {
+      "name": "Kherdi",
+      "lat": 20.117,
+      "lng": 73.029
+    },
+    {
+      "name": "Dudhani",
+      "lat": 20.17,
+      "lng": 73.13
+    }
+  ]
+}

@@ -5,6 +5,8 @@ date: 2026-10-23
 category: Fertility
 image: svc-andrology-male-infertility
 service: andrology-male-infertility
+sources: NHS – Infertility|https://www.nhs.uk/conditions/infertility/ ;; WHO – Infertility fact sheet|https://www.who.int/news-room/fact-sheets/detail/infertility
+reviewed_by: 
 ---
 Infertility is often assumed to be a "woman's problem", but male factors contribute to many cases where couples struggle to conceive. The good news: sperm are produced continuously, and a new batch takes roughly **three months** to develop — so healthy changes can show results within a few months.
 

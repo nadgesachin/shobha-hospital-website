@@ -5,6 +5,8 @@ date: 2026-10-23
 category: Women’s Health
 image: svc-holistic-wellness-preventive-care
 service: womens-health-integrative-care
+sources: NHS – Irregular periods|https://www.nhs.uk/symptoms/irregular-periods/ ;; NHS – Heavy periods|https://www.nhs.uk/conditions/heavy-periods/
+reviewed_by: 
 ---
 Many women experience an irregular period now and then. Occasional changes are usually harmless, but periods that are consistently irregular, very heavy or very painful deserve attention — they are often the body's early signal of a treatable problem.
 

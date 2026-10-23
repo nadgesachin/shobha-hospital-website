@@ -5,6 +5,8 @@ date: 2026-10-23
 category: Pregnancy
 image: hero
 service: pregnancy-maternal-care
+sources: NHS – Pre-eclampsia|https://www.nhs.uk/conditions/pre-eclampsia/ ;; NHS – Your baby’s movements|https://www.nhs.uk/pregnancy/keeping-well/your-babys-movements/ ;; WHO – Maternal mortality fact sheet|https://www.who.int/news-room/fact-sheets/detail/maternal-mortality
+reviewed_by: 
 ---
 Nausea, tiredness, mild back pain and swollen feet are common parts of pregnancy. But some symptoms can signal a problem that needs care **the same day**. Knowing these signs — and acting quickly — protects both mother and baby.
 
