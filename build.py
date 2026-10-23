@@ -9,6 +9,7 @@ URL structure mirrors the original WordPress site (/service/<slug>/,
 /doctor/<slug>/ ...) so existing links and search rankings keep working.
 """
 import datetime as dt
+import hashlib
 import json
 import re
 import shutil
@@ -28,7 +29,9 @@ DOCTORS = json.loads((ROOT / "content" / "doctors.json").read_text())
 DOC_BY = {d["slug"]: d for d in DOCTORS}
 REVIEWS = json.loads((ROOT / "content" / "reviews.json").read_text())
 SEO = json.loads((ROOT / "content" / "seo.json").read_text())
-OG_IMAGES = set()  # image names that need a 1200x630 JPEG share image
+OG_IMAGES = set()
+# Content hashes for cache-busting: asset URLs change whenever the file changes.
+VER = {k: hashlib.md5((SRC / k).read_bytes()).hexdigest()[:10] for k in ("css/style.css", "js/main.js")}  # image names that need a 1200x630 JPEG share image
 FONTS_CSS = ("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600"
              "&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Tiro+Devanagari+Hindi&display=swap")
 UNIVERSITIES = {"BHU": "Banaras Hindu University", "MUHS": "Maharashtra University of Health Sciences",
@@ -339,9 +342,9 @@ def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 {pre}<link rel="preload" as="style" href="{FONTS_CSS}" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{FONTS_CSS}"></noscript>
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/style.css?v={VER["css/style.css"]}">
 <script>window.SUVACHA={json.dumps(cfg)};</script>
-<script src="/assets/js/main.js" defer></script>
+<script src="/assets/js/main.js?v={VER["js/main.js"]}" defer></script>
 {lds}
 </head>
 <body>
@@ -1183,9 +1186,9 @@ def build_meta(paths):
 /assets/img/*
   Cache-Control: public, max-age=2592000
 /assets/css/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=31536000, immutable
 /assets/js/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=31536000, immutable
 """)
     # Old WordPress URLs -> new pages
     (OUT / "_redirects").write_text("""/home            /            301

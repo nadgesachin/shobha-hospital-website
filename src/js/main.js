@@ -6,6 +6,19 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+  /* ---------- Hosting badge (Netlify free tier injects one at bottom-right) ---------- */
+  function checkBadge() {
+    if (document.getElementById("nl-badge-frame")) {
+      document.documentElement.classList.add("has-host-badge");
+      return true;
+    }
+  }
+  if (!checkBadge() && "MutationObserver" in window) {
+    var mo = new MutationObserver(function () { if (checkBadge()) mo.disconnect(); });
+    mo.observe(document.body, { childList: true });
+    setTimeout(function () { mo.disconnect(); }, 15000);
+  }
+
   /* ---------- Sticky header shadow + back-to-top ---------- */
   var header = $(".header");
   var toTop = $(".to-top");

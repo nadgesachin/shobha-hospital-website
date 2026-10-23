@@ -677,3 +677,12 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); c
 .sources a { color: var(--green-700); }
 .svc-faq .faq details { background: var(--cream); }
 .post-meta a { color: var(--green-700); font-weight: 600; }
+
+/* Keep our floating controls clear of a host-injected badge (64px tall, bottom-right) */
+.has-host-badge .wa-float { bottom: 92px; }
+.has-host-badge .to-top { bottom: 166px; }
+@media (max-width: 860px) {
+  .has-host-badge body { padding-bottom: 132px; }
+  .has-host-badge .mobile-bar { bottom: 64px; }
+  .has-host-badge .wa-float { bottom: 148px; }
+}
