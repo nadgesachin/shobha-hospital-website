@@ -1,0 +1,232 @@
+{
+  "name": "Suvacha Healthcare",
+  "tagline": "Creating श्रेयसी प्रजा",
+  "url": "https://suvachahealthcare.in",
+  "phone": "+918867761598",
+  "phone_display": "+91 88677 61598",
+  "whatsapp": "918867761598",
+  "whatsapp_greeting": "Namaste Suvacha Healthcare, I would like to know more about your services.",
+  "email": "SuvachaHealthCare@gmail.com",
+  "address": {
+    "street": "Ground & First Floor, ND Complex, Char Rasta",
+    "locality": "Khanvel",
+    "district": "Dadra and Nagar Haveli",
+    "region": "Dadra and Nagar Haveli and Daman and Diu",
+    "postal": "396230",
+    "country": "IN",
+    "short": "Khanvel, Dadra & Nagar Haveli",
+    "display": "Shobha Hospital, Ground & First Floor, ND Complex, Char Rasta, Khanvel, Dadra & Nagar Haveli 396230",
+    "building": "Shobha Hospital"
+  },
+  "maps_link": "https://maps.app.goo.gl/XJpH6NXiiyLyzR5Y6",
+  "hours": [
+    {
+      "days": "Monday – Friday",
+      "dow": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "open": "08:00",
+      "close": "19:00",
+      "label": "8:00 AM – 7:00 PM"
+    },
+    {
+      "days": "Saturday",
+      "dow": [
+        6
+      ],
+      "open": "10:00",
+      "close": "17:00",
+      "label": "10:00 AM – 5:00 PM"
+    },
+    {
+      "days": "Sunday",
+      "dow": [
+        0
+      ],
+      "open": "10:00",
+      "close": "14:00",
+      "label": "10:00 AM – 2:00 PM"
+    }
+  ],
+  "about_short": "Suvacha Healthcare is a women-focused wellness centre integrating modern obstetrics, gynecology and classical Ayurveda — supporting women from menstrual health and fertility to pregnancy, motherhood and menopause with compassion, clarity and personalised care.",
+  "about": [
+    "Suvacha Healthcare is a visionary initiative by Dr. Sachin Ladak Shedad, dedicated to women’s health, maternal wellness, and holistic community well-being.",
+    "Guided by the noble mission of “Creating श्रेयसी प्रजा”, Suvacha integrates the timeless wisdom of Ayurveda with the scientific precision of modern medicine to offer comprehensive, compassionate, and effective healthcare."
+  ],
+  "hero": {
+    "eyebrow": "Holistic Women’s Wellness",
+    "title": "Integrating Ayurveda & Modern Gynecology for Fertility, Pregnancy and Lifelong Wellness",
+    "lead": "Personal care for women’s health and motherhood — from your first period to motherhood and menopause, guided by IMS–BHU trained specialists in Khanvel."
+  },
+  "stats": [
+    {
+      "value": "11",
+      "label": "Specialist doctors"
+    },
+    {
+      "value": "9",
+      "label": "Care specialities"
+    },
+    {
+      "value": "IMS–BHU",
+      "label": "Trained faculty"
+    },
+    {
+      "value": "Online + In-clinic",
+      "label": "Consultations"
+    }
+  ],
+  "pillars": [
+    {
+      "icon": "flower",
+      "title": "Women-Centric Health Care",
+      "text": "Personalised care for menstrual disorders, PCOS, breast health, menopause and hormonal balance — designed around a woman’s body, lifestyle and natural rhythms."
+    },
+    {
+      "icon": "baby",
+      "title": "Pregnancy & Motherhood Care",
+      "text": "Comprehensive fertility, antenatal and postnatal care guided by Garbhini and Sutika Paricharya, combined with modern diagnostics for a safe and confident motherhood journey."
+    },
+    {
+      "icon": "leaf",
+      "title": "Ayurvedic & Preventive Wellness",
+      "text": "Panchakarma therapies, diet planning, yoga and lifestyle guidance to restore balance, support reproductive health and promote long-term well-being naturally."
+    }
+  ],
+  "journey": [
+    {
+      "stage": "Adolescence",
+      "text": "Menstrual health, hygiene and hormonal balance",
+      "service": "womens-health-integrative-care"
+    },
+    {
+      "stage": "Fertility",
+      "text": "Evaluation and integrative treatment for couples",
+      "service": "infertility-reproductive-health"
+    },
+    {
+      "stage": "Pregnancy",
+      "text": "Month-wise antenatal care and Garbhasanskar",
+      "service": "pregnancy-maternal-care"
+    },
+    {
+      "stage": "Childbirth",
+      "text": "Normal delivery first, safe caesarean when needed",
+      "service": "pregnancy-maternal-care"
+    },
+    {
+      "stage": "Postnatal",
+      "text": "Recovery, lactation support and newborn care",
+      "service": "basic-pediatrics"
+    },
+    {
+      "stage": "Menopause",
+      "text": "Midlife wellness, bone and heart health",
+      "service": "womens-health-integrative-care"
+    }
+  ],
+  "why": [
+    {
+      "icon": "user",
+      "title": "Personalised Consultations",
+      "text": "Every woman’s body and journey are unique. We take time to listen, understand your concerns and design care plans tailored to your health needs, life stage and goals."
+    },
+    {
+      "icon": "shield",
+      "title": "Evidence-Based Gynecological Care",
+      "text": "Treatments grounded in modern medical science and clinical experience — safe, ethical, evidence-based care for menstrual health, pregnancy, infertility and beyond."
+    },
+    {
+      "icon": "heart",
+      "title": "Compassionate Support",
+      "text": "Healing begins with trust and empathy. From your first consultation to follow-ups, you are supported with sensitivity, respect and clear communication."
+    },
+    {
+      "icon": "leaf",
+      "title": "Integrated Ayurveda",
+      "text": "Classical Ayurvedic principles thoughtfully integrated to restore balance, improve hormonal health, enhance fertility and promote natural healing alongside modern medicine."
+    },
+    {
+      "icon": "sun",
+      "title": "Preventive Women’s Wellness",
+      "text": "Beyond treating illness — prevention through lifestyle guidance, nutrition, yoga and routine wellness care for long-term health and vitality."
+    },
+    {
+      "icon": "repeat",
+      "title": "Continuity of Care",
+      "text": "From adolescence to motherhood and menopause, consistent long-term care so you never feel lost or rushed at any stage of your journey."
+    }
+  ],
+  "mission": "To promote healthy motherhood, balanced living, and preventive healthcare through the thoughtful integration of Ayurveda and modern medical science.",
+  "vision": "To build a healthier society by empowering women physically, mentally, and emotionally — nurturing future generations that are strong, balanced, and culturally rooted.",
+  "values": [
+    "Holistic healing — body, mind, and spirit",
+    "Women-centred compassionate care",
+    "Integration of Ayurvedic wisdom & modern science",
+    "Trust, empathy, and patient-first responsibility",
+    "Preventive and lifestyle-based approach"
+  ],
+  "why_us_about": [
+    "At Suvacha Healthcare, we believe that women’s health deserves care that is compassionate, ethical, and deeply rooted in understanding the body as a whole. Our approach combines the timeless wisdom of Ayurveda with the precision of modern medical science to provide safe, effective, and personalised care at every stage of a woman’s life.",
+    "From adolescence to motherhood and beyond, we focus not just on treating symptoms, but on identifying root causes, promoting prevention, and empowering women through education and holistic support."
+  ],
+  "founder_message": "Suvacha Healthcare is built on the belief that a healthy woman creates a healthy society. By uniting Ayurveda’s timeless knowledge with modern medical science, we are committed to offering care that heals, strengthens, and empowers. Our goal is to nurture Shrēyasī Prajā — a generation that is physically strong, emotionally balanced, and spiritually enriched.",
+  "contact_intro": "Whether you have questions about women’s health, pregnancy care, infertility treatment, or holistic wellness, our team is ready to guide you with care and clarity. We believe in listening first, understanding your concerns, and providing ethical, personalised healthcare solutions.",
+  "contact_reasons": [
+    "Appointment bookings (offline or online consultation)",
+    "Pregnancy, gynecology, and fertility care enquiries",
+    "Panchakarma, Garbhasanskar & wellness programs",
+    "Diagnostic, pharmacy, and follow-up support",
+    "General questions or second opinions"
+  ],
+  "faqs": [
+    {
+      "q": "How do I book an appointment?",
+      "a": "Fill in the appointment form on this website — it opens WhatsApp with your details pre-filled so our team can confirm a slot. You can also call us directly on +91 88677 61598."
+    },
+    {
+      "q": "Do you offer online consultations?",
+      "a": "Yes. Along with in-clinic visits at our Khanvel clinic, our online consultation team offers gynecology and obstetric guidance, follow-ups and counselling. Choose “Online consultation” in the booking form."
+    },
+    {
+      "q": "What are your clinic timings?",
+      "a": "Monday to Friday 8:00 AM – 7:00 PM, Saturday 10:00 AM – 5:00 PM and Sunday 10:00 AM – 2:00 PM. Please call ahead for specific doctor availability."
+    },
+    {
+      "q": "Do you combine Ayurveda with modern medicine?",
+      "a": "Yes — that is the heart of Suvacha. Diagnosis and medical decisions follow modern, evidence-based protocols, and classical Ayurvedic therapies, diet, yoga and lifestyle guidance are integrated alongside where they help."
+    },
+    {
+      "q": "Do you support normal delivery?",
+      "a": "We strongly support normal delivery whenever it is medically safe, with continuous labour monitoring, while remaining fully ready for a caesarean section when it is medically indicated."
+    },
+    {
+      "q": "Is male infertility also treated?",
+      "a": "Yes. Our andrology service offers semen analysis, hormonal evaluation, lifestyle optimisation and integrative treatment, and couples are counselled together without stigma or blame."
+    },
+    {
+      "q": "What should I bring to my first visit?",
+      "a": "Bring any previous prescriptions, ultrasound reports, blood test reports and a list of current medicines. For fertility consultations, reports of both partners are helpful."
+    }
+  ],
+  "geo": {
+    "lat": 20.12882623014809,
+    "lng": 73.06760853033829
+  },
+  "emergency_phone": "+917273337999",
+  "emergency_display": "+91 72733 37999",
+  "nearby": [
+    "Silvassa",
+    "Talasari",
+    "Dadra",
+    "Kherdi",
+    "Surangi",
+    "Dudhani"
+  ],
+  "google_cid": "3980436002316379231",
+  "google_place_url": "https://maps.google.com/?cid=3980436002316379231"
+}

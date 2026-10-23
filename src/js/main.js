@@ -1,0 +1,284 @@
+/* Suvacha Healthcare — site behaviour. No dependencies. */
+(function () {
+  "use strict";
+  document.documentElement.classList.remove("no-js");
+  var CFG = window.SUVACHA || {};
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  /* ---------- Sticky header shadow + back-to-top ---------- */
+  var header = $(".header");
+  var toTop = $(".to-top");
+  function onScroll() {
+    var y = window.scrollY;
+    if (header) header.classList.toggle("is-scrolled", y > 8);
+    if (toTop) toTop.classList.toggle("is-visible", y > 700);
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  if (toTop) toTop.addEventListener("click", function () { window.scrollTo({ top: 0 }); });
+
+  /* ---------- Mobile drawer ---------- */
+  var drawer = $(".drawer");
+  var toggle = $(".menu-toggle");
+  function setDrawer(open) {
+    if (!drawer) return;
+    drawer.classList.toggle("is-open", open);
+    drawer.setAttribute("aria-hidden", String(!open));
+    toggle.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+    if (open) $(".drawer__close", drawer).focus(); else toggle.focus();
+  }
+  if (toggle) toggle.addEventListener("click", function () { setDrawer(true); });
+  $$("[data-close-drawer]").forEach(function (el) { el.addEventListener("click", function () { setDrawer(false); }); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && drawer && drawer.classList.contains("is-open")) setDrawer(false);
+  });
+
+  /* ---------- Desktop dropdown (click / keyboard) ---------- */
+  $$(".nav__item--has-menu").forEach(function (item) {
+    var btn = $(".nav__link", item);
+    btn.addEventListener("click", function () {
+      var open = !item.classList.contains("is-open");
+      item.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    item.addEventListener("mouseleave", function () {
+      item.classList.remove("is-open");
+      btn.setAttribute("aria-expanded", "false");
+    });
+  });
+  document.addEventListener("click", function (e) {
+    $$(".nav__item--has-menu.is-open").forEach(function (item) {
+      if (!item.contains(e.target)) item.classList.remove("is-open");
+    });
+  });
+
+  /* ---------- Open now (clinic time is IST, regardless of visitor timezone) ---------- */
+  function istNow() {
+    var parts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Asia/Kolkata", weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false
+    }).formatToParts(new Date());
+    var get = function (t) { return (parts.find(function (p) { return p.type === t; }) || {}).value; };
+    var dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(get("weekday"));
+    return { dow: dow, mins: (+get("hour") % 24) * 60 + +get("minute") };
+  }
+  function toMins(hhmm) { var p = hhmm.split(":"); return +p[0] * 60 + +p[1]; }
+  if (CFG.hours) {
+    var now = istNow();
+    var today = CFG.hours.find(function (h) { return h.dow.indexOf(now.dow) !== -1; });
+    var open = today && now.mins >= toMins(today.open) && now.mins < toMins(today.close);
+    $$("[data-open-badge]").forEach(function (el) {
+      el.classList.toggle("is-open", !!open);
+      el.textContent = open ? "Open now · until " + today.label.split("–")[1].trim() : "Closed now";
+    });
+    $$("[data-hours-row]").forEach(function (row) {
+      var days = row.getAttribute("data-hours-row").split(",").map(Number);
+      row.classList.toggle("is-today", days.indexOf(now.dow) !== -1);
+    });
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  var reveals = $$(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("is-in"); });
+  }
+
+  /* ---------- Doctor filter ---------- */
+  var chips = $$("[data-filter]");
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      var f = chip.getAttribute("data-filter");
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
+      $$("[data-tags]").forEach(function (card) {
+        card.hidden = f !== "all" && card.getAttribute("data-tags").split("|").indexOf(f) === -1;
+      });
+    });
+  });
+
+  /* ---------- Horizontal slider buttons ---------- */
+  $$("[data-slider]").forEach(function (wrap) {
+    var track = $(".slider", wrap);
+    $$("[data-dir]", wrap).forEach(function (b) {
+      b.addEventListener("click", function () {
+        var card = track.firstElementChild;
+        var step = card ? card.getBoundingClientRect().width + 24 : 300;
+        track.scrollBy({ left: step * +b.getAttribute("data-dir"), behavior: "smooth" });
+      });
+    });
+  });
+
+  /* ---------- WhatsApp float hint (once per session) ---------- */
+  var wa = $(".wa-float");
+  if (wa) {
+    try {
+      if (!sessionStorage.getItem("wa-hint")) {
+        setTimeout(function () { wa.classList.add("is-hinting"); }, 4000);
+        setTimeout(function () { wa.classList.remove("is-hinting"); }, 9000);
+        sessionStorage.setItem("wa-hint", "1");
+      }
+    } catch (e) { /* storage blocked: skip the hint */ }
+  }
+
+  /* ---------- Booking form -> WhatsApp ---------- */
+  $$("form[data-booking]").forEach(function (form) {
+    var date = form.querySelector("[name=date]");
+    if (date) {
+      var d = new Date();
+      date.min = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    }
+    // Pre-select service / doctor from ?service=slug&doctor=slug
+    var params = new URLSearchParams(location.search);
+    ["service", "doctor"].forEach(function (k) {
+      var v = params.get(k), sel = form.querySelector("[name=" + k + "]");
+      if (v && sel && sel.querySelector('option[value="' + v + '"]')) sel.value = v;
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      var fd = new FormData(form);
+      var label = function (name) {
+        var sel = form.querySelector("[name=" + name + "]");
+        return sel && sel.selectedIndex > 0 ? sel.options[sel.selectedIndex].text : "";
+      };
+      var lines = [
+        "Namaste Suvacha Healthcare 🙏",
+        "I would like to book an appointment.",
+        "",
+        "*Name:* " + fd.get("name"),
+        "*Phone:* " + fd.get("phone")
+      ];
+      if (fd.get("age")) lines.push("*Age:* " + fd.get("age"));
+      if (label("service")) lines.push("*Service:* " + label("service"));
+      if (label("doctor")) lines.push("*Preferred doctor:* " + label("doctor"));
+      if (fd.get("mode")) lines.push("*Consultation:* " + fd.get("mode"));
+      if (fd.get("date")) {
+        var pd = new Date(fd.get("date") + "T00:00:00");
+        lines.push("*Preferred date:* " + pd.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", year: "numeric" }));
+      }
+      if (fd.get("time")) lines.push("*Preferred time:* " + fd.get("time"));
+      if (fd.get("message")) lines.push("", "*Concern:* " + fd.get("message"));
+      var url = "https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(lines.join("\n"));
+      window.open(url, "_blank", "noopener");
+    });
+  });
+
+  /* ---------- Pregnancy & fertility calculators ---------- */
+  var DAY = 864e5;
+  function parseDate(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function daysBetween(a, b) { return Math.round((b - a) / DAY); }
+  function fmt(d, noYear) {
+    var o = { day: "numeric", month: "short" };
+    if (!noYear) o.year = "numeric";
+    return d.toLocaleDateString("en-IN", o);
+  }
+  function today0() { var t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate()); }
+  function waUrl(text) { return "https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(text); }
+  var ICON_CAL = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
+  var ICON_WA = $(".wa-float__btn svg") ? $(".wa-float__btn svg").outerHTML : "";
+
+  // Antenatal scan & test windows (weeks), as listed on the Pregnancy & Maternal Care page.
+  var MILESTONES = [
+    { t: "Early pregnancy scan", d: "Confirms the pregnancy, heartbeat and dates", s: 6, e: 8 },
+    { t: "NT scan", d: "Nuchal translucency screening", s: 11, e: 13 },
+    { t: "Anomaly / Level-2 scan", d: "Detailed check of baby’s growth and organs", s: 18, e: 20 },
+    { t: "Glucose tolerance test (GTT)", d: "Screening for gestational diabetes", s: 24, e: 28 },
+    { t: "Growth scan", d: "Baby’s growth and fluid check", s: 28, e: 28 },
+    { t: "Growth scan", d: "Baby’s growth and position", s: 32, e: 32 },
+    { t: "Growth scan", d: "Final growth and position check", s: 36, e: 36 },
+    { t: "Full term", d: "Baby can arrive any time — keep your hospital bag ready", s: 37, e: 40 }
+  ];
+
+  function readTool(form) {
+    var lmpVal = form.lmp.value;
+    var cycle = parseInt(form.cycle.value || "28", 10);
+    if (!lmpVal) return { error: "Please enter the first day of your last period." };
+    if (isNaN(cycle) || cycle < 21 || cycle > 45) return { error: "Cycle length should be between 21 and 45 days." };
+    var lmp = parseDate(lmpVal);
+    if (lmp > today0()) return { error: "That date is in the future — please check it." };
+    return { lmp: lmp, cycle: cycle };
+  }
+  function showResult(form, html) {
+    var box = $('[data-result="' + form.getAttribute("data-tool") + '"]');
+    box.innerHTML = html;
+    box.hidden = false;
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function calcEdd(form) {
+    var v = readTool(form);
+    if (v.error) return showResult(form, '<p class="tool-error">' + v.error + "</p>");
+    var start = addDays(v.lmp, v.cycle - 28); // cycle-adjusted dating
+    var edd = addDays(start, 280);
+    var ga = daysBetween(start, today0());
+    if (ga > 42 * 7) return showResult(form, '<p class="tool-error">That date is more than 42 weeks ago — please check it.</p>');
+    ga = Math.max(ga, 0);
+    var wk = Math.floor(ga / 7), dy = ga % 7;
+    var tri = wk < 14 ? "1st" : wk < 28 ? "2nd" : "3rd";
+    var left = daysBetween(today0(), edd);
+    var pct = Math.min(100, Math.round(ga / 280 * 100));
+    var rows = MILESTONES.map(function (m) {
+      var s = m.s * 7, e = m.e * 7 + 6;
+      var cls = ga > e ? "is-done" : ga >= s ? "is-now" : "";
+      var when = m.s === m.e ? "Week " + m.s : "Weeks " + m.s + "–" + m.e;
+      var range = fmt(addDays(start, s), true) + (m.s === m.e ? "" : " – " + fmt(addDays(start, e), true));
+      var tag = cls === "is-done" ? "Done ✓" : cls === "is-now" ? "Due now · " + range : range;
+      return '<li class="' + cls + '"><div><strong>' + m.t + "</strong><small>" + when + " · " + m.d +
+        '</small></div><span class="when">' + tag + "</span></li>";
+    }).join("");
+    var status = left >= 0 ? left + " days to go" : "Past your due date by " + -left + " days — please consult your doctor";
+    var msg = "Namaste Suvacha Healthcare 🙏\nMy estimated due date is " + fmt(edd) + " (" + wk + " weeks " + dy +
+      " days pregnant). I would like to book an antenatal consultation.";
+    showResult(form,
+      '<div class="edd-hero"><small>Estimated due date</small><strong>' + fmt(edd) + "</strong>" +
+      "<span>" + wk + " weeks " + dy + " days pregnant · " + tri + " trimester · " + status + "</span>" +
+      '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="Pregnancy progress"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="progress-labels"><span>Week 0</span><span>Week 20</span><span>Week 40</span></div></div>' +
+      '<h3 style="font-size:1.3rem;margin:0">Your scan &amp; test timeline</h3><ul class="timeline">' + rows + "</ul>" +
+      '<div class="tool-actions"><a class="btn btn--coral btn--sm" href="/appointment/?service=pregnancy-maternal-care">' + ICON_CAL +
+      ' Book antenatal visit</a><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="' + waUrl(msg) + '">' + ICON_WA + " Share on WhatsApp</a></div>");
+  }
+
+  function calcOvulation(form) {
+    var v = readTool(form);
+    if (v.error) return showResult(form, '<p class="tool-error">' + v.error + "</p>");
+    var t = today0();
+    var k = Math.max(0, Math.floor(daysBetween(v.lmp, t) / v.cycle));
+    var inWindow = null;
+    var items = [0, 1, 2].map(function (i) {
+      var period = addDays(v.lmp, (k + i) * v.cycle);
+      var next = addDays(period, v.cycle);
+      var ov = addDays(next, -14);
+      var fs = addDays(ov, -5), fe = addDays(ov, 1);
+      if (!inWindow && t >= fs && t <= fe) inWindow = fe;
+      return '<li><h4>Cycle starting ' + fmt(period, true) + "</h4>" +
+        '<div class="cycle-row is-key"><span>Fertile window</span><b>' + fmt(fs, true) + " – " + fmt(fe, true) + "</b></div>" +
+        '<div class="cycle-row is-key"><span>Likely ovulation</span><b>' + fmt(ov) + "</b></div>" +
+        '<div class="cycle-row"><span>Next period expected</span><b>' + fmt(next) + "</b></div></li>";
+    }).join("");
+    var now = inWindow ? '<p class="block__note" style="margin:0 0 16px">🌸 <span>You are in your fertile window now (until ' + fmt(inWindow, true) + ").</span></p>" : "";
+    var msg = "Namaste Suvacha Healthcare 🙏\nWe are planning a pregnancy and would like to book a fertility consultation.";
+    showResult(form, now + '<ul class="cycle-list">' + items + "</ul>" +
+      '<p class="form-note">Trying for 12 months without success (or 6 months if you are over 35)? A fertility evaluation for both partners is recommended.</p>' +
+      '<div class="tool-actions"><a class="btn btn--sm" href="/appointment/?service=infertility-reproductive-health">' + ICON_CAL +
+      ' Book fertility consultation</a><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="' + waUrl(msg) + '">' + ICON_WA + " Ask on WhatsApp</a></div>");
+  }
+
+  $$("form[data-tool]").forEach(function (form) {
+    var max = new Date(today0() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    form.lmp.max = max;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      (form.getAttribute("data-tool") === "edd" ? calcEdd : calcOvulation)(form);
+    });
+  });
+})();
