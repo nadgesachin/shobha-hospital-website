@@ -402,7 +402,7 @@ def journey():
   <div class="section-head section-head--center reveal"><span class="eyebrow">Care for every stage</span>
   <h2>With you through every phase of life</h2>
   <p>Suvacha supports women from adolescence to fertility, pregnancy, childbirth, postnatal care and menopause.</p></div>
-  <ol class="journey">{items}</ol>
+  <ol class="journey reveal-line">{items}</ol>
 </div></section>'''
 
 
@@ -510,7 +510,7 @@ def cta_band(title="Ready to begin your care journey?", text="Book an in-clinic 
 
 
 def why_section(with_stats=True):
-    stats = "".join(f'<div class="stat"><strong>{e(s["value"])}</strong><span>{e(s["label"])}</span></div>' for s in SITE["stats"])
+    stats = "".join(f'<div class="stat"><strong{" data-count=" + chr(34) + s["value"] + chr(34) if s["value"].isdigit() else ""}>{e(s["value"])}</strong><span>{e(s["label"])}</span></div>' for s in SITE["stats"])
     why = "".join(f'<div class="why reveal"><div class="why__icon">{icon(w["icon"])}</div><h3>{e(w["title"])}</h3><p>{e(w["text"])}</p></div>' for w in SITE["why"])
     stats_html = f'<div class="stats reveal" style="margin-bottom:64px">{stats}</div>' if with_stats else ""
     return f'''<section class="section section--green"><div class="container">
@@ -571,32 +571,32 @@ def mini_docs(slugs):
 # ---------------------------------------------------------------- pages
 def build_home():
     h = SITE["hero"]
-    title_html = e(h["title"]).replace("Ayurveda", "<em>Ayurveda</em>")
+    title_html = e(h["title"]).replace("Ayurveda", '<em class="swash">Ayurveda<svg class="swash__line" viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 11C46 3 120 2 197 9"/></svg></em>')
     pillars = "".join(f'<div class="pillar reveal"><div class="pillar__icon">{icon(p["icon"])}</div><h3>{e(p["title"])}</h3><p>{e(p["text"])}</p></div>' for p in SITE["pillars"])
     services = "".join(service_card(s) for s in SERVICES)
     docs = "".join(doctor_card(d) for d in DOCTORS)
     founder = DOC_BY["sachin"]
     body = f'''
-<section class="hero"><div class="container">
-  <div class="reveal">
-    <span class="eyebrow">{e(h["eyebrow"])}</span>
-    <h1><span class="h1-kicker">Gynecology, Maternity &amp; Ayurveda Clinic in Khanvel, Silvassa</span>{title_html}</h1>
-    <p class="hero__lead">{e(h["lead"])}</p>
-    <div class="hero__cta">
+<section class="hero"><span class="hero__blob hero__blob--a" aria-hidden="true"></span><span class="hero__blob hero__blob--b" aria-hidden="true"></span><div class="container">
+  <div>
+    <span class="eyebrow hero-in" style="--d:0">{e(h["eyebrow"])}</span>
+    <h1><span class="h1-kicker hero-in" style="--d:1">Gynecology, Maternity &amp; Ayurveda Clinic in Khanvel, Silvassa</span><span class="hero-in" style="--d:2">{title_html}</span></h1>
+    <p class="hero__lead hero-in" style="--d:4">{e(h["lead"])}</p>
+    <div class="hero__cta hero-in" style="--d:5">
       <a class="btn btn--coral" href="/appointment/">{icon("calendar")} Book Appointment</a>
       <a class="btn btn--wa" href="{wa_link()}" target="_blank" rel="noopener">{icon("whatsapp")} WhatsApp Us</a>
       <a class="btn btn--ghost" href="/doctor/sachin/">Meet the Doctor {icon("arrow")}</a>
     </div>
     <ul class="hero__trust">
-      <li>{icon("check-circle")} Normal delivery first</li>
-      <li>{icon("check-circle")} IMS–BHU trained specialists</li>
-      <li>{icon("check-circle")} Online &amp; in-clinic</li>
+      <li class="hero-in" style="--d:6">{icon("check-circle")} Normal delivery first</li>
+      <li class="hero-in" style="--d:7">{icon("check-circle")} IMS–BHU trained specialists</li>
+      <li class="hero-in" style="--d:8">{icon("check-circle")} Online &amp; in-clinic</li>
     </ul>
   </div>
-  <div class="hero__media reveal">
+  <div class="hero__media" data-parallax>
     <div class="hero__img">{img("hero", "A Suvacha gynecologist consulting with a pregnant woman", "(max-width: 860px) 90vw, 480px", eager=True)}</div>
-    <a class="float-card float-card--a" href="{EMERG}"><span class="float-card__icon">{icon("phone")}</span><span>Emergency contact<strong>{e(SITE["emergency_display"])}</strong></span></a>
-    <div class="float-card float-card--b"><span class="float-card__icon">{icon("users")}</span><span><strong>11 specialists</strong>Ayurveda + modern care</span></div>
+    <a class="float-card float-card--a float-in" style="--d:6" href="{EMERG}"><span class="float-card__icon">{icon("phone")}</span><span>Emergency contact<strong>{e(SITE["emergency_display"])}</strong></span></a>
+    <div class="float-card float-card--b float-in" style="--d:8"><span class="float-card__icon">{icon("users")}</span><span><strong>11 specialists</strong>Ayurveda + modern care</span></div>
   </div>
 </div></section>
 

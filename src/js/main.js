@@ -28,7 +28,8 @@
     if (toTop) toTop.classList.toggle("is-visible", y > 700);
   }
   window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  // first measurement after load, so it never forces a layout during the initial render
+  window.addEventListener("load", onScroll);
   if (toTop) toTop.addEventListener("click", function () { window.scrollTo({ top: 0 }); });
 
   /* ---------- Mobile drawer ---------- */
@@ -91,8 +92,18 @@
     });
   }
 
+  var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Stagger: siblings inside a grid reveal one after another ---------- */
+  $$(".pillars, .services-grid, .doctors-grid, .slider, .why-grid, .journey, .tool-promos, .contact-cards, .mv-grid, .reviews").forEach(function (grid) {
+    var i = 0;
+    Array.prototype.forEach.call(grid.children, function (el) {
+      if (el.classList.contains("reveal")) el.style.setProperty("--i", i++);
+    });
+  });
+
   /* ---------- Scroll reveal ---------- */
-  var reveals = $$(".reveal");
+  var reveals = $$(".reveal, .reveal-line");
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -102,6 +113,58 @@
     reveals.forEach(function (el) { io.observe(el); });
   } else {
     reveals.forEach(function (el) { el.classList.add("is-in"); });
+  }
+
+  /* ---------- Count-up numbers (stats band) ---------- */
+  var counters = $$("[data-count]");
+  if (counters.length && !REDUCED && "IntersectionObserver" in window) {
+    counters.forEach(function (el) { el.textContent = "0"; });
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        cio.unobserve(en.target);
+        var el = en.target, to = +el.getAttribute("data-count"), t0 = null, dur = 1400;
+        (function step(t) {
+          if (t0 === null) t0 = t;
+          var p = Math.min(1, (t - t0) / dur), eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(to * eased);
+          if (p < 1) requestAnimationFrame(step);
+        })(performance.now());
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (el) { cio.observe(el); });
+  }
+
+  /* ---------- Gentle parallax on the hero picture ---------- */
+  var par = $("[data-parallax]");
+  if (par && !REDUCED) {
+    var ticking = false;
+    var update = function () {
+      ticking = false;
+      var r = par.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      var shift = Math.max(-36, Math.min(36, (r.top + r.height / 2 - innerHeight / 2) * -0.07));
+      par.style.transform = "translate3d(0," + shift.toFixed(1) + "px,0)";
+    };
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener("load", update);
+  }
+
+  /* ---------- Swipe hint: on touch screens, nudge the doctor slider once ---------- */
+  var touch = window.matchMedia && matchMedia("(hover: none) and (pointer: coarse)").matches;
+  if (touch && !REDUCED && "IntersectionObserver" in window) {
+    $$(".slider").forEach(function (track) {
+      var sio = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        sio.disconnect();
+        if (track.scrollLeft > 0 || track.scrollWidth <= track.clientWidth) return;
+        setTimeout(function () { track.scrollBy({ left: 90, behavior: "smooth" }); }, 700);
+        setTimeout(function () { track.scrollBy({ left: -90, behavior: "smooth" }); }, 1500);
+      }, { threshold: 0.6 });
+      sio.observe(track);
+    });
   }
 
   /* ---------- Doctor filter ---------- */

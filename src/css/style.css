@@ -686,3 +686,97 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); c
   .has-host-badge .mobile-bar { bottom: 64px; }
   .has-host-badge .wa-float { bottom: 148px; }
 }
+
+/* =====================================================================
+   Motion — transform/opacity only (GPU-friendly on phones).
+   Everything here is switched off by the prefers-reduced-motion rule above.
+   ===================================================================== */
+@keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes imgIn { from { transform: scale(.92); } to { transform: none; } }
+@keyframes kenburns { from { transform: scale(1.14); } to { transform: scale(1); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes driftA { from { transform: translate(0, 0) scale(1); } to { transform: translate(-60px, 40px) scale(1.15); } }
+@keyframes driftB { from { transform: translate(0, 0) scale(1.1); } to { transform: translate(70px, -30px) scale(.95); } }
+@keyframes pop { 0% { transform: scale(.4); opacity: 0; } 70% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes barIn { from { transform: translateY(110%); } to { transform: none; } }
+
+/* Hero entrance: staggered by --d */
+.hero .container { position: relative; z-index: 1; }
+.hero h1 > .hero-in { display: block; }
+.hero-in { animation: rise .75s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(var(--d, 0) * 90ms + 60ms); }
+.hero__img { animation: imgIn 1.2s cubic-bezier(.2, .7, .2, 1) both .1s; will-change: transform; }
+.hero__img img { animation: kenburns 2.4s cubic-bezier(.2, .7, .2, 1) both .1s; }
+.float-in { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both calc(var(--d, 0) * 90ms + 300ms),
+                       bob 6s ease-in-out infinite calc(var(--d, 0) * 90ms + 1100ms); }
+.float-card--b.float-in { animation-duration: .7s, 7.5s; }
+[data-parallax] { will-change: transform; }
+
+/* "Ayurveda" hand-drawn underline */
+.swash { position: relative; white-space: nowrap; }
+.swash__line { position: absolute; left: 0; bottom: -.14em; width: 100%; height: .32em; overflow: visible; }
+.swash__line path { fill: none; stroke: var(--gold-500); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 220; stroke-dashoffset: 220; animation: draw 1s cubic-bezier(.6, 0, .3, 1) forwards 1s; vector-effect: non-scaling-stroke; }
+
+/* Soft drifting colour blobs behind the hero */
+.hero__blob { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; will-change: transform; }
+.hero__blob--a { width: 460px; height: 460px; top: -140px; right: -120px; background: radial-gradient(circle, rgba(210, 96, 90, .22), transparent 68%); animation: driftA 14s ease-in-out infinite alternate; }
+.hero__blob--b { width: 380px; height: 380px; bottom: -120px; left: -140px; background: radial-gradient(circle, rgba(196, 154, 58, .2), transparent 68%); animation: driftB 18s ease-in-out infinite alternate; }
+
+/* Scroll reveals: stagger siblings by --i (set in JS), capped */
+.reveal { transition-delay: calc(min(var(--i, 0), 6) * 80ms); }
+.reveal .eyebrow::before, .reveal .eyebrow::after { transform: scaleX(0); transform-origin: left; transition: transform .8s cubic-bezier(.2, .7, .2, 1) .25s; }
+.reveal .eyebrow::after { transform-origin: right; }
+.reveal.is-in .eyebrow::before, .reveal.is-in .eyebrow::after { transform: scaleX(1); }
+.no-js .reveal .eyebrow::before, .no-js .reveal .eyebrow::after { transform: none; }
+
+/* Card images settle from a slight zoom as they scroll in (works on touch, no hover needed) */
+.svc-card.reveal .svc-card__img img, .doc-card.reveal .doc-card__img img { transform: scale(1.12); transition: transform 1.3s cubic-bezier(.2, .7, .2, 1); }
+.svc-card.reveal.is-in .svc-card__img img, .doc-card.reveal.is-in .doc-card__img img { transform: scale(1); }
+.svc-card.reveal.is-in:hover .svc-card__img img { transform: scale(1.06); }
+.doc-card.reveal.is-in:hover .doc-card__img img { transform: scale(1.05); }
+.no-js .svc-card__img img, .no-js .doc-card__img img { transform: none; }
+
+/* Icons pop in on pillars / why cards */
+.reveal .pillar__icon, .reveal .why__icon { transform: scale(.5); opacity: 0; transition: transform .6s cubic-bezier(.3, 1.4, .5, 1), opacity .4s; transition-delay: calc(min(var(--i, 0), 6) * 80ms + 250ms); }
+.reveal.is-in .pillar__icon, .reveal.is-in .why__icon { transform: none; opacity: 1; }
+.no-js .pillar__icon, .no-js .why__icon { transform: none; opacity: 1; }
+
+/* Life-journey line draws itself; dots pop in turn */
+.journey::before { transform: scaleX(0); transform-origin: left; transition: transform 1.6s cubic-bezier(.2, .7, .2, 1) .2s; }
+.journey.is-in::before { transform: scaleX(1); }
+.journey li.is-in .journey__dot { animation: pop .6s cubic-bezier(.2, .7, .2, 1) both; animation-delay: calc(min(var(--i, 0), 6) * 130ms + 150ms); }
+
+/* Tap feedback (phones have no hover) */
+.btn:active { transform: scale(.97); }
+.mobile-bar a { transition: transform .15s; }
+.mobile-bar a:active { transform: scale(.92); }
+.slider-btn:active, .chip:active { transform: scale(.94); }
+
+@media (max-width: 860px) {
+  .mobile-bar { animation: barIn .55s cubic-bezier(.2, .7, .2, 1) both .5s; }
+  .hero__blob--a { width: 320px; height: 320px; top: -100px; right: -140px; }
+  .hero__blob--b { width: 280px; height: 280px; left: -160px; }
+}
+
+/* Phones: the life journey becomes a vertical timeline whose line grows downward */
+@media (max-width: 600px) {
+  .journey { grid-template-columns: 1fr; row-gap: 0; }
+  .journey::before { display: block; top: 28px; bottom: 28px; left: 27px; right: auto; width: 2px; height: auto;
+    background: repeating-linear-gradient(180deg, var(--gold-500) 0 8px, transparent 8px 14px); transform: scaleY(0); transform-origin: top; }
+  .journey.is-in::before { transform: scaleY(1); }
+  .journey li { text-align: left; padding: 0 0 22px; }
+  .journey li:last-child { padding-bottom: 0; }
+  .journey a { display: grid; grid-template-columns: 56px 1fr; column-gap: 16px; align-items: center; }
+  .journey__dot { width: 56px; height: 56px; margin: 0; grid-row: span 2; font-size: 1.2rem; background: var(--cream); }
+  .journey h3 { margin: 0; align-self: end; font-size: 1.25rem; }
+  .journey p { align-self: start; }
+  .float-in { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both calc(var(--d, 0) * 90ms + 300ms), bob 5s ease-in-out infinite calc(var(--d, 0) * 90ms + 1100ms); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .swash__line path { stroke-dashoffset: 0; }
+  .hero__blob { display: none; }
+}
+/* The H1 and lead are the likely LCP elements: start them partly visible so the browser
+   counts them as painted on the first frame, while keeping the upward motion. */
+@keyframes riseSoft { from { opacity: .35; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.hero h1 > .hero-in:not(.h1-kicker), .hero__lead.hero-in { animation-name: riseSoft; }
