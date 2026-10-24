@@ -9,6 +9,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 import zipfile
@@ -41,7 +42,16 @@ def main():
         dep = json.loads(urllib.request.urlopen(req, timeout=300).read())
     except urllib.error.HTTPError as e:
         sys.exit(f"Deploy failed: {e.code} {e.read().decode()[:300]}")
-    print(f"Deployed {dep['id']} ({dep['state']}) -> {dep.get('ssl_url') or dep.get('url')}")
+    # Netlify processes the upload before it goes live; wait so callers can check the site right away.
+    for _ in range(60):
+        if dep["state"] in ("ready", "error"):
+            break
+        time.sleep(3)
+        req = urllib.request.Request(f"https://api.netlify.com/api/v1/deploys/{dep['id']}", headers={"Authorization": "Bearer " + token()})
+        dep = json.loads(urllib.request.urlopen(req, timeout=60).read())
+    if dep["state"] != "ready":
+        sys.exit(f"Deploy {dep['id']} ended as {dep['state']}: {dep.get('error_message') or ''}")
+    print(f"Deployed {dep['id']} (live) -> {dep.get('ssl_url') or dep.get('url')}")
 
 
 if __name__ == "__main__":
