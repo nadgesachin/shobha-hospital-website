@@ -434,6 +434,10 @@ def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="
     alternates = "".join(f'<link rel="alternate" hreflang="{l}" href="{SITE["url"]}{lpath(path, l)}">\n' for l in LANGS) + \
         f'<link rel="alternate" hreflang="x-default" href="{SITE["url"]}{path}">\n' if translated(path) else ""
     fonts = FONTS_CSS.replace("&display=swap", FONTS_DEVA.get(LANG, "") + "&display=swap")
+    if LANG != "en":
+        # Devanagari web fonts differ a lot from system fallbacks; swapping them in late moves the hero
+        # text (CLS ~0.13). "optional" keeps whichever font is ready at first paint for that page view.
+        fonts = fonts.replace("display=swap", "display=optional")
     if path == "/":
         extra_ld = [{"@context": "https://schema.org", "@type": "WebSite", "@id": SITE["url"] + "/#website", "name": SITE["name"],
                      "url": SITE["url"] + "/", "inLanguage": ["en-IN", "hi-IN", "mr-IN"], "publisher": {"@id": SITE["url"] + "/#clinic"}}, *extra_ld]

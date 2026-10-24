@@ -940,3 +940,74 @@ html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swa
   html[lang^="hi"] .hero-title, html[lang^="mr"] .hero-title { font-size: clamp(2rem, 9vw, 2.6rem); }
   html[lang^="hi"] .tile h3, html[lang^="mr"] .tile h3 { font-size: .98rem; line-height: 1.35; }
 }
+
+/* =====================================================================
+   Mobile motion pack (≤860px). Desktop is unchanged.
+   ===================================================================== */
+.scroll-progress { display: none; }
+.tile-dots { display: none; }
+@keyframes bookPulse {
+  0% { box-shadow: 0 0 0 0 rgba(194, 79, 70, .5); }
+  70% { box-shadow: 0 0 0 12px rgba(194, 79, 70, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(194, 79, 70, 0); }
+}
+
+@media (max-width: 860px) {
+  /* Reading progress line under the top edge */
+  .scroll-progress { display: block; position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 100; pointer-events: none;
+    background: linear-gradient(90deg, var(--coral-500), var(--gold-500)); transform-origin: 0 50%; transform: scaleX(0); }
+
+  /* Section headings arrive word by word (words are wrapped in JS) */
+  .words .w { display: inline-block; opacity: 0; transform: translateY(.55em) rotate(2deg);
+    transition: opacity .6s ease, transform .75s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--wi, 0) * 70ms + 120ms); }
+  .reveal.is-in .words .w { opacity: 1; transform: none; }
+
+  /* "Why" tiles flip down into place */
+  .why-mini { perspective: 900px; }
+  .why-mini__item.reveal { transform: rotateX(-55deg) translateY(16px); transform-origin: 50% 0; opacity: 0;
+    transition: transform .8s cubic-bezier(.2, .7, .2, 1), opacity .5s; transition-delay: calc(min(var(--i, 0), 6) * 90ms); }
+  .why-mini__item.reveal.is-in { transform: none; opacity: 1; }
+
+  /* Book button breathes to draw the eye */
+  .mobile-bar a.is-book { animation: bookPulse 2.8s ease-out infinite 2.5s; }
+
+  /* Doctors slider: the card in focus is full size, neighbours step back */
+  .slider .doc-card.is-in { transition: transform .5s cubic-bezier(.2, .7, .2, 1), opacity .5s, box-shadow .3s; }
+  .slider .doc-card.is-in:not(.is-active) { transform: scale(.92); opacity: .7; }
+}
+
+@media (max-width: 600px) {
+  /* Service tiles become a swipeable carousel with a focused centre card */
+  .tiles { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin: 0 -16px; padding: 6px 16px 10px; scroll-padding: 0 16px; }
+  .tiles::-webkit-scrollbar { display: none; }
+  .tiles .tile, .tiles .tile:last-child:nth-child(odd) { flex: 0 0 80%; aspect-ratio: 4 / 5; scroll-snap-align: center; border-radius: 22px; }
+  .tiles .tile.is-in { transition: transform .55s cubic-bezier(.2, .7, .2, 1), opacity .55s; }
+  .tiles .tile.is-in:not(.is-active) { transform: scale(.9); opacity: .6; }
+  .tiles .tile h3 { font-size: 1.3rem; }
+  .tiles .tile__go { width: 36px; height: 36px; }
+  .tiles .tile__go .icon { width: 17px; height: 17px; }
+  .tiles .tile.is-active .tile__go { background: var(--coral-600); transform: rotate(-45deg); }
+  .tile-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+  .tile-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; background: var(--line); cursor: pointer; transition: width .35s, background .35s; }
+  .tile-dots button[aria-current="true"] { width: 26px; background: var(--coral-600); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .words .w { opacity: 1; transform: none; }
+  .why-mini__item.reveal { transform: none; opacity: 1; }
+  .scroll-progress { display: none; }
+}
+@media (max-width: 600px) {
+  /* heading on its own line, action button underneath (word-split headings can otherwise shrink beside it) */
+  .section-head--split { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .section-head--split > div:first-child { width: 100%; max-width: none; }
+}
+@media (max-width: 600px) {
+  /* 24px touch target; the visible dot is drawn inside it */
+  .tile-dots { gap: 2px; }
+  .tile-dots button { width: 24px; height: 24px; background: none; display: grid; place-items: center; transition: width .35s; }
+  .tile-dots button::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--line); transition: width .35s, background .35s; }
+  .tile-dots button[aria-current="true"] { width: 34px; background: none; }
+  .tile-dots button[aria-current="true"]::before { width: 26px; background: var(--coral-600); }
+}

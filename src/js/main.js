@@ -110,6 +110,28 @@
     });
   });
 
+  var MOBILE = window.matchMedia && matchMedia("(max-width: 860px)").matches;
+
+  /* ---------- Mobile: section headings arrive word by word ---------- */
+  if (MOBILE && !REDUCED) {
+    $$(".section-head h2, .due h2").forEach(function (h) {
+      if (h.children.length) return; // headings with markup (e.g. <em>) keep their own animation
+      var text = h.textContent.trim();
+      h.setAttribute("aria-label", text);
+      h.textContent = "";
+      text.split(/\s+/).forEach(function (word, i) {
+        var w = document.createElement("span");
+        w.className = "w";
+        w.setAttribute("aria-hidden", "true");
+        w.style.setProperty("--wi", i);
+        w.textContent = word;
+        h.appendChild(w);
+        h.appendChild(document.createTextNode(" "));
+      });
+      h.classList.add("words"); // not "split": that class is the two-column layout
+    });
+  }
+
   /* ---------- Scroll reveal ---------- */
   var reveals = $$(".reveal, .reveal-line");
   if ("IntersectionObserver" in window) {
@@ -158,6 +180,76 @@
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
     }, { passive: true });
     window.addEventListener("load", update);
+  }
+
+  /* ---------- Mobile: reading-progress line ---------- */
+  if (MOBILE && !REDUCED) {
+    var bar = document.createElement("div");
+    bar.className = "scroll-progress";
+    bar.setAttribute("aria-hidden", "true");
+    document.body.appendChild(bar);
+    var pTick = false;
+    var paint = function () {
+      pTick = false;
+      var max = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, scrollY / max) : 0).toFixed(4) + ")";
+    };
+    window.addEventListener("scroll", function () {
+      if (!pTick) { pTick = true; requestAnimationFrame(paint); }
+    }, { passive: true });
+  }
+
+  /* ---------- Carousels: mark the card in focus; service tiles get dots + gentle autoplay on phones ---------- */
+  function carousel(track, opts) {
+    var cards = Array.prototype.slice.call(track.children);
+    if (!cards.length || !("IntersectionObserver" in window)) return;
+    var active = 0, dots = [];
+    var setActive = function (i) {
+      active = i;
+      cards.forEach(function (c, k) { c.classList.toggle("is-active", k === i); });
+      dots.forEach(function (d, k) { d.setAttribute("aria-current", String(k === i)); });
+    };
+    var go = function (i) {
+      var c = cards[i], tr = track.getBoundingClientRect(), cr = c.getBoundingClientRect();
+      track.scrollTo({ left: track.scrollLeft + (cr.left - tr.left) - (track.clientWidth - cr.width) / 2, behavior: REDUCED ? "auto" : "smooth" });
+    };
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && en.intersectionRatio >= 0.6) setActive(cards.indexOf(en.target));
+      });
+    }, { root: track, threshold: [0.6] });
+    cards.forEach(function (c) { io.observe(c); });
+    setActive(0);
+    if (!opts.dots) return;
+    var nav = document.createElement("div");
+    nav.className = "tile-dots";
+    cards.forEach(function (c, k) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", (c.querySelector("h3") || {}).textContent || String(k + 1));
+      b.addEventListener("click", function () { touched = Date.now(); go(k); });
+      nav.appendChild(b);
+      dots.push(b);
+    });
+    track.insertAdjacentElement("afterend", nav);
+    setActive(0);
+    if (REDUCED) return;
+    // Autoplay only while the carousel is on screen and the visitor isn't touching it.
+    var touched = 0, visible = false;
+    ["touchstart", "pointerdown", "wheel"].forEach(function (ev) {
+      track.addEventListener(ev, function () { touched = Date.now(); }, { passive: true });
+    });
+    new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }, { threshold: 0.5 }).observe(track);
+    setInterval(function () {
+      if (!visible || document.hidden || Date.now() - touched < 6000) return;
+      go((active + 1) % cards.length);
+    }, 3800);
+  }
+  if (window.matchMedia && matchMedia("(max-width: 600px)").matches) {
+    $$(".tiles").forEach(function (t) { carousel(t, { dots: true }); });
+  }
+  if (MOBILE) {
+    $$(".slider").forEach(function (t) { carousel(t, { dots: false }); });
   }
 
   /* ---------- Swipe hint: on touch screens, nudge the doctor slider once ---------- */
