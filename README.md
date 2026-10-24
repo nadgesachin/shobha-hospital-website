@@ -32,3 +32,20 @@ URLs match the old WordPress site (`/service/<slug>/`, `/doctor/<slug>/`, `/abou
 
 - `content/blog/*.md` holds the health-tip articles. Each file has front matter (title, description, date, category, image, service). Add a new `.md` file and rebuild.
 - `content/reviews.json` holds Google reviews. While it is empty, the homepage shows a "Write a Google review" call-to-action instead.
+
+## Languages (English, हिंदी, मराठी)
+
+English is the source. Hindi and Marathi pages are built at `/hi/…` and `/mr/…` for the home, about, services (all 9 service pages), doctors list, appointment, contact and pregnancy-tools pages. Doctor profiles and blog articles are English-only for now; on those pages the language switcher points to the nearest translated page.
+
+Translations live in `content/i18n/<lang>/`:
+
+| File | What it holds |
+|---|---|
+| `site.json` | Translated fields of `content/site.json` (hero, about, FAQs, hours, …), with the same list lengths |
+| `services.json` | Each service's title, tagline, intro and sections, keyed by slug |
+| `seo.json` | Search titles, descriptions and service FAQs |
+| `doctors.json` | Doctor specialities |
+| `strings.json` | UI phrases: English text → translation (buttons, labels, headings) |
+| `js.json` | Text used by `src/js/main.js` (booking message, calculators, open/closed badge) |
+
+After changing English text, run `python3 build.py`. Any English phrase still showing on a Hindi or Marathi page is listed in `build/missing-hi.json` / `build/missing-mr.json`; add it to that language's `strings.json`. Run `python3 tools/check_i18n.py hi` (or `mr`) to check that the translation files still match the English structure.

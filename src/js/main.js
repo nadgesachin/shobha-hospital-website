@@ -3,6 +3,14 @@
   "use strict";
   document.documentElement.classList.remove("no-js");
   var CFG = window.SUVACHA || {};
+  var LOCALE = CFG.lang || "en-IN";
+  var BASE = CFG.base || "";
+  // UI text: English is the key; Hindi/Marathi pages pass a table in CFG.t. {x} placeholders get vars.
+  function T(key, vars) {
+    var out = (CFG.t && CFG.t[key]) || key;
+    for (var k in vars || {}) out = out.split("{" + k + "}").join(vars[k]);
+    return out;
+  }
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
@@ -84,7 +92,7 @@
     var open = today && now.mins >= toMins(today.open) && now.mins < toMins(today.close);
     $$("[data-open-badge]").forEach(function (el) {
       el.classList.toggle("is-open", !!open);
-      el.textContent = open ? "Open now · until " + today.label.split("–")[1].trim() : "Closed now";
+      el.textContent = open ? T("Open now · until {time}", { time: today.label.split("–")[1].trim() }) : T("Closed now");
     });
     $$("[data-hours-row]").forEach(function (row) {
       var days = row.getAttribute("data-hours-row").split(",").map(Number);
@@ -226,22 +234,24 @@
         return sel && sel.selectedIndex > 0 ? sel.options[sel.selectedIndex].text : "";
       };
       var lines = [
-        "Namaste Suvacha Healthcare 🙏",
-        "I would like to book an appointment.",
+        T("Namaste Suvacha Healthcare 🙏"),
+        T("I would like to book an appointment."),
         "",
-        "*Name:* " + fd.get("name"),
-        "*Phone:* " + fd.get("phone")
+        "*" + T("Name") + ":* " + fd.get("name"),
+        "*" + T("Phone") + ":* " + fd.get("phone")
       ];
-      if (fd.get("age")) lines.push("*Age:* " + fd.get("age"));
-      if (label("service")) lines.push("*Service:* " + label("service"));
-      if (label("doctor")) lines.push("*Preferred doctor:* " + label("doctor"));
-      if (fd.get("mode")) lines.push("*Consultation:* " + fd.get("mode"));
+      if (label("service")) lines.push("*" + T("Service") + ":* " + label("service"));
+      if (label("doctor")) lines.push("*" + T("Preferred doctor") + ":* " + label("doctor"));
+      if (fd.get("mode")) lines.push("*" + T("Consultation") + ":* " + T(fd.get("mode")));
       if (fd.get("date")) {
         var pd = new Date(fd.get("date") + "T00:00:00");
-        lines.push("*Preferred date:* " + pd.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", year: "numeric" }));
+        lines.push("*" + T("Preferred date") + ":* " + pd.toLocaleDateString(LOCALE, { weekday: "short", day: "numeric", month: "short", year: "numeric" }));
       }
-      if (fd.get("time")) lines.push("*Preferred time:* " + fd.get("time"));
-      if (fd.get("message")) lines.push("", "*Concern:* " + fd.get("message"));
+      if (fd.get("time")) {
+        var ts = form.querySelector("[name=time]");
+        lines.push("*" + T("Preferred time") + ":* " + ts.options[ts.selectedIndex].text);
+      }
+      if (fd.get("message")) lines.push("", "*" + T("Concern") + ":* " + fd.get("message"));
       var url = "https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(lines.join("\n"));
       window.open(url, "_blank", "noopener");
     });
@@ -255,7 +265,7 @@
   function fmt(d, noYear) {
     var o = { day: "numeric", month: "short" };
     if (!noYear) o.year = "numeric";
-    return d.toLocaleDateString("en-IN", o);
+    return d.toLocaleDateString(LOCALE, o);
   }
   function today0() { var t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate()); }
   function waUrl(text) { return "https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(text); }
@@ -264,23 +274,23 @@
 
   // Antenatal scan & test windows (weeks), as listed on the Pregnancy & Maternal Care page.
   var MILESTONES = [
-    { t: "Early pregnancy scan", d: "Confirms the pregnancy, heartbeat and dates", s: 6, e: 8 },
-    { t: "NT scan", d: "Nuchal translucency screening", s: 11, e: 13 },
-    { t: "Anomaly / Level-2 scan", d: "Detailed check of baby’s growth and organs", s: 18, e: 20 },
-    { t: "Glucose tolerance test (GTT)", d: "Screening for gestational diabetes", s: 24, e: 28 },
-    { t: "Growth scan", d: "Baby’s growth and fluid check", s: 28, e: 28 },
-    { t: "Growth scan", d: "Baby’s growth and position", s: 32, e: 32 },
-    { t: "Growth scan", d: "Final growth and position check", s: 36, e: 36 },
-    { t: "Full term", d: "Baby can arrive any time — keep your hospital bag ready", s: 37, e: 40 }
+    { t: T("Early pregnancy scan"), d: T("Confirms the pregnancy, heartbeat and dates"), s: 6, e: 8 },
+    { t: T("NT scan"), d: T("Nuchal translucency screening"), s: 11, e: 13 },
+    { t: T("Anomaly / Level-2 scan"), d: T("Detailed check of baby’s growth and organs"), s: 18, e: 20 },
+    { t: T("Glucose tolerance test (GTT)"), d: T("Screening for gestational diabetes"), s: 24, e: 28 },
+    { t: T("Growth scan"), d: T("Baby’s growth and fluid check"), s: 28, e: 28 },
+    { t: T("Growth scan"), d: T("Baby’s growth and position"), s: 32, e: 32 },
+    { t: T("Growth scan"), d: T("Final growth and position check"), s: 36, e: 36 },
+    { t: T("Full term"), d: T("Baby can arrive any time — keep your hospital bag ready"), s: 37, e: 40 }
   ];
 
   function readTool(form) {
     var lmpVal = form.lmp.value;
     var cycle = parseInt(form.cycle.value || "28", 10);
-    if (!lmpVal) return { error: "Please enter the first day of your last period." };
-    if (isNaN(cycle) || cycle < 21 || cycle > 45) return { error: "Cycle length should be between 21 and 45 days." };
+    if (!lmpVal) return { error: T("Please enter the first day of your last period.") };
+    if (isNaN(cycle) || cycle < 21 || cycle > 45) return { error: T("Cycle length should be between 21 and 45 days.") };
     var lmp = parseDate(lmpVal);
-    if (lmp > today0()) return { error: "That date is in the future — please check it." };
+    if (lmp > today0()) return { error: T("That date is in the future — please check it.") };
     return { lmp: lmp, cycle: cycle };
   }
   function showResult(form, html) {
@@ -296,32 +306,33 @@
     var start = addDays(v.lmp, v.cycle - 28); // cycle-adjusted dating
     var edd = addDays(start, 280);
     var ga = daysBetween(start, today0());
-    if (ga > 42 * 7) return showResult(form, '<p class="tool-error">That date is more than 42 weeks ago — please check it.</p>');
+    if (ga > 42 * 7) return showResult(form, '<p class="tool-error">' + T("That date is more than 42 weeks ago — please check it.") + "</p>");
     ga = Math.max(ga, 0);
     var wk = Math.floor(ga / 7), dy = ga % 7;
-    var tri = wk < 14 ? "1st" : wk < 28 ? "2nd" : "3rd";
+    var tri = T(wk < 14 ? "1st trimester" : wk < 28 ? "2nd trimester" : "3rd trimester");
     var left = daysBetween(today0(), edd);
     var pct = Math.min(100, Math.round(ga / 280 * 100));
     var rows = MILESTONES.map(function (m) {
       var s = m.s * 7, e = m.e * 7 + 6;
       var cls = ga > e ? "is-done" : ga >= s ? "is-now" : "";
-      var when = m.s === m.e ? "Week " + m.s : "Weeks " + m.s + "–" + m.e;
+      var when = m.s === m.e ? T("Week {n}", { n: m.s }) : T("Weeks {a}–{b}", { a: m.s, b: m.e });
       var range = fmt(addDays(start, s), true) + (m.s === m.e ? "" : " – " + fmt(addDays(start, e), true));
-      var tag = cls === "is-done" ? "Done ✓" : cls === "is-now" ? "Due now · " + range : range;
+      var tag = cls === "is-done" ? T("Done ✓") : cls === "is-now" ? T("Due now · {range}", { range: range }) : range;
       return '<li class="' + cls + '"><div><strong>' + m.t + "</strong><small>" + when + " · " + m.d +
         '</small></div><span class="when">' + tag + "</span></li>";
     }).join("");
-    var status = left >= 0 ? left + " days to go" : "Past your due date by " + -left + " days — please consult your doctor";
-    var msg = "Namaste Suvacha Healthcare 🙏\nMy estimated due date is " + fmt(edd) + " (" + wk + " weeks " + dy +
-      " days pregnant). I would like to book an antenatal consultation.";
+    var status = left >= 0 ? T("{n} days to go", { n: left }) : T("Past your due date by {n} days — please consult your doctor", { n: -left });
+    var preg = T("{w} weeks {d} days pregnant", { w: wk, d: dy });
+    var msg = T("Namaste Suvacha Healthcare 🙏") + "\n" +
+      T("My estimated due date is {date} ({preg}). I would like to book an antenatal consultation.", { date: fmt(edd), preg: preg });
     showResult(form,
-      '<div class="edd-hero"><small>Estimated due date</small><strong>' + fmt(edd) + "</strong>" +
-      "<span>" + wk + " weeks " + dy + " days pregnant · " + tri + " trimester · " + status + "</span>" +
-      '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="Pregnancy progress"><i style="width:' + pct + '%"></i></div>' +
-      '<div class="progress-labels"><span>Week 0</span><span>Week 20</span><span>Week 40</span></div></div>' +
-      '<h3 style="font-size:1.3rem;margin:0">Your scan &amp; test timeline</h3><ul class="timeline">' + rows + "</ul>" +
-      '<div class="tool-actions"><a class="btn btn--coral btn--sm" href="/appointment/?service=pregnancy-maternal-care">' + ICON_CAL +
-      ' Book antenatal visit</a><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="' + waUrl(msg) + '">' + ICON_WA + " Share on WhatsApp</a></div>");
+      '<div class="edd-hero"><small>' + T("Estimated due date") + "</small><strong>" + fmt(edd) + "</strong>" +
+      "<span>" + preg + " · " + tri + " · " + status + "</span>" +
+      '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '" aria-label="' + T("Pregnancy progress") + '"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="progress-labels"><span>' + T("Week {n}", { n: 0 }) + "</span><span>" + T("Week {n}", { n: 20 }) + "</span><span>" + T("Week {n}", { n: 40 }) + "</span></div></div>" +
+      '<h3 style="font-size:1.3rem;margin:0">' + T("Your scan & test timeline") + '</h3><ul class="timeline">' + rows + "</ul>" +
+      '<div class="tool-actions"><a class="btn btn--coral btn--sm" href="' + BASE + '/appointment/?service=pregnancy-maternal-care">' + ICON_CAL +
+      " " + T("Book antenatal visit") + '</a><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="' + waUrl(msg) + '">' + ICON_WA + " " + T("Share on WhatsApp") + "</a></div>");
   }
 
   function calcOvulation(form) {
@@ -336,17 +347,17 @@
       var ov = addDays(next, -14);
       var fs = addDays(ov, -5), fe = addDays(ov, 1);
       if (!inWindow && t >= fs && t <= fe) inWindow = fe;
-      return '<li><h4>Cycle starting ' + fmt(period, true) + "</h4>" +
-        '<div class="cycle-row is-key"><span>Fertile window</span><b>' + fmt(fs, true) + " – " + fmt(fe, true) + "</b></div>" +
-        '<div class="cycle-row is-key"><span>Likely ovulation</span><b>' + fmt(ov) + "</b></div>" +
-        '<div class="cycle-row"><span>Next period expected</span><b>' + fmt(next) + "</b></div></li>";
+      return "<li><h4>" + T("Cycle starting {date}", { date: fmt(period, true) }) + "</h4>" +
+        '<div class="cycle-row is-key"><span>' + T("Fertile window") + "</span><b>" + fmt(fs, true) + " – " + fmt(fe, true) + "</b></div>" +
+        '<div class="cycle-row is-key"><span>' + T("Likely ovulation") + "</span><b>" + fmt(ov) + "</b></div>" +
+        '<div class="cycle-row"><span>' + T("Next period expected") + "</span><b>" + fmt(next) + "</b></div></li>";
     }).join("");
-    var now = inWindow ? '<p class="block__note" style="margin:0 0 16px">🌸 <span>You are in your fertile window now (until ' + fmt(inWindow, true) + ").</span></p>" : "";
-    var msg = "Namaste Suvacha Healthcare 🙏\nWe are planning a pregnancy and would like to book a fertility consultation.";
+    var now = inWindow ? '<p class="block__note" style="margin:0 0 16px">🌸 <span>' + T("You are in your fertile window now (until {date}).", { date: fmt(inWindow, true) }) + "</span></p>" : "";
+    var msg = T("Namaste Suvacha Healthcare 🙏") + "\n" + T("We are planning a pregnancy and would like to book a fertility consultation.");
     showResult(form, now + '<ul class="cycle-list">' + items + "</ul>" +
-      '<p class="form-note">Trying for 12 months without success (or 6 months if you are over 35)? A fertility evaluation for both partners is recommended.</p>' +
-      '<div class="tool-actions"><a class="btn btn--sm" href="/appointment/?service=infertility-reproductive-health">' + ICON_CAL +
-      ' Book fertility consultation</a><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="' + waUrl(msg) + '">' + ICON_WA + " Ask on WhatsApp</a></div>");
+      '<p class="form-note">' + T("Trying for 12 months without success (or 6 months if you are over 35)? A fertility evaluation for both partners is recommended.") + "</p>" +
+      '<div class="tool-actions"><a class="btn btn--sm" href="' + BASE + '/appointment/?service=infertility-reproductive-health">' + ICON_CAL +
+      " " + T("Book fertility consultation") + '</a><a class="btn btn--wa btn--sm" target="_blank" rel="noopener" href="' + waUrl(msg) + '">' + ICON_WA + " " + T("Ask on WhatsApp") + "</a></div>");
   }
 
   $$("form[data-tool]").forEach(function (form) {

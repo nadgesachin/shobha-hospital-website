@@ -901,3 +901,42 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); c
 @media (max-width: 420px) {
   .founder--short { grid-template-columns: 104px 1fr; gap: 16px; }
 }
+
+/* =====================================================================
+   Languages: switcher + Devanagari typography (Hindi / Marathi pages)
+   ===================================================================== */
+.lang { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: #fff; flex: none; }
+.lang a { padding: .38em .72em; border-radius: 999px; font-size: .84rem; font-weight: 600; line-height: 1.2; color: var(--muted); text-decoration: none; white-space: nowrap; transition: background .2s, color .2s; }
+.lang a:hover:not([aria-current]) { color: var(--green-800); background: var(--green-50); }
+.lang a[aria-current] { background: var(--green-800); color: #fff; }
+.lang__short { display: none; }
+.drawer .lang { align-self: flex-start; }
+.drawer .lang__full { display: inline; }
+.drawer .lang__short { display: none; }
+@media (max-width: 1320px) {
+  .header__actions .btn--ghost { display: none; }
+  .header .lang__full { display: none; }
+  .header .lang__short { display: inline; }
+}
+@media (max-width: 420px) {
+  .header .lang a { padding: .34em .55em; font-size: .8rem; }
+}
+
+html[lang^="hi"] { --font-sans: "Mukta", "DM Sans", system-ui, sans-serif; --font-serif: "Tiro Devanagari Hindi", "Cormorant Garamond", serif; }
+html[lang^="mr"] { --font-sans: "Mukta", "DM Sans", system-ui, sans-serif; --font-serif: "Tiro Devanagari Marathi", "Cormorant Garamond", serif; }
+/* Letter-spacing splits Devanagari conjuncts and there is no true italic: switch both off. */
+html[lang^="hi"] *, html[lang^="mr"] * { letter-spacing: 0 !important; }
+html[lang^="hi"] :is(em, i, blockquote, .rotator-wrap, .marquee__item, .closing, .founder blockquote),
+html[lang^="mr"] :is(em, i, blockquote, .rotator-wrap, .marquee__item, .closing, .founder blockquote) { font-style: normal; }
+html[lang^="hi"] body, html[lang^="mr"] body { line-height: 1.75; }
+html[lang^="hi"] :is(h1, h2, h3, h4), html[lang^="mr"] :is(h1, h2, h3, h4) { line-height: 1.32; }
+html[lang^="hi"] h1, html[lang^="mr"] h1 { font-size: clamp(2rem, 4vw, 3.3rem); }
+html[lang^="hi"] h2, html[lang^="mr"] h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); }
+html[lang^="hi"] .hero-title, html[lang^="mr"] .hero-title { font-size: clamp(2.2rem, 5.2vw, 3.9rem); line-height: 1.25; }
+html[lang^="hi"] .eyebrow, html[lang^="mr"] .eyebrow { font-size: .92rem; }
+html[lang^="hi"] .marquee__item, html[lang^="mr"] .marquee__item { font-size: clamp(1.2rem, 2.2vw, 1.6rem); }
+html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swash__line { bottom: -.05em; }
+@media (max-width: 600px) {
+  html[lang^="hi"] .hero-title, html[lang^="mr"] .hero-title { font-size: clamp(2rem, 9vw, 2.6rem); }
+  html[lang^="hi"] .tile h3, html[lang^="mr"] .tile h3 { font-size: .98rem; line-height: 1.35; }
+}

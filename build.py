@@ -8,13 +8,14 @@ Content lives in content/*.json; styles/scripts/images in src/.
 URL structure mirrors the original WordPress site (/service/<slug>/,
 /doctor/<slug>/ ...) so existing links and search rankings keep working.
 """
+import copy
 import datetime as dt
 import hashlib
 import json
 import re
 import shutil
 import sys
-from html import escape
+from html import escape, unescape
 from pathlib import Path
 from urllib.parse import quote
 
@@ -29,11 +30,35 @@ DOCTORS = json.loads((ROOT / "content" / "doctors.json").read_text())
 DOC_BY = {d["slug"]: d for d in DOCTORS}
 REVIEWS = json.loads((ROOT / "content" / "reviews.json").read_text())
 SEO = json.loads((ROOT / "content" / "seo.json").read_text())
-OG_IMAGES = set()
+OG_IMAGES = set()  # image names that need a 1200x630 JPEG share image
 # Content hashes for cache-busting: asset URLs change whenever the file changes.
-VER = {k: hashlib.md5((SRC / k).read_bytes()).hexdigest()[:10] for k in ("css/style.css", "js/main.js")}  # image names that need a 1200x630 JPEG share image
+VER = {k: hashlib.md5((SRC / k).read_bytes()).hexdigest()[:10] for k in ("css/style.css", "js/main.js")}
 FONTS_CSS = ("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600"
              "&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Tiro+Devanagari+Hindi&display=swap")
+# Hindi / Marathi pages need Devanagari text faces (Mukta for body, Tiro for headings).
+FONTS_DEVA = {
+    "hi": "&family=Mukta:wght@400;500;600;700&family=Tiro+Devanagari+Hindi",
+    "mr": "&family=Mukta:wght@400;500;600;700&family=Tiro+Devanagari+Marathi",
+}
+
+# ---------------------------------------------------------------- languages
+# English is the source. Hindi and Marathi overlay translated content (content/i18n/<lang>/*.json)
+# and swap UI text through a phrase table, so the builders below stay written in English.
+LANGS = ["en", "hi", "mr"]
+LANG_META = {"en": {"html": "en-IN", "og": "en_IN", "label": "English", "short": "EN"},
+             "hi": {"html": "hi-IN", "og": "hi_IN", "label": "हिंदी", "short": "हिं"},
+             "mr": {"html": "mr-IN", "og": "mr_IN", "label": "मराठी", "short": "मरा"}}
+LANG = "en"
+
+
+def _load_i18n(lang):
+    d = ROOT / "content" / "i18n" / lang
+    return {f.stem: json.loads(f.read_text()) for f in sorted(d.glob("*.json"))} if d.exists() else {}
+
+
+I18N = {l: _load_i18n(l) for l in LANGS[1:]}
+SITE_EN, SERVICES_EN, DOCTORS_EN, SEO_EN = (copy.deepcopy(x) for x in (SITE, SERVICES, DOCTORS, SEO))
+MISSING = {}  # lang -> {english text: first page seen}, reported after a build
 UNIVERSITIES = {"BHU": "Banaras Hindu University", "MUHS": "Maharashtra University of Health Sciences",
                 "GAMC, Bengaluru": "Government Ayurveda Medical College, Bengaluru"}
 SVC_BY = {s["slug"]: s for s in SERVICES}
@@ -52,6 +77,58 @@ FILTERS = [("all", "All doctors"), ("womens", "Women’s health & fertility"), (
 
 def e(s):
     return escape(str(s), quote=True)
+
+
+def merge(base, over):
+    """Overlay translated fields onto the English data: dicts recurse, equal-length
+    lists of dicts merge item by item, anything else is replaced."""
+    if isinstance(base, dict) and isinstance(over, dict):
+        out = dict(base)
+        for k, v in over.items():
+            out[k] = merge(base[k], v) if k in base else v
+        return out
+    if (isinstance(base, list) and isinstance(over, list) and len(base) == len(over)
+            and all(isinstance(x, dict) for x in base + over)):
+        return [merge(x, y) for x, y in zip(base, over)]
+    return copy.deepcopy(over)
+
+
+def set_lang(lang):
+    """Switch the content globals that every builder reads to one language."""
+    global LANG, SITE, SERVICES, SVC_BY, DOCTORS, DOC_BY, SEO
+    LANG = lang
+    tr = I18N.get(lang, {})
+    SITE = merge(SITE_EN, tr.get("site", {}))
+    SERVICES = [merge(s, tr.get("services", {}).get(s["slug"], {})) for s in SERVICES_EN]
+    SVC_BY = {s["slug"]: s for s in SERVICES}
+    DOCTORS = [merge(d, tr.get("doctors", {}).get(d["slug"], {})) for d in DOCTORS_EN]
+    DOC_BY = {d["slug"]: d for d in DOCTORS}
+    SEO = merge(SEO_EN, tr.get("seo", {}))
+
+
+def t(s):
+    """Translate a UI phrase written in English (identity on English pages)."""
+    return s if LANG == "en" else I18N[LANG].get("strings", {}).get(s, s)
+
+
+def translated(path):
+    """English paths that also exist as /hi/… and /mr/… pages."""
+    base = path.split("?")[0].split("#")[0]
+    return base in ("/", "/about/", "/services/", "/doctors/", "/appointment/", "/contact/", "/pregnancy-tools/") \
+        or base.startswith("/service/")
+
+
+def lpath(path, lang=None):
+    """Localised URL for an English path (unchanged when that page isn't translated)."""
+    lang = lang or LANG
+    return path if lang == "en" or not translated(path) else f"/{lang}{path}"
+
+
+def alt_url(lang, path):
+    """Where the language switcher points: the same page, or its closest translated parent."""
+    if translated(path) or lang == "en":
+        return lpath(path, lang)
+    return lpath("/doctors/" if path.startswith("/doctor/") else "/", lang)
 
 
 def wa_link(text=None):
@@ -133,6 +210,7 @@ def dr_name(d):
 
 # ---------------------------------------------------------------- JSON-LD
 def clinic_ld():
+    SITE, SERVICES = SITE_EN, SERVICES_EN  # structured data stays in English for every language
     a = SITE["address"]
     day_names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     return {
@@ -168,7 +246,7 @@ def clinic_ld():
 
 def breadcrumb_ld(trail):
     return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-        {"@type": "ListItem", "position": i + 1, "name": name, "item": SITE["url"] + url}
+        {"@type": "ListItem", "position": i + 1, "name": t(name), "item": SITE["url"] + lpath(url)}
         for i, (name, url) in enumerate(trail)]}
 
 
@@ -200,12 +278,12 @@ def header(current):
         else:
             items.append(link(label, url))
     drawer_links = "".join(
-        f'<li><a href="{u}">{l} {icon("chev-right")}</a></li>' if l != "Services" else
+        f'<li><a href="{u}">{t(l)} {icon("chev-right")}</a></li>' if l != "Services" else
         '<li><details><summary>Services ' + icon("chev-down") + '</summary><ul>' +
         "".join(f'<li><a href="/service/{s["slug"]}/">{e(s["title"])}</a></li>' for s in SERVICES) +
         '<li><a href="/services/"><strong>All services →</strong></a></li></ul></details></li>'
         for l, u in NAV)
-    today_hours = " · ".join(f'{h["days"].split(" ")[0][:3]}{"–Fri" if len(h["dow"]) > 1 else ""} {h["label"]}' for h in SITE["hours"])
+    today_hours = " · ".join(f'{h["short"]} {h["label"]}' for h in SITE["hours"])
     return f'''
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="topbar"><div class="container">
@@ -215,7 +293,7 @@ def header(current):
   </ul>
   <ul class="topbar__list">
     <li><span class="open-badge" data-open-badge>Clinic hours</span></li>
-    <li>{icon("phone")}<a href="{EMERG}">Emergency: {e(SITE["emergency_display"])}</a></li>
+    <li>{icon("phone")}<a href="{EMERG}">{t("Emergency")}: {e(SITE["emergency_display"])}</a></li>
     <li>{icon("mail")}<a href="{MAIL}">{e(SITE["email"])}</a></li>
   </ul>
 </div></div>
@@ -223,6 +301,7 @@ def header(current):
   <a class="brand" href="/" aria-label="Suvacha Healthcare — home"><img src="/assets/img/logo.webp" width="420" height="145" alt="Suvacha Healthcare — Creating Shreyasi Praja"></a>
   <nav class="nav" aria-label="Main"><ul class="nav__list">{"".join(items)}</ul></nav>
   <div class="header__actions">
+    <!--LANG-SWITCH-->
     <a class="btn btn--ghost btn--sm" href="{TEL}">{icon("phone")} {e(SITE["phone_display"])}</a>
     <a class="btn btn--coral btn--sm" href="/appointment/">{icon("calendar")} Book Appointment</a>
     <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">{icon("menu")}</button>
@@ -233,6 +312,7 @@ def header(current):
   <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
     <div class="drawer__head"><img src="/assets/img/logo.webp" width="420" height="145" alt="Suvacha Healthcare">
       <button class="menu-toggle drawer__close" style="display:inline-flex" type="button" aria-label="Close menu" data-close-drawer>{icon("x")}</button></div>
+    <!--LANG-SWITCH-->
     <nav aria-label="Mobile"><ul>{drawer_links}</ul></nav>
     <div class="drawer__cta">
       <a class="btn btn--coral" href="/appointment/">{icon("calendar")} Book Appointment</a>
@@ -268,8 +348,8 @@ def footer():
       <h2 class="footer__h">Visit Us</h2>
       <ul class="footer__contact">
         <li>{icon("pin")}<a href="{SITE["maps_link"]}" target="_blank" rel="noopener">{e(SITE["address"]["display"])}</a></li>
-        <li>{icon("phone")}<a href="{TEL}">{e(SITE["phone_display"])} <small>(appointments)</small></a></li>
-        <li>{icon("phone")}<a href="{EMERG}">{e(SITE["emergency_display"])} <small>(emergency)</small></a></li>
+        <li>{icon("phone")}<a href="{TEL}">{e(SITE["phone_display"])} <small>({t("appointments")})</small></a></li>
+        <li>{icon("phone")}<a href="{EMERG}">{e(SITE["emergency_display"])} <small>({t("emergency")})</small></a></li>
         <li>{icon("whatsapp")}<a href="{wa_link()}" target="_blank" rel="noopener">WhatsApp us</a></li>
         <li>{icon("mail")}<a href="{MAIL}">{e(SITE["email"])}</a></li>
       </ul>
@@ -277,8 +357,8 @@ def footer():
       <ul class="footer__hours">{hours}</ul>
     </div>
   </div>
-  <p class="disclaimer">Information on this website is for general awareness and does not replace a consultation with a qualified doctor. In a medical emergency, please call {e(SITE["emergency_display"])} or visit the nearest hospital.</p>
-  <div class="footer__bottom"><span>© {year} Suvacha Healthcare. All rights reserved.</span><span>{e(SITE["address"]["short"])}</span></div>
+  <p class="disclaimer">{e(t("Information on this website is for general awareness and does not replace a consultation with a qualified doctor. In a medical emergency, please call {phone} or visit the nearest hospital.").replace("{phone}", SITE["emergency_display"]))}</p>
+  <div class="footer__bottom"><span>© {year} {t("Suvacha Healthcare. All rights reserved.")}</span><span>{e(SITE["address"]["short"])}</span></div>
 </div></footer>
 <div class="wa-float">
   <span class="wa-float__label">Questions? Chat with us</span>
@@ -293,16 +373,70 @@ def footer():
 </nav>'''
 
 
+def lang_switch(path):
+    def link(l):
+        cur = ' aria-current="true"' if l == LANG else ""
+        return (f'<a href="{alt_url(l, path)}" hreflang="{l}" lang="{l}"{cur}>'
+                f'<span class="lang__full">{LANG_META[l]["label"]}</span><span class="lang__short">{LANG_META[l]["short"]}</span></a>')
+    links = "".join(link(l) for l in LANGS)
+    return f'<nav class="lang" aria-label="Language / भाषा">{links}</nav>'
+
+
+_SCRIPT = re.compile(r"(<script\b.*?</script>|<style\b.*?</style>)", re.S)
+_ATTR = re.compile(r'\b(placeholder|aria-label|alt|title)="([^"]*)"')
+_TEXT = re.compile(r">([^<>]+)<")
+_HREF = re.compile(r'href="(/[^"]*)"')
+_LATIN = re.compile(r"[A-Za-z]{3,}")
+_DEVA = re.compile(r"[\u0900-\u097F]")
+
+
+def localize_html(html, path):
+    """Swap English UI phrases for the current language and point internal links at translated pages.
+    Whole text nodes and a few attributes are matched exactly against the phrase table; anything
+    still in English is recorded in MISSING so gaps show up in the build output."""
+    table = I18N[LANG].get("strings", {})
+    seen = MISSING.setdefault(LANG, {})
+
+    def tr(raw):
+        text = unescape(raw)
+        core = text.strip()
+        if not core:
+            return raw
+        if core in table:
+            lead, trail = text[:len(text) - len(text.lstrip())], text[len(text.rstrip()):]
+            return escape(lead + table[core] + trail, quote=False)
+        if _LATIN.search(core) and not _DEVA.search(core):
+            seen.setdefault(core, path)
+        return raw
+
+    def fix_href(m):
+        return f'href="{lpath(m.group(1))}"'
+
+    parts = _SCRIPT.split(html)
+    for i in range(0, len(parts), 2):  # even indexes are outside <script>/<style>
+        s = parts[i]
+        s = _TEXT.sub(lambda m: ">" + tr(m.group(1)) + "<", s)
+        s = _ATTR.sub(lambda m: f'{m.group(1)}="{e(unescape(tr(m.group(2))))}"', s)
+        s = _HREF.sub(fix_href, s)
+        parts[i] = s
+    return "".join(parts)
+
+
 def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="website", preload=None, noindex=False, published=None, suffix=True):
     override = SEO["pages"].get(path)
     if override:
         title, description = override["title"], override["description"]
     full_title = title if ("Suvacha" in title or not suffix) else f"{title} | Suvacha Healthcare"
-    canonical = SITE["url"] + path
-    cfg = {"whatsapp": SITE["whatsapp"], "hours": SITE["hours"]}
+    canonical = SITE["url"] + lpath(path)
+    meta = LANG_META[LANG]
+    cfg = {"whatsapp": SITE["whatsapp"], "hours": SITE["hours"], "lang": meta["html"],
+           "base": "" if LANG == "en" else f"/{LANG}", "t": I18N.get(LANG, {}).get("js", {})}
+    alternates = "".join(f'<link rel="alternate" hreflang="{l}" href="{SITE["url"]}{lpath(path, l)}">\n' for l in LANGS) + \
+        f'<link rel="alternate" hreflang="x-default" href="{SITE["url"]}{path}">\n' if translated(path) else ""
+    fonts = FONTS_CSS.replace("&display=swap", FONTS_DEVA.get(LANG, "") + "&display=swap")
     if path == "/":
         extra_ld = [{"@context": "https://schema.org", "@type": "WebSite", "@id": SITE["url"] + "/#website", "name": SITE["name"],
-                     "url": SITE["url"] + "/", "inLanguage": "en-IN", "publisher": {"@id": SITE["url"] + "/#clinic"}}, *extra_ld]
+                     "url": SITE["url"] + "/", "inLanguage": ["en-IN", "hi-IN", "mr-IN"], "publisher": {"@id": SITE["url"] + "/#clinic"}}, *extra_ld]
     lds = "".join(ld_script(x) for x in (clinic_ld(), *extra_ld))
     OG_IMAGES.add(og_image)
     g = SITE["geo"]
@@ -312,7 +446,7 @@ def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="
            f'imagesrcset="/assets/img/{preload}-480.webp 480w, /assets/img/{preload}-960.webp 960w" imagesizes="(max-width: 860px) 90vw, 480px" fetchpriority="high">\n') if preload else ""
     art = f'<meta property="article:published_time" content="{published}">\n' if published else ""
     html = f'''<!doctype html>
-<html lang="en-IN" class="no-js">
+<html lang="{meta["html"]}" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -320,7 +454,7 @@ def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="
 <meta name="description" content="{e(description)}">
 <meta name="robots" content="{robots}">
 <link rel="canonical" href="{canonical}">
-{verify}<meta name="theme-color" content="#1f2e1c">
+{alternates}{verify}<meta name="theme-color" content="#1f2e1c">
 <meta name="geo.region" content="{SITE["address"]["region_code"]}">
 <meta name="geo.placename" content="{SITE["address"]["locality"]}, {SITE["address"]["district"]}">
 <meta name="geo.position" content="{g["lat"]};{g["lng"]}">
@@ -333,17 +467,17 @@ def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="
 <meta property="og:image" content="{SITE["url"]}/assets/og/{og_image}.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:locale" content="en_IN">
+<meta property="og:locale" content="{meta["og"]}">
 {art}<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-{pre}<link rel="preload" as="style" href="{FONTS_CSS}" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{FONTS_CSS}"></noscript>
+{pre}<link rel="preload" as="style" href="{fonts}" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{fonts}"></noscript>
 <link rel="stylesheet" href="/assets/css/style.css?v={VER["css/style.css"]}">
-<script>window.SUVACHA={json.dumps(cfg)};</script>
+<script>window.SUVACHA={json.dumps(cfg, ensure_ascii=False)};</script>
 <script src="/assets/js/main.js?v={VER["js/main.js"]}" defer></script>
 {lds}
 </head>
@@ -356,7 +490,11 @@ def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="
 </body>
 </html>
 '''
-    dest = OUT / path.lstrip("/") / "index.html" if path.endswith("/") else OUT / path.lstrip("/")
+    if LANG != "en":
+        html = localize_html(html, path)
+    html = html.replace("<!--LANG-SWITCH-->", lang_switch(path))
+    out_path = lpath(path)
+    dest = OUT / out_path.lstrip("/") / "index.html" if out_path.endswith("/") else OUT / out_path.lstrip("/")
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(html)
     return path
@@ -463,7 +601,7 @@ def faq_section(faqs, white=True):
     return f'''<section class="section {"section--white" if white else ""}" id="faq"><div class="container faq-wrap">
   <div class="section-head reveal"><span class="eyebrow">FAQs</span><h2>Answers to common questions</h2>
   <p>Can’t find what you’re looking for? Message us on WhatsApp and our team will help.</p>
-  <a class="btn btn--wa" href="{wa_link("Namaste, I have a question.")}" target="_blank" rel="noopener">{icon("whatsapp")} Ask on WhatsApp</a></div>
+  <a class="btn btn--wa" href="{wa_link(t("Namaste, I have a question."))}" target="_blank" rel="noopener">{icon("whatsapp")} Ask on WhatsApp</a></div>
   <div class="faq reveal">{items}</div>
 </div></section>'''
 
@@ -481,7 +619,7 @@ def hours_table():
 
 def map_section(sand=True):
     return f'''<section class="section {"section--sand" if sand else ""}" id="location"><div class="container">
-  <div class="section-head reveal"><span class="eyebrow">Visit us</span><h2>Find us in Khanvel</h2><p>Easily reachable from {", ".join(SITE["nearby"][:-1])} and {SITE["nearby"][-1]}.</p></div>
+  <div class="section-head reveal"><span class="eyebrow">Visit us</span><h2>Find us in Khanvel</h2><p>{e(t("Easily reachable from {towns}.").replace("{towns}", ", ".join(SITE["nearby"])))}</p></div>
   <div class="map-card reveal">
     <div class="map-card__info">
       <ul class="info-list">
@@ -494,12 +632,12 @@ def map_section(sand=True):
       {hours_table()}
       <div style="display:flex;flex-wrap:wrap;gap:10px">
         <a class="btn btn--sm" href="{DIRECTIONS}" target="_blank" rel="noopener">{icon("navigation")} Get directions</a>
-        <a class="btn btn--wa btn--sm" href="{wa_link("Namaste, please share the clinic location and directions.")}" target="_blank" rel="noopener">{icon("whatsapp")} Ask for directions</a>
+        <a class="btn btn--wa btn--sm" href="{wa_link(t("Namaste, please share the clinic location and directions."))}" target="_blank" rel="noopener">{icon("whatsapp")} Ask for directions</a>
       </div>
     </div>
     <div class="map-card__map"><iframe src="{MAP_EMBED}" title="Map showing Suvacha Healthcare, Khanvel" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
   </div>
-  <nav class="from-towns reveal" aria-label="Directions from nearby towns"><span>{icon("navigation")} Directions from:</span>{"".join(f'<a href="https://www.google.com/maps/dir/?api=1&amp;origin={quote(t + ", India")}&amp;destination={GEO}" target="_blank" rel="noopener">{e(t)}</a>' for t in SITE["nearby"])}</nav>
+  <nav class="from-towns reveal" aria-label="Directions from nearby towns"><span>{icon("navigation")} Directions from:</span>{"".join(f'<a href="https://www.google.com/maps/dir/?api=1&amp;origin={quote(en + ", India")}&amp;destination={GEO}" target="_blank" rel="noopener">{e(name)}</a>' for en, name in zip(SITE_EN["nearby"], SITE["nearby"]))}</nav>
 </div></section>'''
 
 
@@ -580,7 +718,7 @@ def mini_docs(slugs):
 # ---------------------------------------------------------------- pages
 def build_home():
     h = SITE["hero"]
-    words = ["Pregnancy", "Fertility", "PCOS", "Motherhood", "Menopause"]
+    words = [t(w) for w in ["Pregnancy", "Fertility", "PCOS", "Motherhood", "Menopause"]]
     rotator = "".join(f'<span style="--w:{i}">{w}</span>' for i, w in enumerate(words))
     tiles = "".join(
         f'<a class="tile reveal" href="/service/{s["slug"]}/">{img("svc-" + s["slug"], "", "(max-width: 600px) 50vw, (max-width: 860px) 50vw, 380px")}'
@@ -596,7 +734,7 @@ def build_home():
 <section class="hero"><span class="hero__blob hero__blob--a" aria-hidden="true"></span><span class="hero__blob hero__blob--b" aria-hidden="true"></span><div class="container">
   <div>
     <span class="eyebrow hero-in" style="--d:0">{e(h["eyebrow"])}</span>
-    <h1><span class="h1-kicker hero-in" style="--d:1">Gynecology, Maternity &amp; Ayurveda Clinic in Khanvel, Silvassa</span><span class="sr-only">Ayurveda and modern gynecology for pregnancy, fertility, PCOS, motherhood and menopause</span><span class="hero-in hero-title" style="--d:2" aria-hidden="true">Expert care for <span class="rotator-wrap"><span class="rotator">{rotator}</span><svg class="swash__line" viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M3 11C46 3 120 2 197 9"/></svg></span></span></h1>
+    <h1><span class="h1-kicker hero-in" style="--d:1">Gynecology, Maternity &amp; Ayurveda Clinic in Khanvel, Silvassa</span><span class="sr-only">Ayurveda and modern gynecology for pregnancy, fertility, PCOS, motherhood and menopause</span><span class="hero-in hero-title" style="--d:2" aria-hidden="true">{e(t("Expert care for"))} <span class="rotator-wrap"><span class="rotator">{rotator}</span><svg class="swash__line" viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M3 11C46 3 120 2 197 9"/></svg></span></span></h1>
     <p class="hero__lead hero-in" style="--d:4">Ayurveda + modern gynecology · IMS–BHU trained specialists</p>
     <div class="hero__cta hero-in" style="--d:5">
       <a class="btn btn--coral" href="/appointment/">{icon("calendar")} Book Appointment</a>
@@ -736,7 +874,7 @@ def build_services():
         url = f"/service/{s['slug']}/"
         trail = [("Home", "/"), ("Services", "/services/"), (s["title"], url)]
         cta = (f'<a class="btn btn--coral" href="/appointment/?service={s["slug"]}">{icon("calendar")} Book for this service</a>'
-               f'<a class="btn btn--wa" href="{wa_link("Namaste, I would like to know more about " + s["title"] + ".")}" target="_blank" rel="noopener">{icon("whatsapp")} Ask a question</a>')
+               f'<a class="btn btn--wa" href="{wa_link(t("Namaste, I would like to know more about {x}.").replace("{x}", s["title"]))}" target="_blank" rel="noopener">{icon("whatsapp")} Ask a question</a>')
         nav = "".join(
             f'<li><a href="/service/{o["slug"]}/"{" aria-current=page" if o is s else ""}>{e(o["title"])}{icon("chev-right")}</a></li>' for o in SERVICES)
         body = f'''
@@ -750,7 +888,7 @@ def build_services():
     <p class="closing reveal">Creating <span class="deva">श्रेयसी प्रजा</span> — healthy mothers, strong families, and a balanced society.</p>
   </div>
   <aside class="aside">
-    {book_aside("In-clinic visits in Khanvel and online consultations available.", f"/appointment/?service={s['slug']}", "Namaste, I would like to book a consultation for " + s["title"] + ".")}
+    {book_aside("In-clinic visits in Khanvel and online consultations available.", f"/appointment/?service={s['slug']}", t("Namaste, I would like to book a consultation for {x}.").replace("{x}", s["title"]))}
     {tool_aside(s["slug"])}
     <div class="aside-card"><h3>Specialists</h3>{mini_docs(s["doctors"])}</div>
     <div class="aside-card"><h3>All services</h3><ul class="aside-nav">{nav}</ul></div>
@@ -759,7 +897,7 @@ def build_services():
 {cta_band()}
 '''
         ld = {"@context": "https://schema.org", "@type": "MedicalWebPage", "name": s["title"], "about": {"@type": "MedicalTherapy", "name": s["title"]},
-              "description": s["short"], "url": SITE["url"] + url, "provider": {"@id": SITE["url"] + "/#clinic"}}
+              "description": s["short"], "url": SITE["url"] + lpath(url), "inLanguage": LANG_META[LANG]["html"], "provider": {"@id": SITE["url"] + "/#clinic"}}
         seo = SEO["services"][s["slug"]]
         page(url, seo["title"], seo["description"], body,
              extra_ld=[breadcrumb_ld(trail), ld, faq_ld(seo["faqs"])], og_image=f"svc-{s['slug']}", preload=f"svc-{s['slug']}")
@@ -767,7 +905,7 @@ def build_services():
 
 def build_doctors():
     trail = [("Home", "/"), ("Doctors", "/doctors/")]
-    chips = "".join(f'<button class="chip" type="button" data-filter="{k}" aria-pressed="{str(k == "all").lower()}">{e(v)}</button>' for k, v in FILTERS)
+    chips = "".join(f'<button class="chip" type="button" data-filter="{k}" aria-pressed="{str(k == "all").lower()}">{e(t(v))}</button>' for k, v in FILTERS)
     body = f'''
 {page_hero("Our Doctors", "Experienced, IMS–BHU trained specialists delivering compassionate, integrative care for women, families and children.", trail, eyebrow="Meet the team")}
 <section class="section"><div class="container">
@@ -778,6 +916,8 @@ def build_doctors():
 '''
     page("/doctors/", "Our Doctors", "Meet the Suvacha Healthcare team — obstetricians, gynaecologists, infertility, Panchakarma, paediatric, surgical and yoga specialists trained at IMS–BHU.",
          body, extra_ld=[breadcrumb_ld(trail)])
+    if LANG != "en":
+        return  # doctor profiles are English-only for now
 
     for d in DOCTORS:
         url = f"/doctor/{d['slug']}/"
@@ -828,15 +968,15 @@ def build_doctors():
               "address": clinic_ld()["address"], "isAcceptingNewPatients": True,
               "worksFor": {"@id": SITE["url"] + "/#clinic"}, "telephone": SITE["phone"]}
         kw = SEO["doctors"][d["slug"]]
-        t = f"{name} – {kw}, Khanvel | Suvacha"
-        if len(t) > 70:
-            t = f"{name} – {kw}, Khanvel"
+        title_ = f"{name} – {kw}, Khanvel | Suvacha"
+        if len(title_) > 70:
+            title_ = f"{name} – {kw}, Khanvel"
         desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. {d['qualification']}. Book in-clinic or online."
         if len(desc) > 158:
             desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. {d['qualification']}."
         if len(desc) > 158:
             desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. Book in-clinic or online."
-        page(url, t, desc, body, extra_ld=[breadcrumb_ld(trail), ld], og_image=f"dr-{d['slug']}", preload=f"dr-{d['slug']}", suffix=False)
+        page(url, title_, desc, body, extra_ld=[breadcrumb_ld(trail), ld], og_image=f"dr-{d['slug']}", preload=f"dr-{d['slug']}", suffix=False)
 
 
 def build_appointment():
@@ -1011,13 +1151,14 @@ def post_card(p, compact=False):
     return f'''<a class="svc-card post-card reveal" href="/blog/{p["slug"]}/" data-tags="{p["cat_slug"]}">
   <div class="svc-card__img">{img(p["image"], "", "(max-width: 600px) 100vw, (max-width: 860px) 50vw, 380px")}</div>
   <div class="svc-card__body"><span class="post-card__cat">{e(p["category"])}</span><h3>{e(p["title"])}</h3>{desc}
-  <span class="post-card__meta">{icon("clock")} {p["minutes"]} min read</span></div></a>'''
+  <span class="post-card__meta">{icon("clock")} {e(t("{n} min read").replace("{n}", str(p["minutes"])))}</span></div></a>'''
 
 
 def blog_section(compact=False):
     cards = "".join(post_card(p, compact) for p in POSTS[:3])
+    note = "" if LANG == "en" else f'<p>{e(t("Articles are currently in English."))}</p>'
     return f'''<section class="section section--white"><div class="container">
-  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Health tips</span><h2>Guidance from our doctors’ desk</h2></div>
+  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Health tips</span><h2>Guidance from our doctors’ desk</h2>{note}</div>
   <a class="btn btn--ghost" href="/blog/">All articles {icon("arrow")}</a></div>
   <div class="services-grid">{cards}</div>
 </div></section>'''
@@ -1042,7 +1183,7 @@ def reviews_section():
   <p>Your review helps other families find trusted care.</p></div>
   <div class="review-cta__actions">
     <a class="btn btn--coral" href="{review_url}" target="_blank" rel="noopener">★ Write a Google review</a>
-    <a class="btn btn--ghost" href="{wa_link("Namaste, I would like to share feedback about my visit.")}" target="_blank" rel="noopener">{icon("whatsapp")} Share feedback privately</a>
+    <a class="btn btn--ghost" href="{wa_link(t("Namaste, I would like to share feedback about my visit."))}" target="_blank" rel="noopener">{icon("whatsapp")} Share feedback privately</a>
   </div></div></div></section>'''
 
 
@@ -1121,8 +1262,8 @@ def build_blog():
         if rv:
             ld["reviewedBy"] = {"@id": f"{SITE['url']}/doctor/{rv['slug']}/#physician"}
         ld = {k: v for k, v in ld.items() if v is not None}
-        t = f"{p['title']} | Suvacha" if len(p["title"]) <= 56 else p["title"]
-        page(url, t, p["description"], body, extra_ld=[breadcrumb_ld(trail), ld],
+        title_ = f"{p['title']} | Suvacha" if len(p["title"]) <= 56 else p["title"]
+        page(url, title_, p["description"], body, extra_ld=[breadcrumb_ld(trail), ld],
              og_image=p["image"], og_type="article", published=p["date"], suffix=False)
 
 
@@ -1152,7 +1293,8 @@ def llms_txt():
              f"- Hours: {hours}",
              "- Founder & Clinical Director: Dr. Sachin Ladak Shedad, MS (PTSR) – IMS, Banaras Hindu University; FMAS – MUHS",
              "- Approach: modern obstetrics & gynecology integrated with classical Ayurveda; normal delivery preferred when medically safe",
-             "- Consultations: in-clinic in Khanvel and online", "",
+             "- Consultations: in-clinic in Khanvel and online",
+             f"- Languages: English, Hindi ({SITE['url']}/hi/), Marathi ({SITE['url']}/mr/)", "",
              "## Services"]
     lines += [f"- [{s['title']}]({SITE['url']}/service/{s['slug']}/): {s['short']}" for s in SERVICES]
     lines += ["", "## Doctors"]
@@ -1178,8 +1320,12 @@ def build_og_images():
 
 
 def build_meta(paths):
-    urls = "".join(f"<url><loc>{SITE['url']}{p}</loc><lastmod>{TODAY}</lastmod></url>" for p in paths)
-    (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
+    def entry(loc, p):
+        alts = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{SITE["url"]}{lpath(p, l)}"/>' for l in LANGS) if translated(p) else ""
+        return f"<url><loc>{SITE['url']}{loc}</loc><lastmod>{TODAY}</lastmod>{alts}</url>"
+    urls = "".join(entry(lpath(p, l), p) for p in paths for l in LANGS if l == "en" or translated(p))
+    (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+                                     f'xmlns:xhtml="http://www.w3.org/1999/xhtml">{urls}</urlset>\n')
     (OUT / "_headers").write_text("""/*
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
@@ -1220,21 +1366,31 @@ def main():
     (OUT / "assets").mkdir(parents=True)
     for d in ("css", "js", "img"):
         shutil.copytree(SRC / d, OUT / "assets" / d)
-    build_home()
-    build_about()
-    build_services()
-    build_doctors()
-    build_appointment()
-    build_contact()
-    build_tools()
-    build_blog()
-    build_404()
+    for lang in LANGS:
+        set_lang(lang)
+        build_home()
+        build_about()
+        build_services()
+        build_doctors()
+        build_appointment()
+        build_contact()
+        build_tools()
+        if lang == "en":
+            build_blog()
+            build_404()
+    set_lang("en")
     paths = ["/", "/about/", "/services/", "/doctors/", "/appointment/", "/contact/", "/pregnancy-tools/"]
     paths += [f"/service/{s['slug']}/" for s in SERVICES] + [f"/doctor/{d['slug']}/" for d in DOCTORS]
     paths += ["/blog/"] + [f"/blog/{p['slug']}/" for p in POSTS]
     build_meta(paths)
     build_og_images()
-    print(f"Built {len(paths) + 1} pages into {OUT.relative_to(ROOT)}/")
+    n_tr = sum(1 for p in paths if translated(p))
+    print(f"Built {len(paths) + 1} English pages + {n_tr} each in Hindi and Marathi into {OUT.relative_to(ROOT)}/")
+    for lang, miss in MISSING.items():
+        if miss:
+            print(f"  {lang}: {len(miss)} untranslated phrases (see build/missing-{lang}.json)")
+            (ROOT / "build").mkdir(exist_ok=True)
+            (ROOT / "build" / f"missing-{lang}.json").write_text(json.dumps(miss, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":

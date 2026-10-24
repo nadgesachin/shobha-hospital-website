@@ -31,7 +31,8 @@
       ],
       "open": "08:00",
       "close": "19:00",
-      "label": "8:00 AM – 7:00 PM"
+      "label": "8:00 AM – 7:00 PM",
+      "short": "Mon–Fri"
     },
     {
       "days": "Saturday",
@@ -40,7 +41,8 @@
       ],
       "open": "10:00",
       "close": "17:00",
-      "label": "10:00 AM – 5:00 PM"
+      "label": "10:00 AM – 5:00 PM",
+      "short": "Sat"
     },
     {
       "days": "Sunday",
@@ -49,7 +51,8 @@
       ],
       "open": "10:00",
       "close": "14:00",
-      "label": "10:00 AM – 2:00 PM"
+      "label": "10:00 AM – 2:00 PM",
+      "short": "Sun"
     }
   ],
   "about_short": "Suvacha Healthcare is a women-focused wellness centre integrating modern obstetrics, gynecology and classical Ayurveda — supporting women from menstrual health and fertility to pregnancy, motherhood and menopause with compassion, clarity and personalised care.",
