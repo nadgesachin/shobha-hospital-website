@@ -394,19 +394,22 @@ def doctor_card(d, tag="a"):
   <p class="doc-card__qual">{e(d["qualification"])}</p></div></a>'''
 
 
-def journey():
-    items = "".join(
-        f'<li class="reveal"><a href="/service/{j["service"]}/"><span class="journey__dot" aria-hidden="true"></span>'
-        f'<h3>{e(j["stage"])}</h3><p>{e(j["text"])}</p></a></li>' for j in SITE["journey"])
-    return f'''<section class="section"><div class="container">
+def journey(compact=False):
+    def item(j):
+        text = "" if compact else f"<p>{e(j['text'])}</p>"
+        return (f'<li class="reveal"><a href="/service/{j["service"]}/"><span class="journey__dot" aria-hidden="true"></span>'
+                f'<h3>{e(j["stage"])}</h3>{text}</a></li>')
+    items = "".join(item(j) for j in SITE["journey"])
+    lead = "" if compact else "<p>Suvacha supports women from adolescence to fertility, pregnancy, childbirth, postnatal care and menopause.</p>"
+    return f'''<section class="section {"section--white" if compact else ""}"><div class="container">
   <div class="section-head section-head--center reveal"><span class="eyebrow">Care for every stage</span>
   <h2>With you through every phase of life</h2>
-  <p>Suvacha supports women from adolescence to fertility, pregnancy, childbirth, postnatal care and menopause.</p></div>
-  <ol class="journey reveal-line">{items}</ol>
+  {lead}</div>
+  <ol class="journey reveal-line{" journey--compact" if compact else ""}">{items}</ol>
 </div></section>'''
 
 
-def booking_form(heading=True, id_="book"):
+def booking_form(heading=True, id_="book", compact=False):
     svc_opts = "".join(f'<option value="{s["slug"]}">{e(s["title"])}</option>' for s in SERVICES)
     doc_opts = "".join(f'<option value="{d["slug"]}">{e(dr_name(d))} — {e(d["specialty"])}</option>' for d in DOCTORS)
     hours = "".join(f'<li><div><span class="ci">{icon("clock")}</span><span><small>{e(h["days"])}</small><strong>{e(h["label"])}</strong></span></div></li>' for h in SITE["hours"][:1])
@@ -415,7 +418,7 @@ def booking_form(heading=True, id_="book"):
     return f'''<div class="booking reveal" id="{id_}">
   <div class="booking__aside">
     {head}
-    <p>Whether you are seeking support for menstrual health, fertility, pregnancy or overall wellness, our team is here to guide you with compassion, clarity and personalised care.</p>
+    {"" if compact else "<p>Whether you are seeking support for menstrual health, fertility, pregnancy or overall wellness, our team is here to guide you with compassion, clarity and personalised care.</p>"}
     <ul class="contact-lines">
       <li><a href="{TEL}"><span class="ci">{icon("phone")}</span><span><small>Appointments</small><strong>{e(SITE["phone_display"])}</strong></span></a></li>
       <li><a href="{EMERG}"><span class="ci">{icon("phone")}</span><span><small>Emergency</small><strong>{e(SITE["emergency_display"])}</strong></span></a></li>
@@ -509,8 +512,14 @@ def cta_band(title="Ready to begin your care journey?", text="Book an in-clinic 
   </div></div></div></section>'''
 
 
+def stat_html(s):
+    """A stat tile; numeric values get data-count so the JS can count them up."""
+    count = f' data-count="{s["value"]}"' if s["value"].isdigit() else ""
+    return f'<div class="stat"><strong{count}>{e(s["value"])}</strong><span>{e(s["label"])}</span></div>'
+
+
 def why_section(with_stats=True):
-    stats = "".join(f'<div class="stat"><strong{" data-count=" + chr(34) + s["value"] + chr(34) if s["value"].isdigit() else ""}>{e(s["value"])}</strong><span>{e(s["label"])}</span></div>' for s in SITE["stats"])
+    stats = "".join(stat_html(s) for s in SITE["stats"])
     why = "".join(f'<div class="why reveal"><div class="why__icon">{icon(w["icon"])}</div><h3>{e(w["title"])}</h3><p>{e(w["text"])}</p></div>' for w in SITE["why"])
     stats_html = f'<div class="stats reveal" style="margin-bottom:64px">{stats}</div>' if with_stats else ""
     return f'''<section class="section section--green"><div class="container">
@@ -571,32 +580,38 @@ def mini_docs(slugs):
 # ---------------------------------------------------------------- pages
 def build_home():
     h = SITE["hero"]
-    title_html = e(h["title"]).replace("Ayurveda", '<em class="swash">Ayurveda<svg class="swash__line" viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 11C46 3 120 2 197 9"/></svg></em>')
-    pillars = "".join(f'<div class="pillar reveal"><div class="pillar__icon">{icon(p["icon"])}</div><h3>{e(p["title"])}</h3><p>{e(p["text"])}</p></div>' for p in SITE["pillars"])
-    services = "".join(service_card(s) for s in SERVICES)
+    words = ["Pregnancy", "Fertility", "PCOS", "Motherhood", "Menopause"]
+    rotator = "".join(f'<span style="--w:{i}">{w}</span>' for i, w in enumerate(words))
+    tiles = "".join(
+        f'<a class="tile reveal" href="/service/{s["slug"]}/">{img("svc-" + s["slug"], "", "(max-width: 600px) 50vw, (max-width: 860px) 50vw, 380px")}'
+        f'<span class="tile__label"><h3>{e(s["title"])}</h3><span class="tile__go">{icon("arrow")}</span></span></a>' for s in SERVICES)
+    marquee_items = ["Pregnancy Care", "Normal Delivery", "PCOS / PCOD", "Infertility", "Garbhasanskar", "Panchakarma",
+                     "Laparoscopy", "Menopause Care", "Child Wellness", "Male Fertility", "Yoga Therapy"]
+    group = "".join(f'<span class="marquee__item">{e(x)}</span>' for x in marquee_items)
     docs = "".join(doctor_card(d) for d in DOCTORS)
-    founder = DOC_BY["sachin"]
+    why = "".join(f'<div class="why-mini__item reveal"><div class="why__icon">{icon(w["icon"])}</div><h3>{e(w["title"])}</h3></div>' for w in SITE["why"])
+    stats = "".join(stat_html(s) for s in SITE["stats"])
+    faqs = SITE["faqs"][:4]
     body = f'''
 <section class="hero"><span class="hero__blob hero__blob--a" aria-hidden="true"></span><span class="hero__blob hero__blob--b" aria-hidden="true"></span><div class="container">
   <div>
     <span class="eyebrow hero-in" style="--d:0">{e(h["eyebrow"])}</span>
-    <h1><span class="h1-kicker hero-in" style="--d:1">Gynecology, Maternity &amp; Ayurveda Clinic in Khanvel, Silvassa</span><span class="hero-in" style="--d:2">{title_html}</span></h1>
-    <p class="hero__lead hero-in" style="--d:4">{e(h["lead"])}</p>
+    <h1><span class="h1-kicker hero-in" style="--d:1">Gynecology, Maternity &amp; Ayurveda Clinic in Khanvel, Silvassa</span><span class="sr-only">Ayurveda and modern gynecology for pregnancy, fertility, PCOS, motherhood and menopause</span><span class="hero-in hero-title" style="--d:2" aria-hidden="true">Expert care for <span class="rotator-wrap"><span class="rotator">{rotator}</span><svg class="swash__line" viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M3 11C46 3 120 2 197 9"/></svg></span></span></h1>
+    <p class="hero__lead hero-in" style="--d:4">Ayurveda + modern gynecology · IMS–BHU trained specialists</p>
     <div class="hero__cta hero-in" style="--d:5">
       <a class="btn btn--coral" href="/appointment/">{icon("calendar")} Book Appointment</a>
       <a class="btn btn--wa" href="{wa_link()}" target="_blank" rel="noopener">{icon("whatsapp")} WhatsApp Us</a>
-      <a class="btn btn--ghost" href="/doctor/sachin/">Meet the Doctor {icon("arrow")}</a>
     </div>
     <ul class="hero__trust">
       <li class="hero-in" style="--d:6">{icon("check-circle")} Normal delivery first</li>
-      <li class="hero-in" style="--d:7">{icon("check-circle")} IMS–BHU trained specialists</li>
+      <li class="hero-in" style="--d:7">{icon("check-circle")} 11 specialists</li>
       <li class="hero-in" style="--d:8">{icon("check-circle")} Online &amp; in-clinic</li>
     </ul>
   </div>
   <div class="hero__media" data-parallax>
     <div class="hero__img">{img("hero", "A Suvacha gynecologist consulting with a pregnant woman", "(max-width: 860px) 90vw, 480px", eager=True)}</div>
-    <a class="float-card float-card--a float-in" style="--d:6" href="{EMERG}"><span class="float-card__icon">{icon("phone")}</span><span>Emergency contact<strong>{e(SITE["emergency_display"])}</strong></span></a>
-    <div class="float-card float-card--b float-in" style="--d:8"><span class="float-card__icon">{icon("users")}</span><span><strong>11 specialists</strong>Ayurveda + modern care</span></div>
+    <a class="float-card float-card--a float-in" style="--d:6" href="{EMERG}"><span class="float-card__icon">{icon("phone")}</span><span>Emergency<strong>{e(SITE["emergency_display"])}</strong></span></a>
+    <div class="float-card float-card--b float-in" style="--d:8"><span class="float-card__icon">{icon("users")}</span><span><strong>11 specialists</strong>Ayurveda + modern</span></div>
   </div>
 </div></section>
 
@@ -607,51 +622,34 @@ def build_home():
   <a class="info-strip__item" href="#location"><span class="info-strip__icon info-strip__icon--coral">{icon("pin")}</span><span><small>Location</small><strong>{e(SITE["address"]["short"])}</strong></span></a>
 </div></div></div>
 
+<div class="marquee" role="presentation"><div class="marquee__track"><div class="marquee__group">{group}</div><div class="marquee__group" aria-hidden="true">{group}</div></div></div>
+
 <section class="section"><div class="container">
-  <div class="section-head section-head--center reveal"><span class="eyebrow">Holistic care</span><h2>Holistic women’s healthcare you can trust</h2></div>
-  <div class="pillars">{pillars}</div>
-</div></section>
-
-<section class="section section--white"><div class="container split">
-  <div class="collage reveal">
-    {img("about-1", "Mother cradling her newborn", "(max-width: 860px) 55vw, 320px", "collage__a")}
-    {img("about-3", "Doctor consultation at Suvacha", "(max-width: 860px) 40vw, 240px", "collage__b")}
-    <span class="collage__badge">श्रेयसी प्रजा</span>
-  </div>
-  <div class="reveal">
-    <span class="eyebrow">About Suvacha</span>
-    <h2>Ayurveda’s wisdom, modern medicine’s precision</h2>
-    {"".join(f"<p>{e(p)}</p>" for p in SITE["about"])}
-    <ul class="checklist">{"".join(f"<li>{icon('check-circle')}<span>{e(v)}</span></li>" for v in SITE["values"][1:4])}</ul>
-    <a class="btn btn--ghost" href="/about/">Our story {icon("arrow")}</a>
-  </div>
-</div></section>
-
-<section class="section section--sand"><div class="container">
-  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Our services</span><h2>Comprehensive care, personalised for you</h2>
-  <p>Comprehensive, personalised care designed to support women’s health, fertility and wellness at every stage of life.</p></div>
+  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Our services</span><h2>What we care for</h2></div>
   <a class="btn btn--ghost" href="/services/">All services {icon("arrow")}</a></div>
-  <div class="services-grid">{services}</div>
+  <div class="tiles">{tiles}</div>
 </div></section>
 
-{journey()}
+{journey(compact=True)}
 
-{tools_promo()}
+<section class="section--tight"><div class="container"><div class="due reveal">
+  <span class="due__ring" aria-hidden="true">{icon("baby")}</span>
+  <div><h2>Pregnant? Know your due date</h2><p>Plus your personal scan schedule — in 10 seconds.</p></div>
+  <a class="btn btn--light" href="/pregnancy-tools/#due-date">Calculate {icon("arrow")}</a>
+</div></div></section>
 
-<section class="section section--sand"><div class="container founder">
+<section class="section section--sand"><div class="container founder founder--short">
   <div class="founder__photo reveal">{img("dr-sachin", "Dr. Sachin Ladak Shedad", "(max-width: 860px) 90vw, 440px")}</div>
   <div class="reveal">
-    <span class="eyebrow">Founder’s message</span>
-    <blockquote>{e(SITE["founder_message"])}</blockquote>
-    <p class="founder__name"><strong>Dr. Sachin Ladak Shedad</strong><span>Founder &amp; Clinical Director · {e(founder["qualification"])}</span></p>
-    <ul class="tags"><li>High-risk pregnancy</li><li>Laparoscopic surgery</li><li>Hysteroscopy</li><li>Infertility</li><li>Normal &amp; caesarean delivery</li></ul>
-    <a class="btn" href="/doctor/sachin/">View full profile {icon("arrow")}</a>
+    <span class="eyebrow">Founder</span>
+    <blockquote>A healthy woman creates a healthy society.</blockquote>
+    <p class="founder__name"><strong>Dr. Sachin Ladak Shedad</strong><span>Obstetrician &amp; Gynaecologist (Ay) · IMS–BHU</span></p>
+    <a class="btn" href="/doctor/sachin/">Meet Dr. Sachin {icon("arrow")}</a>
   </div>
 </div></section>
 
 <section class="section section--white"><div class="container" data-slider>
-  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Our team</span><h2>Doctors you can trust</h2>
-  <p>Experienced doctors delivering compassionate, integrative women’s and family healthcare.</p></div>
+  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Our team</span><h2>Doctors you can trust</h2></div>
   <div style="display:flex;gap:12px;align-items:center"><div class="slider-nav">
     <button class="slider-btn" type="button" data-dir="-1" aria-label="Previous doctors">{icon("arrow-left")}</button>
     <button class="slider-btn" type="button" data-dir="1" aria-label="Next doctors">{icon("arrow")}</button></div>
@@ -659,19 +657,23 @@ def build_home():
   <div class="slider">{docs}</div>
 </div></section>
 
-{why_section()}
+<section class="section section--green"><div class="container">
+  <div class="stats reveal" style="margin-bottom:56px">{stats}</div>
+  <div class="section-head section-head--center reveal"><span class="eyebrow">Why Suvacha</span><h2>Why families choose us</h2></div>
+  <div class="why-mini">{why}</div>
+</div></section>
 
-<section class="section"><div class="container">{booking_form()}</div></section>
+<section class="section"><div class="container">{booking_form(compact=True)}</div></section>
 
-{blog_section()}
+{blog_section(compact=True)}
 
 {reviews_section()}
 
-{faq_section(SITE["faqs"])}
+{faq_section(faqs)}
 
 {map_section()}
 '''
-    page("/", "", "", body, extra_ld=[faq_ld(SITE["faqs"])], preload="hero")
+    page("/", "", "", body, extra_ld=[faq_ld(faqs)], preload="hero")
 
 
 def build_about():
@@ -1004,18 +1006,18 @@ def load_posts():
 POSTS = load_posts()
 
 
-def post_card(p):
+def post_card(p, compact=False):
+    desc = "" if compact else f"<p>{e(p['description'])}</p>"
     return f'''<a class="svc-card post-card reveal" href="/blog/{p["slug"]}/" data-tags="{p["cat_slug"]}">
   <div class="svc-card__img">{img(p["image"], "", "(max-width: 600px) 100vw, (max-width: 860px) 50vw, 380px")}</div>
-  <div class="svc-card__body"><span class="post-card__cat">{e(p["category"])}</span><h3>{e(p["title"])}</h3><p>{e(p["description"])}</p>
+  <div class="svc-card__body"><span class="post-card__cat">{e(p["category"])}</span><h3>{e(p["title"])}</h3>{desc}
   <span class="post-card__meta">{icon("clock")} {p["minutes"]} min read</span></div></a>'''
 
 
-def blog_section():
-    cards = "".join(post_card(p) for p in POSTS[:3])
+def blog_section(compact=False):
+    cards = "".join(post_card(p, compact) for p in POSTS[:3])
     return f'''<section class="section section--white"><div class="container">
-  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Health tips</span><h2>Guidance from our doctors’ desk</h2>
-  <p>Simple, trustworthy information on women’s health, pregnancy and fertility.</p></div>
+  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Health tips</span><h2>Guidance from our doctors’ desk</h2></div>
   <a class="btn btn--ghost" href="/blog/">All articles {icon("arrow")}</a></div>
   <div class="services-grid">{cards}</div>
 </div></section>'''
@@ -1037,7 +1039,7 @@ def reviews_section():
     return f'''<section class="section"><div class="container"><div class="review-cta reveal">
   <div class="review-cta__stars" aria-hidden="true">★★★★★</div>
   <div><span class="eyebrow">Your voice matters</span><h2>Had a good experience at Suvacha?</h2>
-  <p>A short Google review helps other mothers and families in Khanvel, Silvassa and nearby find trusted care. It takes less than a minute.</p></div>
+  <p>Your review helps other families find trusted care.</p></div>
   <div class="review-cta__actions">
     <a class="btn btn--coral" href="{review_url}" target="_blank" rel="noopener">★ Write a Google review</a>
     <a class="btn btn--ghost" href="{wa_link("Namaste, I would like to share feedback about my visit.")}" target="_blank" rel="noopener">{icon("whatsapp")} Share feedback privately</a>

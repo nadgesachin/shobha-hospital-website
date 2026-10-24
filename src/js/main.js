@@ -95,7 +95,7 @@
   var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Stagger: siblings inside a grid reveal one after another ---------- */
-  $$(".pillars, .services-grid, .doctors-grid, .slider, .why-grid, .journey, .tool-promos, .contact-cards, .mv-grid, .reviews").forEach(function (grid) {
+  $$(".pillars, .services-grid, .tiles, .doctors-grid, .slider, .why-grid, .why-mini, .journey, .tool-promos, .contact-cards, .mv-grid, .reviews").forEach(function (grid) {
     var i = 0;
     Array.prototype.forEach.call(grid.children, function (el) {
       if (el.classList.contains("reveal")) el.style.setProperty("--i", i++);
