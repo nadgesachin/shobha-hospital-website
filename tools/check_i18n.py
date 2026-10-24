@@ -97,19 +97,53 @@ def main(lang):
         for slug in seo_en["services"]:
             if slug not in seo.get("services", {}):
                 err(f"seo.services.{slug}: missing")
-        same_shape("seo", {"pages": seo_en["pages"], "services": seo_en["services"]}, seo)
+        same_shape("seo", {"pages": seo_en["pages"], "services": seo_en["services"]},
+                   {k: v for k, v in seo.items() if k in ("pages", "services")})
 
     docs = load(lang, "doctors")
     if docs is not None:
+        for slug, en in doc_en.items():
+            tr = docs.get(slug, {})
+            fields = ["specialty", "role", "bio", "sections", "closing"] + (["roles2"] if en.get("roles2") else [])
+            for k in fields:
+                if k not in tr:
+                    err(f"doctors.{slug}.{k}: missing")
+            same_shape(f"doctors.{slug}", {k: en[k] for k in fields}, {k: v for k, v in tr.items() if k in fields})
         for slug in doc_en:
-            if "specialty" not in docs.get(slug, {}):
-                err(f"doctors.{slug}.specialty: missing")
-            else:
-                deva(f"doctors.{slug}.specialty", docs[slug]["specialty"])
+            if slug not in seo.get("doctors", {}) if seo else False:
+                err(f"seo.doctors.{slug}: missing (title keyword)")
 
-    for name, keyfile in (("strings", "strings-keys.json"), ("js", "js-keys.json")):
+    blog_en = sorted((C / "blog").glob("*.md"))
+    for f in blog_en:
+        tr = C / "i18n" / lang / "blog" / f.name
+        if not tr.exists():
+            err(f"blog/{f.name}: missing translation")
+            continue
+        raw_en, raw_tr = f.read_text(), tr.read_text()
+        try:
+            _, fm, body = raw_tr.split("---", 2)
+        except ValueError:
+            err(f"blog/{f.name}: front matter missing")
+            continue
+        for key in ("title", "description", "category"):
+            m = re.search(rf"^{key}: (.+)$", fm, re.M)
+            if not m:
+                err(f"blog/{f.name}: front matter '{key}' missing")
+            else:
+                deva(f"blog/{f.name}:{key}", m.group(1))
+        body_en = raw_en.split("---", 2)[2]
+        for mark, name in (("## ", "h2"), ("### ", "h3"), ("- ", "list items"), ("> ", "callouts")):
+            a = sum(1 for l in body_en.splitlines() if l.startswith(mark))
+            b = sum(1 for l in body.splitlines() if l.startswith(mark))
+            if a != b:
+                err(f"blog/{f.name}: {name} count {b} != English {a}")
+        for url in re.findall(r"\]\((/[^)]+)\)", body_en):
+            if f"]({url})" not in body:
+                err(f"blog/{f.name}: internal link {url} missing")
+
+    for name, keyfiles in (("strings", ("strings-keys.json", "strings-keys-2.json")), ("js", ("js-keys.json",))):
         table = load(lang, name)
-        keys = json.loads((ROOT / "build" / keyfile).read_text())
+        keys = [k for kf in keyfiles for k in json.loads((ROOT / "build" / kf).read_text())]
         if table is None:
             continue
         for k in keys:

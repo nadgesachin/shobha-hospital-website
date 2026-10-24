@@ -58,6 +58,7 @@ def _load_i18n(lang):
 
 I18N = {l: _load_i18n(l) for l in LANGS[1:]}
 SITE_EN, SERVICES_EN, DOCTORS_EN, SEO_EN = (copy.deepcopy(x) for x in (SITE, SERVICES, DOCTORS, SEO))
+DOC_EN_BY = {d["slug"]: d for d in DOCTORS_EN}
 MISSING = {}  # lang -> {english text: first page seen}, reported after a build
 UNIVERSITIES = {"BHU": "Banaras Hindu University", "MUHS": "Maharashtra University of Health Sciences",
                 "GAMC, Bengaluru": "Government Ayurveda Medical College, Bengaluru"}
@@ -95,7 +96,7 @@ def merge(base, over):
 
 def set_lang(lang):
     """Switch the content globals that every builder reads to one language."""
-    global LANG, SITE, SERVICES, SVC_BY, DOCTORS, DOC_BY, SEO
+    global LANG, SITE, SERVICES, SVC_BY, DOCTORS, DOC_BY, SEO, POSTS
     LANG = lang
     tr = I18N.get(lang, {})
     SITE = merge(SITE_EN, tr.get("site", {}))
@@ -104,6 +105,7 @@ def set_lang(lang):
     DOCTORS = [merge(d, tr.get("doctors", {}).get(d["slug"], {})) for d in DOCTORS_EN]
     DOC_BY = {d["slug"]: d for d in DOCTORS}
     SEO = merge(SEO_EN, tr.get("seo", {}))
+    POSTS = load_posts(lang)
 
 
 def t(s):
@@ -114,8 +116,8 @@ def t(s):
 def translated(path):
     """English paths that also exist as /hi/… and /mr/… pages."""
     base = path.split("?")[0].split("#")[0]
-    return base in ("/", "/about/", "/services/", "/doctors/", "/appointment/", "/contact/", "/pregnancy-tools/") \
-        or base.startswith("/service/")
+    return base in ("/", "/about/", "/services/", "/doctors/", "/appointment/", "/contact/", "/pregnancy-tools/", "/blog/") \
+        or base.startswith(("/service/", "/doctor/", "/blog/"))
 
 
 def lpath(path, lang=None):
@@ -125,10 +127,8 @@ def lpath(path, lang=None):
 
 
 def alt_url(lang, path):
-    """Where the language switcher points: the same page, or its closest translated parent."""
-    if translated(path) or lang == "en":
-        return lpath(path, lang)
-    return lpath("/doctors/" if path.startswith("/doctor/") else "/", lang)
+    """Where the language switcher points: the same page, or the home page when it has no translation."""
+    return lpath(path if translated(path) else "/", lang)
 
 
 def wa_link(text=None):
@@ -916,8 +916,6 @@ def build_doctors():
 '''
     page("/doctors/", "Our Doctors", "Meet the Suvacha Healthcare team — obstetricians, gynaecologists, infertility, Panchakarma, paediatric, surgical and yoga specialists trained at IMS–BHU.",
          body, extra_ld=[breadcrumb_ld(trail)])
-    if LANG != "en":
-        return  # doctor profiles are English-only for now
 
     for d in DOCTORS:
         url = f"/doctor/{d['slug']}/"
@@ -926,7 +924,7 @@ def build_doctors():
         services = [s for s in SERVICES if d["slug"] in s["doctors"]]
         facts = [f'<li>{icon("graduation")}{e(d["qualification"])}</li>', f'<li>{icon("stethoscope")}{e(d["specialty"])}</li>']
         if d["online"]:
-            facts.append(f'<li>{icon("video")}Online consultations</li>')
+            facts.append(f'<li>{icon("video")}{t("Online consultations")}</li>')
         roles2 = f'<p class="profile-hero__roles2">{e(d["roles2"])}</p>' if d.get("roles2") else ""
         others = [o["slug"] for o in DOCTORS if o is not d][:4]
         svc_list = "".join(f'<li><a href="/service/{s["slug"]}/">{e(s["title"])}{icon("chev-right")}</a></li>' for s in services)
@@ -942,8 +940,8 @@ def build_doctors():
       {"".join(f"<p>{e(p)}</p>" for p in d["bio"])}
       <ul class="facts">{"".join(facts)}</ul>
       <div class="page-hero__cta">
-        <a class="btn btn--coral" href="/appointment/?doctor={d["slug"]}">{icon("calendar")} Book with {e(name)}</a>
-        <a class="btn btn--wa" href="{wa_link("Namaste, I would like to consult " + name + ".")}" target="_blank" rel="noopener">{icon("whatsapp")} WhatsApp</a>
+        <a class="btn btn--coral" href="/appointment/?doctor={d["slug"]}">{icon("calendar")} {e(t("Book with {name}").replace("{name}", name))}</a>
+        <a class="btn btn--wa" href="{wa_link(t("Namaste, I would like to consult {name}.").replace("{name}", name))}" target="_blank" rel="noopener">{icon("whatsapp")} WhatsApp</a>
       </div>
     </div>
   </div>
@@ -954,28 +952,30 @@ def build_doctors():
     {f'<p class="closing reveal">{e(d["closing"])}</p>' if d["closing"] else ""}
   </div>
   <aside class="aside">
-    {book_aside("Choose an in-clinic visit or an online consultation.", f"/appointment/?doctor={d['slug']}", "Namaste, I would like to book an appointment with " + name + ".")}
+    {book_aside("Choose an in-clinic visit or an online consultation.", f"/appointment/?doctor={d['slug']}", t("Namaste, I would like to book an appointment with {name}.").replace("{name}", name))}
     {f'<div class="aside-card"><h3>Related services</h3><ul class="aside-nav">{svc_list}</ul></div>' if services else ""}
     <div class="aside-card"><h3>Other specialists</h3>{mini_docs(others)}<a class="link-arrow" style="margin-top:10px" href="/doctors/">All doctors {icon("arrow")}</a></div>
   </aside>
 </div></section>
 '''
-        ld = {"@context": "https://schema.org", "@type": "Physician", "name": name, "description": d["role"],
+        ld = {"@context": "https://schema.org", "@type": "Physician", "name": name, "description": DOC_EN_BY[d["slug"]]["role"],
               "image": f"{SITE['url']}/assets/img/dr-{d['slug']}-960.webp", "url": SITE["url"] + url,
               "@id": SITE["url"] + url + "#physician",
-              "medicalSpecialty": d["specialty"], "hasCredential": d["qualification"], "jobTitle": d["role"],
+              "medicalSpecialty": DOC_EN_BY[d["slug"]]["specialty"], "hasCredential": d["qualification"], "jobTitle": DOC_EN_BY[d["slug"]]["role"],
               "alumniOf": [{"@type": "CollegeOrUniversity", "name": v} for k, v in UNIVERSITIES.items() if k in d["qualification"]],
               "address": clinic_ld()["address"], "isAcceptingNewPatients": True,
               "worksFor": {"@id": SITE["url"] + "/#clinic"}, "telephone": SITE["phone"]}
         kw = SEO["doctors"][d["slug"]]
-        title_ = f"{name} – {kw}, Khanvel | Suvacha"
+        place = t("Khanvel")
+        title_ = f"{name} – {kw}, {place} | Suvacha"
         if len(title_) > 70:
-            title_ = f"{name} – {kw}, Khanvel"
-        desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. {d['qualification']}. Book in-clinic or online."
+            title_ = f"{name} – {kw}, {place}"
+        fill = lambda s: s.replace("{name}", name).replace("{kw}", kw).replace("{qual}", d["qualification"])
+        desc = fill(t("{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. {qual}. Book in-clinic or online."))
         if len(desc) > 158:
-            desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. {d['qualification']}."
+            desc = fill(t("{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. {qual}."))
         if len(desc) > 158:
-            desc = f"{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. Book in-clinic or online."
+            desc = fill(t("{name}, {kw} at Suvacha Healthcare, Khanvel near Silvassa. Book in-clinic or online."))
         page(url, title_, desc, body, extra_ld=[breadcrumb_ld(trail), ld], og_image=f"dr-{d['slug']}", preload=f"dr-{d['slug']}", suffix=False)
 
 
@@ -1086,6 +1086,19 @@ def slugify(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+MONTHS = {
+    "hi": ["जनवरी", "फ़रवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"],
+    "mr": ["जानेवारी", "फेब्रुवारी", "मार्च", "एप्रिल", "मे", "जून", "जुलै", "ऑगस्ट", "सप्टेंबर", "ऑक्टोबर", "नोव्हेंबर", "डिसेंबर"],
+}
+
+
+def fmt_date(iso, lang):
+    d = dt.date.fromisoformat(iso)
+    if lang in MONTHS:
+        return f"{d.day} {MONTHS[lang][d.month - 1]} {d.year}"
+    return d.strftime("%-d %b %Y")
+
+
 def md_inline(s):
     s = e(s)
     s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
@@ -1106,8 +1119,10 @@ def md_to_html(text):
         for line in lines:
             line = line.rstrip()
             if line.startswith("## "):
-                close(); t = line[3:]; hid = slugify(t); toc.append((hid, t))
-                out.append(f'<h2 id="{hid}">{md_inline(t)}</h2>')
+                close(); h2 = line[3:]
+                hid = slugify(h2) or f"section-{len(toc) + 1}"  # Devanagari headings get numbered ids
+                toc.append((hid, h2))
+                out.append(f'<h2 id="{hid}">{md_inline(h2)}</h2>')
             elif line.startswith("### "):
                 close(); out.append(f"<h3>{md_inline(line[4:])}</h3>")
             elif line.startswith("- "):
@@ -1124,26 +1139,36 @@ def md_to_html(text):
     return "\n".join(out), toc
 
 
-def load_posts():
+def read_md(f):
+    _, fm, body = f.read_text().split("---", 2)
+    meta = {}
+    for line in fm.strip().splitlines():
+        k, v = line.split(":", 1)
+        meta[k.strip()] = v.strip()
+    return meta, body
+
+
+def load_posts(lang="en"):
+    """English posts from content/blog; a translated file in content/i18n/<lang>/blog/ replaces
+    the title, description, category and body (date, image, service, sources stay from English)."""
     posts = []
     for f in sorted((ROOT / "content" / "blog").glob("*.md")):
-        raw = f.read_text()
-        _, fm, body = raw.split("---", 2)
-        meta = {}
-        for line in fm.strip().splitlines():
-            k, v = line.split(":", 1)
-            meta[k.strip()] = v.strip()
+        meta, body = read_md(f)
+        cat_slug = slugify(meta["category"])  # filter chips match across languages
+        tr = ROOT / "content" / "i18n" / lang / "blog" / f.name
+        if lang != "en" and tr.exists():
+            tmeta, body = read_md(tr)
+            meta.update({k: v for k, v in tmeta.items() if k in ("title", "description", "category")})
         html, toc = md_to_html(body)
         words = len(re.findall(r"\w+", body))
         meta["sources"] = [tuple(x.strip().split("|", 1)) for x in meta.get("sources", "").split(";;") if "|" in x]
         meta["reviewer"] = DOC_BY.get(meta.get("reviewed_by", "").strip())
         posts.append({**meta, "slug": f.stem, "html": html, "toc": toc, "minutes": max(2, round(words / 200)),
-                      "cat_slug": slugify(meta["category"]),
-                      "date_display": dt.date.fromisoformat(meta["date"]).strftime("%-d %b %Y")})
+                      "cat_slug": cat_slug, "date_display": fmt_date(meta["date"], lang)})
     return sorted(posts, key=lambda p: p["date"], reverse=True)
 
 
-POSTS = load_posts()
+POSTS = load_posts("en")
 
 
 def post_card(p, compact=False):
@@ -1156,7 +1181,7 @@ def post_card(p, compact=False):
 
 def blog_section(compact=False):
     cards = "".join(post_card(p, compact) for p in POSTS[:3])
-    note = "" if LANG == "en" else f'<p>{e(t("Articles are currently in English."))}</p>'
+    note = ""
     return f'''<section class="section section--white"><div class="container">
   <div class="section-head section-head--split reveal"><div><span class="eyebrow">Health tips</span><h2>Guidance from our doctors’ desk</h2>{note}</div>
   <a class="btn btn--ghost" href="/blog/">All articles {icon("arrow")}</a></div>
@@ -1215,7 +1240,7 @@ def build_blog():
         toc = "".join(f'<li><a href="#{hid}">{e(t)}{icon("chev-right")}</a></li>' for hid, t in p["toc"])
         share = wa_link(f"{p['title']} — {SITE['url']}{url}")
         rv = p["reviewer"]
-        reviewed = (f'<li>{icon("shield")} Medically reviewed by <a href="/doctor/{rv["slug"]}/">{e(dr_name(rv))}</a></li>') if rv else ""
+        reviewed = (f'<li>{icon("shield")} {t("Medically reviewed by")} <a href="/doctor/{rv["slug"]}/">{e(dr_name(rv))}</a></li>') if rv else ""
         sources = ('<div class="sources"><h2>Sources &amp; further reading</h2><ol>' + "".join(
             f'<li><a href="{e(u)}" target="_blank" rel="noopener">{e(t)}</a></li>' for t, u in p["sources"]) + "</ol></div>") if p["sources"] else ""
         svc_card = (f'<a class="aside-card aside-tool" href="/service/{svc["slug"]}/"><span class="pillar__icon">{icon("stethoscope")}</span>'
@@ -1226,7 +1251,7 @@ def build_blog():
   <span class="eyebrow">{e(p["category"])}</span>
   <h1>{e(p["title"])}</h1>
   <p class="lead">{e(p["description"])}</p>
-  <ul class="post-meta"><li>{icon("user")} Suvacha Healthcare Team</li>{reviewed}<li>{icon("calendar")} {p["date_display"]}</li><li>{icon("clock")} {p["minutes"]} min read</li></ul>
+  <ul class="post-meta"><li>{icon("user")} Suvacha Healthcare Team</li>{reviewed}<li>{icon("calendar")} {p["date_display"]}</li><li>{icon("clock")} {e(t("{n} min read").replace("{n}", str(p["minutes"])))}</li></ul>
 </div></section>
 <section class="section"><div class="container detail">
   <article class="detail__main">
@@ -1237,10 +1262,10 @@ def build_blog():
       <a class="btn btn--wa btn--sm" href="{share}" target="_blank" rel="noopener">{icon("whatsapp")} Share on WhatsApp</a>
       <a class="btn btn--ghost btn--sm" href="/blog/">{icon("arrow-left")} All articles</a>
     </div>
-    <p class="form-note">{icon("info")} This article is for general awareness and does not replace a consultation with a qualified doctor. In an emergency, call {e(SITE["emergency_display"])} or visit the nearest hospital.</p>
+    <p class="form-note">{icon("info")} {e(t("This article is for general awareness and does not replace a consultation with a qualified doctor. In an emergency, call {phone} or visit the nearest hospital.").replace("{phone}", SITE["emergency_display"]))}</p>
   </article>
   <aside class="aside">
-    {book_aside("Talk to our specialists — in clinic or online.", f"/appointment/?service={svc['slug']}" if svc else "/appointment/", "Namaste, I read your article “" + p["title"] + "” and have a question.")}
+    {book_aside("Talk to our specialists — in clinic or online.", f"/appointment/?service={svc['slug']}" if svc else "/appointment/", t("Namaste, I read your article “{title}” and have a question.").replace("{title}", p["title"]))}
     {f'<div class="aside-card"><h3>In this article</h3><ul class="aside-nav">{toc}</ul></div>' if toc else ""}
     {svc_card}
     {tool_aside(svc["slug"]) if svc else ""}
@@ -1252,13 +1277,13 @@ def build_blog():
 </div></section>
 '''
         ld = {"@context": "https://schema.org", "@type": "MedicalWebPage", "headline": p["title"], "description": p["description"],
-              "datePublished": p["date"], "dateModified": p["date"], "url": SITE["url"] + url,
+              "datePublished": p["date"], "dateModified": p["date"], "url": SITE["url"] + lpath(url),
               "image": f"{SITE['url']}/assets/img/{p['image']}-960.webp",
               "author": {"@type": "Organization", "name": SITE["name"]}, "publisher": {"@id": SITE["url"] + "/#clinic"},
-              "inLanguage": "en-IN", "lastReviewed": p["date"],
+              "inLanguage": LANG_META[LANG]["html"], "lastReviewed": p["date"],
               "citation": [{"@type": "CreativeWork", "name": t_, "url": u_} for t_, u_ in p["sources"]],
-              "about": {"@type": "MedicalCondition", "name": p["category"]} if p["category"] != "Ayurveda & Wellness" else None,
-              "mainEntityOfPage": SITE["url"] + url}
+              "about": {"@type": "MedicalCondition", "name": p["category"]} if p["cat_slug"] != "ayurveda-wellness" else None,
+              "mainEntityOfPage": SITE["url"] + lpath(url)}
         if rv:
             ld["reviewedBy"] = {"@id": f"{SITE['url']}/doctor/{rv['slug']}/#physician"}
         ld = {k: v for k, v in ld.items() if v is not None}
@@ -1375,8 +1400,8 @@ def main():
         build_appointment()
         build_contact()
         build_tools()
+        build_blog()
         if lang == "en":
-            build_blog()
             build_404()
     set_lang("en")
     paths = ["/", "/about/", "/services/", "/doctors/", "/appointment/", "/contact/", "/pregnancy-tools/"]

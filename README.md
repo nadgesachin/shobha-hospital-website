@@ -35,7 +35,7 @@ URLs match the old WordPress site (`/service/<slug>/`, `/doctor/<slug>/`, `/abou
 
 ## Languages (English, हिंदी, मराठी)
 
-English is the source. Hindi and Marathi pages are built at `/hi/…` and `/mr/…` for the home, about, services (all 9 service pages), doctors list, appointment, contact and pregnancy-tools pages. Doctor profiles and blog articles are English-only for now; on those pages the language switcher points to the nearest translated page.
+English is the source. Every page except the 404 is also built in Hindi (`/hi/…`) and Marathi (`/mr/…`): home, about, services and the 9 service pages, doctors list and the 11 doctor profiles, appointment, contact, pregnancy tools, and the blog with all articles. Doctor names, qualifications and the clinic address stay in English so they match the Google listing.
 
 Translations live in `content/i18n/<lang>/`:
 
@@ -44,7 +44,8 @@ Translations live in `content/i18n/<lang>/`:
 | `site.json` | Translated fields of `content/site.json` (hero, about, FAQs, hours, …), with the same list lengths |
 | `services.json` | Each service's title, tagline, intro and sections, keyed by slug |
 | `seo.json` | Search titles, descriptions and service FAQs |
-| `doctors.json` | Doctor specialities |
+| `doctors.json` | Doctor specialities, roles, bios and profile sections |
+| `blog/<slug>.md` | Translated articles: front matter `title`, `description`, `category`, then the body (date, image, sources come from the English file) |
 | `strings.json` | UI phrases: English text → translation (buttons, labels, headings) |
 | `js.json` | Text used by `src/js/main.js` (booking message, calculators, open/closed badge) |
 
