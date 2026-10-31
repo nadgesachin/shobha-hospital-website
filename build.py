@@ -812,7 +812,29 @@ def coming_soon():
             f'<ul class="soon__list">{chips}</ul></div>')
 
 
+# Home page shows facilities as photo tiles; these fill in for facilities without their own photo.
+FACILITY_TILE_IMG = {"clock": "photo-team", "shield": "svc-pathology-laboratory"}
+
+
+def facility_tiles():
+    tiles = []
+    for f in SITE["facilities"]:
+        pic = f["photo"] or FACILITY_TILE_IMG.get(f["icon"])
+        art = (img(pic, f["title"], "(max-width: 600px) 82vw, (max-width: 860px) 50vw, 380px") if pic
+               else f'<span class="tile__art">{icon(f["icon"])}</span>')
+        tiles.append(f'<a class="tile reveal" href="/facilities/">{art}'
+                     f'<span class="tile__label"><span class="tile__icon">{icon(f["icon"])}</span><h3>{e(f["title"])}</h3><span class="tile__go">{icon("arrow")}</span></span></a>')
+    return f'<div class="tiles tiles--facilities">{"".join(tiles)}</div>'
+
+
 def facilities_section(full=False):
+    if not full:
+        return f'''<section class="section section--facilities" id="facilities"><div class="container">
+  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Facilities</span><h2>Everything under one roof</h2></div>
+  <a class="btn btn--ghost" href="/facilities/">Our facilities {icon("arrow")}</a></div>
+  {facility_tiles()}
+  {coming_soon()}
+</div></section>'''
     cards = []
     for f in SITE["facilities"]:
         media = f'<div class="facility__img">{img(f["photo"], f["title"], "(max-width: 600px) 90vw, 360px")}</div>' if f["photo"] and full else ""
@@ -904,6 +926,8 @@ def build_home():
   <a class="info-strip__item" href="#location"><span class="info-strip__icon info-strip__icon--coral">{icon("pin")}</span><span><small>Location</small><strong>{e(SITE["address"]["short"])}</strong></span></a>
 </div></div></div>
 
+{facilities_section()}
+
 <div class="marquee" role="presentation"><div class="marquee__track"><div class="marquee__group">{group}</div><div class="marquee__group" aria-hidden="true">{group}</div></div></div>
 
 <section class="section"><div class="container">
@@ -913,8 +937,6 @@ def build_home():
 </div></section>
 
 {gallery_section()}
-
-{facilities_section()}
 
 {journey(compact=True)}
 

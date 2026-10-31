@@ -1180,3 +1180,12 @@ html.help-locked, html.help-locked body { overflow: hidden; }
   .help-layer, .help { transition: none; }
   .gallery__item { transition: none; }
 }
+
+/* ---------- Home facilities as photo tiles (2nd section) ---------- */
+.section--facilities { padding-top: clamp(40px, 5vw, 64px); }
+.tile__art { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255,255,255,.9);
+  background: radial-gradient(circle at 30% 20%, var(--coral-500), var(--green-900) 75%); }
+.tile__art .icon { width: 34%; height: 34%; stroke-width: 1.4; }
+.tile__icon { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.18); flex: none; }
+.tile__icon .icon { width: 18px; height: 18px; }
+.tiles--facilities .tile__label { gap: 10px; }
