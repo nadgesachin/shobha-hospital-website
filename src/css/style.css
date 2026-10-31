@@ -1130,15 +1130,23 @@ html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swa
   .float-card--a .float-card__icon { animation: none; }
 }
 
-/* ---------- Continuous heartbeat strip (header + hero): one ECG period scrolls forever, so it never "ends" ---------- */
-.pulse-strip { position: relative; height: 14px; overflow: hidden; pointer-events: none;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
-.pulse-strip::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; right: -160px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='24' viewBox='0 0 160 24' preserveAspectRatio='none'%3E%3Cpath d='M0 14h52l5-6 5 6h6l4-12 6 21 5-15 3 6h74' fill='none' stroke='%23c2185b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") repeat-x 0 50% / 160px 14px; animation: pulseRun 1.8s linear infinite; will-change: transform; }
-.header .pulse-strip { position: absolute; left: 0; right: 0; bottom: -7px; opacity: .9; }
-.pulse-strip--hero { height: 30px; max-width: 380px; margin: 4px 0 8px; }
-.pulse-strip--hero::before { background-size: 160px 30px; }
-@keyframes pulseRun { to { transform: translateX(-160px); } }
+/* ---------- Heartbeat monitor (header + hero): a realistic PQRST trace is "drawn" left to right by a
+   moving sweep, with the older part of the trace fading out behind it, like a bedside ECG monitor. ---------- */
+.pulse-strip { position: relative; height: 22px; overflow: hidden; pointer-events: none; --sweep: 5s; }
+.pulse-strip::before { content: ""; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='24' viewBox='0 0 160 24' preserveAspectRatio='none'%3E%3Cpath d='M0 15H36C38 15 39 11.5 42 11.5C45 11.5 46 15 48 15H56L58 17.5L62 1.5L66 23L68.5 15H78C82 15 84 9.5 90 9.5C96 9.5 98 15 102 15H160' fill='none' stroke='%23d81b60' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") repeat-x 0 50% / 160px 100%;
+  filter: drop-shadow(0 0 2px rgba(216,27,96,.55));
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.08) 20%, rgba(0,0,0,.45) 42%, #000 49.6%, transparent 50%);
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.08) 20%, rgba(0,0,0,.45) 42%, #000 49.6%, transparent 50%);
+  -webkit-mask-size: 200% 100%; mask-size: 200% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  animation: ecgSweep var(--sweep) linear infinite; }
+/* the bright "pen" at the front of the sweep */
+.pulse-strip::after { content: ""; position: absolute; top: 50%; left: 0; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 18%, rgba(255,92,150,.95) 30%, rgba(216,27,96,0) 70%); animation: ecgPen var(--sweep) linear infinite; }
+.header .pulse-strip { position: absolute; left: 0; right: 0; bottom: -11px; }
+.pulse-strip--hero { height: 34px; max-width: 380px; margin: 4px 0 8px; --sweep: 2.4s; }
+.pulse-strip--hero::before { background-size: 126px 100%; }
+@keyframes ecgSweep { from { -webkit-mask-position: 100% 0; mask-position: 100% 0; } to { -webkit-mask-position: 0 0; mask-position: 0 0; } }
+@keyframes ecgPen { from { left: 0; opacity: 1; } 96% { opacity: 1; } to { left: 100%; opacity: 0; } }
 
 /* ---------- Gallery: auto-sliding carousel on every screen size ---------- */
 .gallery { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; }
@@ -1176,7 +1184,8 @@ html.help-locked, html.help-locked body { overflow: hidden; }
   .help { width: 100%; border-radius: 22px 22px 0 0; padding-bottom: calc(20px + env(safe-area-inset-bottom)); transform: translateY(100%); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pulse-strip::before { animation: none; }
+  .pulse-strip::before { animation: none; -webkit-mask-image: none; mask-image: none; }
+  .pulse-strip::after { display: none; }
   .help-layer, .help { transition: none; }
   .gallery__item { transition: none; }
 }
