@@ -831,8 +831,7 @@ def facility_tiles():
 def facilities_section(full=False):
     if not full:
         return f'''<section class="section section--facilities" id="facilities"><div class="container">
-  <div class="section-head section-head--split reveal"><div><span class="eyebrow">Facilities</span><h2>Everything under one roof</h2></div>
-  <a class="btn btn--ghost" href="/facilities/">Our facilities {icon("arrow")}</a></div>
+  <h2 class="sr-only">Facilities at Shobha Hospital, Khanvel</h2>
   {facility_tiles()}
   {coming_soon()}
 </div></section>'''

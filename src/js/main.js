@@ -249,9 +249,9 @@
     }, 3800);
   }
   if (window.matchMedia && matchMedia("(max-width: 600px)").matches) {
-    $$(".tiles").forEach(function (t) { carousel(t, { dots: true }); });
+    $$(".tiles:not(.tiles--facilities)").forEach(function (t) { carousel(t, { dots: true }); });
   }
-  $$("[data-gallery]").forEach(function (g) { carousel(g, { dots: true }); });
+  $$("[data-gallery], .tiles--facilities").forEach(function (g) { carousel(g, { dots: true }); });
   if (MOBILE) {
     $$(".slider").forEach(function (t) { carousel(t, { dots: false }); });
   }
