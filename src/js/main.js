@@ -229,7 +229,7 @@
     cards.forEach(function (c, k) {
       var b = document.createElement("button");
       b.type = "button";
-      b.setAttribute("aria-label", (c.querySelector("h3") || {}).textContent || String(k + 1));
+      b.setAttribute("aria-label", (c.querySelector("h3, figcaption") || {}).textContent || String(k + 1));
       b.addEventListener("click", function () { touched = Date.now(); go(k); });
       nav.appendChild(b);
       dots.push(b);
@@ -251,6 +251,7 @@
   if (window.matchMedia && matchMedia("(max-width: 600px)").matches) {
     $$(".tiles").forEach(function (t) { carousel(t, { dots: true }); });
   }
+  $$("[data-gallery]").forEach(function (g) { carousel(g, { dots: true }); });
   if (MOBILE) {
     $$(".slider").forEach(function (t) { carousel(t, { dots: false }); });
   }
@@ -294,30 +295,35 @@
     });
   });
 
-  /* ---------- Help popup: WhatsApp / call / map, shown once per session after some scrolling ---------- */
-  var help = $("#help"), helpToggle = $("[data-help-toggle]");
-  if (help) {
-    var store = function (k, v) { try { return v ? sessionStorage.setItem(k, v) : sessionStorage.getItem(k); } catch (e) { return null; } };
+  /* ---------- Help popup: WhatsApp / call / map. Opens one minute after load and again one minute
+     after each close; while open it blocks the page behind it. ---------- */
+  var layer = $("#help-layer"), helpToggle = $("[data-help-toggle]");
+  if (layer) {
+    var help = $("#help", layer), lastFocus = null, timer = 0, EVERY = 60000;
+    var isOpen = function () { return layer.classList.contains("is-open"); };
+    var schedule = function (ms) { clearTimeout(timer); timer = setTimeout(autoOpen, ms); };
     var setHelp = function (open) {
-      help.classList.toggle("is-open", open);
-      help.setAttribute("aria-hidden", String(!open));
+      if (open === isOpen()) return;
+      layer.classList.toggle("is-open", open);
+      layer.setAttribute("aria-hidden", String(!open));
+      Array.prototype.forEach.call(document.body.children, function (el) { if (el !== layer) el.inert = open; });
+      document.documentElement.classList.toggle("help-locked", open);
       if (helpToggle) helpToggle.setAttribute("aria-expanded", String(open));
-      if (!open) store("help-seen", "1");
+      if (open) { lastFocus = document.activeElement; $(".help__close", help).focus(); }
+      else { if (lastFocus && lastFocus.focus) lastFocus.focus(); schedule(EVERY); }
     };
-    if (helpToggle) helpToggle.addEventListener("click", function () { setHelp(!help.classList.contains("is-open")); });
-    $(".help__close", help).addEventListener("click", function () { setHelp(false); });
-    $$("[data-help-done]", help).forEach(function (a) { a.addEventListener("click", function () { setHelp(false); }); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && help.classList.contains("is-open")) setHelp(false); });
-    if (!store("help-seen") && !/\/appointment\//.test(location.pathname)) {
-      var onScroll = function () {
-        var max = document.documentElement.scrollHeight - innerHeight;
-        if (scrollY > Math.min(900, max * 0.35)) {
-          removeEventListener("scroll", onScroll);
-          setTimeout(function () { setHelp(true); }, 400);
-        }
-      };
-      addEventListener("scroll", onScroll, { passive: true });
-    }
+    // Never interrupt someone filling a form, reading with the menu open, or on the booking page itself.
+    var autoOpen = function () {
+      var a = document.activeElement, drawerOpen = drawer && drawer.classList.contains("is-open");
+      if (document.hidden || drawerOpen || (a && a.closest && a.closest("form"))) return schedule(15000);
+      setHelp(true);
+    };
+    if (helpToggle) helpToggle.addEventListener("click", function () { setHelp(true); });
+    $$(".help__close, [data-help-close], [data-help-done]", layer).forEach(function (el) {
+      el.addEventListener("click", function () { setHelp(false); });
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && isOpen()) setHelp(false); });
+    if (!/\/appointment\//.test(location.pathname)) schedule(EVERY);
   }
 
   /* ---------- Booking form -> WhatsApp ---------- */

@@ -157,6 +157,8 @@ DIRECTIONS = f"https://www.google.com/maps/dir/?api=1&destination={GEO}"
 ICONS = {
     "phone": '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
     "mail": '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+    "facebook": '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+    "instagram": '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8"/>',
     "pin": '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
     "clock": '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
     "calendar": '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
@@ -247,7 +249,7 @@ def clinic_ld():
                     "addressRegion": a["region"], "postalCode": a["postal"], "addressCountry": a["country"]},
         "hasMap": SITE["google_place_url"],
         "areaServed": [{"@type": "City", "name": n} for n in [SITE["address"]["locality"], *SITE["nearby"]]],
-        "sameAs": [SITE["google_place_url"]],
+        "sameAs": [SITE["google_place_url"]] + [u for u in SITE.get("social", {}).values() if u],
         "isAcceptingNewPatients": True,
         "geo": {"@type": "GeoCoordinates", "latitude": SITE["geo"]["lat"], "longitude": SITE["geo"]["lng"]},
         "contactPoint": [
@@ -330,7 +332,7 @@ def header(current):
     <a class="btn btn--coral btn--sm" href="/appointment/">{icon("calendar")} Book Appointment</a>
     <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">{icon("menu")}</button>
   </div>
-</div></header>
+</div><div class="pulse-strip" aria-hidden="true"></div></header>
 <div class="drawer" id="drawer" aria-hidden="true">
   <div class="drawer__backdrop" data-close-drawer></div>
   <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
@@ -386,7 +388,15 @@ def footer():
   <div class="footer__bottom"><span>© {year} {t("Shobha Hospital Multi Speciality. All rights reserved.")}</span><span>{e(SITE["address"]["short"])}</span></div>
 </div></footer>
 <div class="wa-float">
-  <section class="help" id="help" role="dialog" aria-labelledby="help-title" aria-hidden="true">
+  <a class="fab fab--map" href="{DIRECTIONS}" target="_blank" rel="noopener" aria-label="{e(t("Open Shobha Hospital location in Google Maps"))}">{icon("pin")}</a>
+  <div class="fab-row">
+    <button class="wa-float__label" type="button" aria-controls="help" aria-expanded="false" data-help-toggle>Questions? Chat with us</button>
+    <a class="wa-float__btn" href="{wa_link()}" target="_blank" rel="noopener" aria-label="{e(t("Chat with Shobha Hospital on WhatsApp"))}">{icon("whatsapp")}</a>
+  </div>
+</div>
+<div class="help-layer" id="help-layer" aria-hidden="true">
+  <div class="help-backdrop" data-help-close></div>
+  <section class="help" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <button class="help__close" type="button" aria-label="Close">{icon("x")}</button>
     <div class="help__head"><span class="help__avatar"><img src="/assets/img/logo-mark-64.webp" width="99" height="64" alt=""></span>
       <span><strong id="help-title">Shobha Hospital</strong><small><span class="help__dot"></span>We reply quickly on WhatsApp</small></span></div>
@@ -397,11 +407,6 @@ def footer():
       <a class="help__opt help__opt--map" href="{DIRECTIONS}" target="_blank" rel="noopener" data-help-done>{icon("navigation")}<span><strong>Get directions</strong><small>{e(SITE["address"]["short"])}</small></span></a>
     </div>
   </section>
-  <a class="fab fab--map" href="{DIRECTIONS}" target="_blank" rel="noopener" aria-label="{e(t("Open Shobha Hospital location in Google Maps"))}">{icon("pin")}</a>
-  <div class="fab-row">
-    <button class="wa-float__label" type="button" aria-controls="help" aria-expanded="false" data-help-toggle>Questions? Chat with us</button>
-    <a class="wa-float__btn" href="{wa_link()}" target="_blank" rel="noopener" aria-label="{e(t("Chat with Shobha Hospital on WhatsApp"))}">{icon("whatsapp")}</a>
-  </div>
 </div>
 <button class="to-top" type="button" aria-label="Back to top">{icon("chev-up")}</button>
 <nav class="mobile-bar" aria-label="Quick actions">
@@ -788,7 +793,17 @@ def gallery_section():
   <div class="section-head section-head--split reveal"><div><span class="eyebrow">Real photos</span><h2>Inside Shobha Hospital</h2></div>
   <a class="btn btn--ghost" href="/facilities/">Our facilities {icon("arrow")}</a></div>
   <div class="gallery" data-gallery>{shots}</div>
+  {connect_row()}
 </div></section>'''
+
+
+def connect_row():
+    soc = SITE.get("social", {})
+    links = "".join(f'<a class="social social--{k}" href="{e(u)}" target="_blank" rel="noopener" aria-label="{e(t(lbl))}">{icon(k)}</a>'
+                    for k, lbl in (("facebook", "Shobha Hospital on Facebook"), ("instagram", "Shobha Hospital on Instagram")) if soc.get(k))
+    return (f'<div class="connect reveal"><a class="btn btn--wa" href="{wa_link()}" target="_blank" rel="noopener">{icon("whatsapp")} WhatsApp Us</a>'
+            f'<a class="btn btn--coral" href="/appointment/">{icon("calendar")} Book Appointment</a>'
+            + (f'<span class="connect__social"><span>{e(t("Follow us"))}</span>{links}</span>' if links else "") + '</div>')
 
 
 def coming_soon():
@@ -868,7 +883,7 @@ def build_home():
       <a class="btn btn--coral" href="/appointment/">{icon("calendar")} Book Appointment</a>
       <a class="btn btn--wa" href="{wa_link()}" target="_blank" rel="noopener">{icon("whatsapp")} WhatsApp Us</a>
     </div>
-    <svg class="ecg ecg--hero" viewBox="0 0 320 60" preserveAspectRatio="none" aria-hidden="true"><path d="{ECG_PATH}"/></svg>
+    <div class="pulse-strip pulse-strip--hero" aria-hidden="true"></div>
     <ul class="hero__trust">
       <li class="hero-in" style="--d:6">{icon("check-circle")} 24×7 emergency</li>
       <li class="hero-in" style="--d:7">{icon("check-circle")} Modern OT &amp; labour room</li>

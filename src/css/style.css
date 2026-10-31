@@ -1024,8 +1024,8 @@ html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swa
 }
 
 /* ---------- Shobha Hospital: gallery, facilities, coming soon, antenatal guide ---------- */
-.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.gallery__item { margin: 0; position: relative; border-radius: var(--radius, 18px); overflow: hidden; aspect-ratio: 4 / 5; background: var(--sand); }
+
+
 .gallery__item img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .gallery__item:hover img { transform: scale(1.05); }
 .gallery__item figcaption { position: absolute; inset: auto 0 0 0; padding: 40px 14px 12px; font-size: .86rem; line-height: 1.35; color: #fff;
@@ -1058,12 +1058,9 @@ html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swa
 .anc__reminder .icon { color: var(--coral-600); flex: none; }
 .hours__emergency th, .hours__emergency td { color: var(--coral-700); font-weight: 600; }
 
-@media (max-width: 1100px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+
 @media (max-width: 860px) { .facilities, .anc__grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) {
-  .gallery { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin: 0 -16px; padding: 0 16px 6px; scrollbar-width: none; }
-  .gallery::-webkit-scrollbar { display: none; }
-  .gallery__item { flex: 0 0 78%; scroll-snap-align: center; }
   .facilities, .anc__grid { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .gallery__item img, .facility { transition: none; } }
@@ -1073,10 +1070,6 @@ html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swa
   border: 1px solid var(--line); box-shadow: 0 10px 24px -10px rgba(74,16,41,.45); transition: transform .2s; margin-right: 6px; }
 .fab:hover { transform: scale(1.08); color: var(--coral-700); }
 .fab .icon { width: 24px; height: 24px; }
-.help { position: absolute; right: 0; bottom: calc(100% + 14px); width: min(340px, calc(100vw - 32px)); background: #fff; border-radius: 22px;
-  box-shadow: 0 30px 60px -20px rgba(46,10,27,.45), 0 0 0 1px var(--line); padding: 18px; opacity: 0; visibility: hidden;
-  transform: translateY(14px) scale(.96); transform-origin: bottom right; transition: opacity .3s, transform .35s cubic-bezier(.2,.8,.2,1), visibility 0s .35s; }
-.help.is-open { opacity: 1; visibility: visible; transform: none; transition: opacity .3s, transform .35s cubic-bezier(.2,.8,.2,1); }
 .help__close { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--sand); color: var(--ink); display: grid; place-items: center; cursor: pointer; }
 .help__close .icon { width: 18px; height: 18px; }
 .help__head { display: flex; align-items: center; gap: 12px; padding-right: 36px; }
@@ -1099,10 +1092,8 @@ html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swa
 .help__opt--map .icon { color: var(--green-700); }
 @media (max-width: 860px) {
   .fab { width: 44px; height: 44px; margin-right: 5px; }
-  .help { position: fixed; left: 16px; right: 16px; width: auto; bottom: calc(84px + env(safe-area-inset-bottom)); }
-  .has-host-badge .help { bottom: 148px; }
 }
-@media (prefers-reduced-motion: reduce) { .help, .help.is-open { transition: none; } }
+
 @media (min-width: 861px) and (max-width: 1180px) {
   .brand__text small { display: none; }
   .nav__link { padding: .55em .6em; font-size: .93rem; }
@@ -1114,7 +1105,6 @@ html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swa
 /* ---------- Heartbeat motion: phone intro, hero ECG line, pulsing emergency card ---------- */
 .ecg { display: block; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .ecg path { stroke-dasharray: 520; stroke-dashoffset: 520; }
-.ecg--hero { display: none; width: 100%; max-width: 360px; height: 38px; margin: 6px 0 4px; stroke: var(--coral-500); stroke-width: 2.4; opacity: .85; }
 .intro { display: none; }
 @keyframes ecgDraw { to { stroke-dashoffset: 0; } }
 @keyframes ecgRun { 0% { stroke-dashoffset: 520; } 55% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -520; } }
@@ -1132,12 +1122,61 @@ html[lang^="hi"] .rotator-wrap .swash__line, html[lang^="mr"] .rotator-wrap .swa
   .ecg--intro path { animation: ecgDraw 1s cubic-bezier(.5,0,.3,1) .35s forwards; }
   .intro__name { font-family: var(--font-serif); font-size: 1.9rem; font-weight: 700; color: var(--coral-700); margin: 0; animation: introUp .5s ease .6s both; }
   .intro__tag { font-family: var(--font-deva); color: var(--green-800); margin: 4px 0 0; animation: introUp .5s ease .8s both; }
-  .ecg--hero { display: block; }
-  .ecg--hero path { animation: ecgRun 3.2s linear 1.2s infinite; }
   .float-card--a .float-card__icon { animation: heartbeat 1.6s ease-in-out 2s infinite; }
 }
 @media (prefers-reduced-motion: reduce) {
   html:not(.intro-seen) .intro { display: none; }
   .ecg path { stroke-dasharray: none; stroke-dashoffset: 0; animation: none !important; }
   .float-card--a .float-card__icon { animation: none; }
+}
+
+/* ---------- Continuous heartbeat strip (header + hero): one ECG period scrolls forever, so it never "ends" ---------- */
+.pulse-strip { position: relative; height: 14px; overflow: hidden; pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.pulse-strip::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; right: -160px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='24' viewBox='0 0 160 24' preserveAspectRatio='none'%3E%3Cpath d='M0 14h52l5-6 5 6h6l4-12 6 21 5-15 3 6h74' fill='none' stroke='%23c2185b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") repeat-x 0 50% / 160px 14px; animation: pulseRun 1.8s linear infinite; will-change: transform; }
+.header .pulse-strip { position: absolute; left: 0; right: 0; bottom: -7px; opacity: .9; }
+.pulse-strip--hero { height: 30px; max-width: 380px; margin: 4px 0 8px; }
+.pulse-strip--hero::before { background-size: 160px 30px; }
+@keyframes pulseRun { to { transform: translateX(-160px); } }
+
+/* ---------- Gallery: auto-sliding carousel on every screen size ---------- */
+.gallery { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; }
+.gallery::-webkit-scrollbar { display: none; }
+.gallery__item { flex: 0 0 calc(40% - 10px); scroll-snap-align: center; margin: 0; position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 4 / 3; background: var(--sand); transition: transform .5s, opacity .5s; }
+.gallery__item:not(.is-active) { opacity: .75; transform: scale(.97); }
+.gallery + .tile-dots { display: flex; justify-content: center; gap: 2px; margin-top: 14px; }
+.gallery + .tile-dots button { width: 24px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; transition: width .35s; }
+.gallery + .tile-dots button::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--line); transition: width .35s, background .35s; }
+.gallery + .tile-dots button[aria-current="true"] { width: 34px; }
+.gallery + .tile-dots button[aria-current="true"]::before { width: 26px; background: var(--coral-600); }
+@media (max-width: 860px) { .gallery__item { flex-basis: 70%; } }
+@media (max-width: 600px) { .gallery { margin: 0 -16px; padding: 0 16px 4px; gap: 12px; } .gallery__item { flex-basis: 84%; aspect-ratio: 4 / 5; } }
+
+/* ---------- WhatsApp / Book / social row under the gallery ---------- */
+.connect { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; margin-top: 26px; }
+.connect__social { display: inline-flex; align-items: center; gap: 10px; margin-left: 6px; color: var(--muted); font-size: .9rem; }
+.social { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: #fff; transition: transform .2s; }
+.social:hover { transform: translateY(-2px) scale(1.06); color: #fff; }
+.social .icon { width: 22px; height: 22px; }
+.social--facebook { background: #1877f2; }
+.social--instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+@media (max-width: 600px) { .connect .btn { flex: 1 1 100%; justify-content: center; } }
+
+/* ---------- Help popup: centred modal (bottom sheet on phones) that blocks the page ---------- */
+.help-layer { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 16px; visibility: hidden; opacity: 0; transition: opacity .3s, visibility 0s .3s; }
+.help-layer.is-open { visibility: visible; opacity: 1; transition: opacity .3s; }
+.help-backdrop { position: absolute; inset: 0; background: rgba(46,10,27,.55); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.help { position: relative; width: min(380px, 100%); background: #fff; border-radius: 22px; padding: 20px; box-shadow: 0 30px 70px -20px rgba(46,10,27,.6);
+  transform: translateY(18px) scale(.96); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+.help-layer.is-open .help { transform: none; }
+html.help-locked, html.help-locked body { overflow: hidden; }
+@media (max-width: 600px) {
+  .help-layer { place-items: end center; padding: 0; }
+  .help { width: 100%; border-radius: 22px 22px 0 0; padding-bottom: calc(20px + env(safe-area-inset-bottom)); transform: translateY(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse-strip::before { animation: none; }
+  .help-layer, .help { transition: none; }
+  .gallery__item { transition: none; }
 }
