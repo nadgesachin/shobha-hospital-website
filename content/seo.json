@@ -2,46 +2,50 @@
   "_note": "Search titles (aim for ≤ 65 characters) and meta descriptions (aim for ≤ 155 characters) per page. Keys are page paths.",
   "pages": {
     "/": {
-      "title": "Suvacha Healthcare – Gynecology & Maternity Care in Khanvel, Silvassa",
-      "description": "Women’s health, pregnancy care, normal delivery, infertility & Ayurveda clinic in Khanvel near Silvassa (DNH). IMS–BHU trained doctors. Book on WhatsApp."
+      "title": "Shobha Hospital Khanvel – Multi Speciality Hospital, Silvassa",
+      "description": "24×7 emergency, maternity & normal delivery, gynecology, infertility, paediatrics, pathology lab and surgery at Khanvel Char Rasta, Silvassa."
     },
     "/about/": {
-      "title": "About Suvacha Healthcare – Ayurveda + Modern Women’s Care, Khanvel",
-      "description": "Suvacha Healthcare by Dr. Sachin Ladak Shedad integrates Ayurveda with modern obstetrics & gynecology for women and families in Khanvel and Silvassa."
+      "title": "About Shobha Hospital Multi Speciality, Khanvel",
+      "description": "Shobha Hospital, managed by Dr. Sachin Ladak Shedad (MS PTSR, IMS–BHU), is a family hospital in Khanvel near Silvassa with 24×7 emergency care."
     },
     "/services/": {
-      "title": "Women’s Health & Maternity Services in Khanvel, Silvassa | Suvacha",
-      "description": "Pregnancy care, infertility, PCOS, gynec surgery, Garbhasanskar, Panchakarma, child wellness & male fertility care in Khanvel, Dadra & Nagar Haveli."
+      "title": "Hospital Services in Khanvel, Silvassa | Shobha Hospital",
+      "description": "Maternity, gynecology, infertility, 24×7 emergency, general medicine & surgery, paediatrics, pathology lab, Garbhasanskar and Panchakarma in Khanvel."
     },
     "/doctors/": {
-      "title": "Our Doctors – Gynecology, Fertility & Ayurveda Team, Khanvel | Suvacha",
-      "description": "Meet 11 IMS–BHU trained specialists at Suvacha Healthcare, Khanvel: obstetrics, gynecology, infertility, Panchakarma, paediatrics, surgery & yoga."
+      "title": "Doctors at Shobha Hospital, Khanvel – Gynecologist & Surgeons",
+      "description": "Meet 11 IMS–BHU trained specialists at Shobha Hospital, Khanvel: obstetrics, gynecology, infertility, surgery, paediatrics, Panchakarma and yoga."
     },
     "/appointment/": {
-      "title": "Book a Gynecology Appointment in Khanvel, Silvassa | Suvacha",
-      "description": "Book an in-clinic visit in Khanvel or an online consultation with Suvacha Healthcare specialists. Quick confirmation on WhatsApp: +91 88677 61598."
+      "title": "Book Appointment – Shobha Hospital Khanvel, Silvassa",
+      "description": "Book an OPD visit or online consultation at Shobha Hospital, Khanvel. OPD Mon–Sat 8–11 AM & 2–8 PM. Call +91 97142 06386."
     },
     "/contact/": {
-      "title": "Contact & Directions – Suvacha Healthcare, Khanvel (DNH)",
-      "description": "Suvacha Healthcare, ND Complex, Char Rasta, Khanvel 396230. Open Mon–Fri 8–7, Sat 10–5, Sun 10–2. Call +91 88677 61598 · Emergency +91 72733 37999."
+      "title": "Contact & Directions – Shobha Hospital, Khanvel Char Rasta",
+      "description": "Shop No. 16–17, ND Complex, Khanvel Char Rasta, Silvassa 396230. 24×7 emergency: +91 97142 06386 · +91 88677 61598."
+    },
+    "/facilities/": {
+      "title": "Hospital Facilities – OT, Labour Room, Lab | Shobha Hospital",
+      "description": "24×7 emergency, modern operation theatre, labour room, laparoscopy, pathology laboratory and pharmacy at Shobha Hospital, Khanvel near Silvassa."
     },
     "/pregnancy-tools/": {
-      "title": "Pregnancy Due Date & Ovulation Calculator (Free) | Suvacha",
+      "title": "Pregnancy Due Date & Ovulation Calculator (Free) | Shobha Hospital",
       "description": "Free due date calculator with your personal pregnancy scan schedule (NT, anomaly, growth scans), plus an ovulation & fertile window calculator."
     },
     "/blog/": {
-      "title": "Women’s Health & Pregnancy Tips | Suvacha Healthcare Blog",
+      "title": "Pregnancy & Women’s Health Tips | Shobha Hospital Blog",
       "description": "Doctor-written guides on PCOS, pregnancy diet, warning signs, pregnancy scans, Garbhasanskar, male fertility and irregular periods."
     }
   },
   "services": {
     "womens-health-integrative-care": {
-      "title": "PCOS, Period & Menopause Treatment in Khanvel, Silvassa | Suvacha",
-      "description": "Care for PCOS/PCOD, irregular or painful periods, white discharge, menopause and breast health in Khanvel — modern gynecology with Ayurveda.",
+      "title": "Gynecologist in Khanvel – PCOS, Periods & Menopause Care",
+      "description": "Care for PCOS/PCOD, irregular or painful periods, white discharge, family planning and menopause at Shobha Hospital, Khanvel.",
       "faqs": [
         {
           "q": "Do you treat PCOS / PCOD?",
-          "a": "Yes. PCOS care at Suvacha includes hormonal and ultrasound evaluation, lifestyle and diet planning, medical treatment where needed, and supportive Ayurvedic therapies to help regulate cycles and improve metabolic health."
+          "a": "Yes. PCOS care at Shobha Hospital includes hormonal and ultrasound evaluation, lifestyle and diet planning, medical treatment where needed, and supportive Ayurvedic therapies to help regulate cycles and improve metabolic health."
         },
         {
           "q": "When should I see a gynecologist for irregular periods?",
@@ -58,8 +62,8 @@
       ]
     },
     "pregnancy-maternal-care": {
-      "title": "Pregnancy Care & Normal Delivery in Khanvel, Silvassa | Suvacha",
-      "description": "Antenatal check-ups, pregnancy scans, high-risk pregnancy care, normal & caesarean delivery and postnatal support in Khanvel near Silvassa.",
+      "title": "Maternity Hospital & Normal Delivery in Khanvel, Silvassa",
+      "description": "Antenatal check-ups, scans, high-risk pregnancy care, normal & caesarean delivery and postnatal care at Shobha Hospital, Khanvel.",
       "faqs": [
         {
           "q": "Do you prefer normal delivery?",
@@ -80,8 +84,8 @@
       ]
     },
     "infertility-reproductive-health": {
-      "title": "Infertility Treatment & Fertility Clinic in Khanvel, Silvassa | Suvacha",
-      "description": "Step-by-step fertility evaluation for couples, ovulation & PCOS management, recurrent miscarriage care and integrative fertility support in Khanvel.",
+      "title": "Infertility Treatment in Khanvel, Silvassa | Shobha Hospital",
+      "description": "Step-by-step fertility evaluation for couples, ovulation & PCOS management and recurrent miscarriage care at Shobha Hospital, Khanvel.",
       "faqs": [
         {
           "q": "When should we see a fertility specialist?",
@@ -102,8 +106,8 @@
       ]
     },
     "gynecology-surgical-care": {
-      "title": "Laparoscopic Gynecology Surgery in Khanvel, Silvassa | Suvacha",
-      "description": "Laparoscopy, hysteroscopy, fibroid & ovarian cyst surgery, prolapse care and safe caesarean sections with a minimally invasive, safety-first approach.",
+      "title": "Laparoscopic Gynec Surgery in Khanvel | Shobha Hospital",
+      "description": "Laparoscopy, hysteroscopy, fibroid & ovarian cyst surgery, prolapse care and safe caesarean sections in Shobha Hospital’s modern OT.",
       "faqs": [
         {
           "q": "What is laparoscopic (keyhole) surgery?",
@@ -124,8 +128,8 @@
       ]
     },
     "garbhasanskar": {
-      "title": "Garbhasanskar Program in Khanvel, Silvassa | Suvacha Healthcare",
-      "description": "Garbhasanskar antenatal wellness — pregnancy diet, prenatal yoga, meditation, music and bonding — alongside modern obstetric care in Khanvel.",
+      "title": "Garbhasanskar Program in Khanvel, Silvassa | Shobha Hospital",
+      "description": "Garbhasanskar antenatal wellness — pregnancy diet, prenatal yoga, meditation, music and bonding — alongside modern obstetric care.",
       "faqs": [
         {
           "q": "What is Garbhasanskar?",
@@ -146,8 +150,8 @@
       ]
     },
     "panchakarma-therapies": {
-      "title": "Panchakarma Treatment Centre in Khanvel, Silvassa | Suvacha",
-      "description": "Doctor-supervised Panchakarma — Vamana, Virechana, Basti, Abhyanga, Shirodhara — for detox, rejuvenation, joint pain, stress and women’s health.",
+      "title": "Panchakarma Treatment in Khanvel, Silvassa | Shobha Hospital",
+      "description": "Doctor-supervised Panchakarma — Vamana, Virechana, Basti, Abhyanga, Shirodhara — for detox, joint pain, stress and women’s health.",
       "faqs": [
         {
           "q": "What is Panchakarma?",
@@ -168,8 +172,8 @@
       ]
     },
     "basic-pediatrics": {
-      "title": "Child Specialist & Suvarna Prashan in Khanvel, Silvassa | Suvacha",
-      "description": "Newborn care, immunisation guidance, Suvarna Prashan, growth & nutrition monitoring and care for common childhood illnesses in Khanvel.",
+      "title": "Child Specialist & Suvarna Prashan in Khanvel | Shobha Hospital",
+      "description": "Newborn care, immunisation guidance, Suvarna Prashan, growth & nutrition monitoring and common childhood illness care in Khanvel.",
       "faqs": [
         {
           "q": "What is Suvarna Prashan?",
@@ -186,8 +190,8 @@
       ]
     },
     "holistic-wellness-preventive-care": {
-      "title": "Yoga, Diet & Preventive Health Care in Khanvel, Silvassa | Suvacha",
-      "description": "Preventive health check guidance, yoga therapy, weight & diet planning, stress management and lifestyle disease prevention in Khanvel.",
+      "title": "Yoga, Diet & Preventive Health in Khanvel | Shobha Hospital",
+      "description": "Preventive health check guidance, yoga therapy, weight & diet planning, stress management and lifestyle disease prevention.",
       "faqs": [
         {
           "q": "Do you offer yoga therapy?",
@@ -204,8 +208,8 @@
       ]
     },
     "andrology-male-infertility": {
-      "title": "Male Infertility Treatment in Khanvel, Silvassa | Suvacha Healthcare",
-      "description": "Semen analysis, hormone evaluation and integrative treatment for low sperm count, poor motility and sexual health concerns — confidential care.",
+      "title": "Male Infertility Treatment in Khanvel | Shobha Hospital",
+      "description": "Semen analysis, hormone evaluation and integrative treatment for low sperm count and sexual health concerns — confidential care.",
       "faqs": [
         {
           "q": "What is the first test for male infertility?",
@@ -220,6 +224,64 @@
           "a": "Yes. Andrology and sexual health consultations are handled with complete privacy and sensitivity, without stigma or blame."
         }
       ]
+    },
+    "emergency-care": {
+      "faqs": [
+        {
+          "q": "Is Shobha Hospital open 24 hours for emergencies?",
+          "a": "Yes. Emergency services are available 24×7, every day. Call +91 97142 06386 and come straight to the hospital at Khanvel Char Rasta."
+        },
+        {
+          "q": "Where is the hospital?",
+          "a": "Shop No. 16–17, ND Complex, Khanvel Char Rasta, Silvassa, Dadra & Nagar Haveli 396230 — use the “Get directions” button on our website."
+        },
+        {
+          "q": "Can I come directly in labour at night?",
+          "a": "Yes. The labour room and obstetric team handle deliveries at any hour. Calling ahead helps the team prepare."
+        },
+        {
+          "q": "Do you have an ambulance or ICU?",
+          "a": "A 24×7 ambulance and an advanced ICU are coming soon and are not available yet. Please call to confirm current services."
+        }
+      ],
+      "title": "24×7 Emergency Hospital in Khanvel, Silvassa | Shobha Hospital",
+      "description": "24×7 emergency services, labour room and operation theatre at Khanvel Char Rasta, Silvassa. Emergency: +91 97142 06386."
+    },
+    "general-medicine-surgery": {
+      "faqs": [
+        {
+          "q": "Do you treat general illnesses, not only women’s health?",
+          "a": "Yes. Shobha Hospital is a multi-speciality family hospital — our doctors treat fever, infections, BP, diabetes, thyroid problems and common skin conditions."
+        },
+        {
+          "q": "Which surgeries are done at the hospital?",
+          "a": "Common procedures include hernia repair, gallbladder surgery, lipoma and cyst removal, and treatment of piles, fissure and fistula, in the hospital’s modern operation theatre."
+        },
+        {
+          "q": "What is laparoscopic surgery?",
+          "a": "Laparoscopy (दूरबीन विधि) uses small cuts and a camera. Compared with open surgery it usually means less pain, a smaller scar and faster recovery."
+        }
+      ],
+      "title": "General Physician & Surgeon in Khanvel | Shobha Hospital",
+      "description": "Fever, infections, BP, diabetes, skin problems, hernia, gallbladder, piles and laparoscopic surgery at Shobha Hospital, Khanvel."
+    },
+    "pathology-laboratory": {
+      "faqs": [
+        {
+          "q": "Is there a lab inside the hospital?",
+          "a": "Yes. Shobha Hospital has an advanced pathology laboratory on site, so most tests advised by our doctors can be done in the same visit."
+        },
+        {
+          "q": "Do I need to fast before blood tests?",
+          "a": "Some tests, such as fasting blood sugar, need fasting. Ask our team when you book so you can come prepared."
+        },
+        {
+          "q": "Are X-Ray and sonography available?",
+          "a": "Digital X-Ray and sonography are coming soon and are not available at the hospital yet."
+        }
+      ],
+      "title": "Pathology Lab in Khanvel, Silvassa | Shobha Hospital",
+      "description": "On-site pathology laboratory at Shobha Hospital, Khanvel: blood, sugar, thyroid, urine and pregnancy tests with quick reports."
     }
   },
   "doctors": {

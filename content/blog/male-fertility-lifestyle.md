@@ -58,4 +58,4 @@ Both partners should be evaluated together if a couple has been trying for **12 
 
 The first and simplest test is a **semen analysis**, which checks count, movement and shape. Hormone tests may follow.
 
-> Male fertility should be addressed without stigma or blame. At Suvacha, couples are counselled together, and treatment combines modern evaluation with lifestyle and Ayurvedic support.
+> Male fertility should be addressed without stigma or blame. At Shobha Hospital, couples are counselled together, and treatment combines modern evaluation with lifestyle and Ayurvedic support.

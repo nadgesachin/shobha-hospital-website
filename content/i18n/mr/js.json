@@ -30,7 +30,6 @@
  "Likely ovulation": "संभाव्य अंडोत्सर्ग",
  "My estimated due date is {date} ({preg}). I would like to book an antenatal consultation.": "माझी अंदाजे प्रसूती तारीख {date} ({preg}) आहे. मला गरोदरपणाच्या तपासणीसाठी सल्ला बुक करायचा आहे.",
  "NT scan": "NT स्कॅन",
- "Namaste Suvacha Healthcare 🙏": "नमस्कार Suvacha Healthcare 🙏",
  "Name": "नाव",
  "Next period expected": "पुढील पाळीची अपेक्षित तारीख",
  "Nuchal translucency screening": "न्यूकल ट्रान्सलुसन्सी (NT) तपासणी",
@@ -55,5 +54,8 @@
  "You are in your fertile window now (until {date}).": "सध्या तुमचे गर्भधारणेसाठी अनुकूल दिवस सुरू आहेत ({date} पर्यंत).",
  "Your scan & test timeline": "तुमच्या स्कॅन आणि तपासण्यांचे वेळापत्रक",
  "{n} days to go": "अजून {n} दिवस बाकी",
- "{w} weeks {d} days pregnant": "गरोदरपणाचे {w} आठवडे {d} दिवस"
+ "{w} weeks {d} days pregnant": "गरोदरपणाचे {w} आठवडे {d} दिवस",
+ "Namaste Shobha Hospital 🙏": "नमस्कार शोभा हॉस्पिटल 🙏",
+ "OPD open · until {time}": "ओपीडी सुरू · {time} पर्यंत",
+ "OPD closed · Emergency 24×7": "ओपीडी बंद · आपत्कालीन सेवा 24×7"
 }

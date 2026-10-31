@@ -1,103 +1,87 @@
 {
-  "name": "Suvacha Healthcare",
-  "tagline": "Creating श्रेयसी प्रजा",
-  "url": "https://suvachahealthcare.in",
-  "phone": "+918867761598",
-  "phone_display": "+91 88677 61598",
+  "name": "Shobha Hospital",
+  "tagline": "Your Complete Family Healthcare Destination",
+  "url": "https://shobhahospitalkhanvel.com",
+  "phone": "+919714206386",
+  "phone_display": "+91 97142 06386",
   "whatsapp": "918867761598",
-  "whatsapp_greeting": "Namaste Suvacha Healthcare, I would like to know more about your services.",
-  "email": "SuvachaHealthCare@gmail.com",
+  "whatsapp_greeting": "Namaste Shobha Hospital, I would like to know more about your services.",
+  "email": "shedadsachin1996@gmail.com",
   "address": {
-    "street": "Ground & First Floor, ND Complex, Char Rasta",
+    "street": "Shop No. 16–17, ND Complex, Khanvel Char Rasta",
     "locality": "Khanvel",
     "district": "Dadra and Nagar Haveli",
     "region": "Dadra and Nagar Haveli and Daman and Diu",
     "region_code": "IN-DH",
     "postal": "396230",
     "country": "IN",
-    "short": "Khanvel, Dadra & Nagar Haveli",
-    "display": "Ground & First Floor, ND Complex, Char Rasta, Khanvel, Dadra and Nagar Haveli and Daman and Diu 396230"
+    "short": "Khanvel, Silvassa (DNH)",
+    "display": "Shop No. 16–17, ND Complex, Khanvel Char Rasta, Silvassa, Dadra & Nagar Haveli 396230",
+    "city": "Silvassa"
   },
   "maps_link": "https://maps.app.goo.gl/XJpH6NXiiyLyzR5Y6",
   "hours": [
     {
-      "days": "Monday – Friday",
+      "days": "Monday – Saturday",
+      "short": "Mon–Sat",
       "dow": [
         1,
         2,
         3,
         4,
-        5
-      ],
-      "open": "08:00",
-      "close": "19:00",
-      "label": "8:00 AM – 7:00 PM",
-      "short": "Mon–Fri"
-    },
-    {
-      "days": "Saturday",
-      "dow": [
+        5,
         6
       ],
-      "open": "10:00",
-      "close": "17:00",
-      "label": "10:00 AM – 5:00 PM",
-      "short": "Sat"
+      "sessions": [
+        {
+          "open": "08:00",
+          "close": "11:00",
+          "close_label": "11:00 AM"
+        },
+        {
+          "open": "14:00",
+          "close": "20:00",
+          "close_label": "8:00 PM"
+        }
+      ],
+      "label": "8:00 – 11:00 AM · 2:00 – 8:00 PM"
     },
     {
       "days": "Sunday",
+      "short": "Sun",
       "dow": [
         0
       ],
-      "open": "10:00",
-      "close": "14:00",
-      "label": "10:00 AM – 2:00 PM",
-      "short": "Sun"
+      "sessions": [],
+      "label": "By appointment"
     }
   ],
-  "about_short": "Suvacha Healthcare is a women-focused wellness centre integrating modern obstetrics, gynecology and classical Ayurveda — supporting women from menstrual health and fertility to pregnancy, motherhood and menopause with compassion, clarity and personalised care.",
+  "about_short": "Shobha Hospital Multi Speciality, Khanvel is a family hospital managed by Dr. Sachin Ladak Shedad — offering gynecology, obstetrics, infertility, paediatrics, pathology and general & surgical care, with 24×7 emergency services.",
   "about": [
-    "Suvacha Healthcare is a visionary initiative by Dr. Sachin Ladak Shedad, dedicated to women’s health, maternal wellness, and holistic community well-being.",
-    "Guided by the noble mission of “Creating श्रेयसी प्रजा”, Suvacha integrates the timeless wisdom of Ayurveda with the scientific precision of modern medicine to offer comprehensive, compassionate, and effective healthcare."
+    "Shobha Hospital Multi Speciality is Dr. Sachin Shedad’s hospital at Khanvel Char Rasta, near Silvassa — your complete family healthcare destination, with a modern operation theatre, labour room, advanced laboratory, pharmacy and 24×7 emergency care.",
+    "Women’s health and maternity care at the hospital follow the approach of Suvacha Healthcare, Dr. Sachin’s initiative guided by the mission “Creating श्रेयसी प्रजा” — integrating the timeless wisdom of Ayurveda with the scientific precision of modern medicine."
   ],
   "hero": {
-    "eyebrow": "Holistic Women’s Wellness",
-    "title": "Integrating Ayurveda & Modern Gynecology for Fertility, Pregnancy and Lifelong Wellness",
-    "lead": "Personal care for women’s health and motherhood — from your first period to motherhood and menopause, guided by IMS–BHU trained specialists in Khanvel."
+    "eyebrow": "Multi Speciality Hospital · Khanvel",
+    "title": "Your Complete Family Healthcare Destination",
+    "lead": "Gynec, OBS, infertility, paediatrics, pathology and general & surgical care — with 24×7 emergency services, managed by Dr. Sachin Ladak Shedad."
   },
   "stats": [
+    {
+      "value": "24×7",
+      "label": "Emergency care"
+    },
     {
       "value": "11",
       "label": "Specialist doctors"
     },
     {
-      "value": "9",
-      "label": "Care specialities"
+      "value": "12",
+      "label": "Specialities & services"
     },
     {
       "value": "IMS–BHU",
-      "label": "Trained faculty"
-    },
-    {
-      "value": "Online + In-clinic",
-      "label": "Consultations"
-    }
-  ],
-  "pillars": [
-    {
-      "icon": "flower",
-      "title": "Women-Centric Health Care",
-      "text": "Personalised care for menstrual disorders, PCOS, breast health, menopause and hormonal balance — designed around a woman’s body, lifestyle and natural rhythms."
-    },
-    {
-      "icon": "baby",
-      "title": "Pregnancy & Motherhood Care",
-      "text": "Comprehensive fertility, antenatal and postnatal care guided by Garbhini and Sutika Paricharya, combined with modern diagnostics for a safe and confident motherhood journey."
-    },
-    {
-      "icon": "leaf",
-      "title": "Ayurvedic & Preventive Wellness",
-      "text": "Panchakarma therapies, diet planning, yoga and lifestyle guidance to restore balance, support reproductive health and promote long-term well-being naturally."
+      "label": "Trained doctors"
     }
   ],
   "journey": [
@@ -134,34 +118,34 @@
   ],
   "why": [
     {
+      "icon": "clock",
+      "title": "24×7 Emergency Care",
+      "text": "Round-the-clock emergency services, with an operation theatre and labour room ready when you need them."
+    },
+    {
       "icon": "user",
-      "title": "Personalised Consultations",
-      "text": "Every woman’s body and journey are unique. We take time to listen, understand your concerns and design care plans tailored to your health needs, life stage and goals."
+      "title": "Experienced Doctors",
+      "text": "IMS–BHU trained specialists across gynecology, obstetrics, infertility, paediatrics, surgery and Ayurveda."
     },
     {
       "icon": "shield",
-      "title": "Evidence-Based Gynecological Care",
-      "text": "Treatments grounded in modern medical science and clinical experience — safe, ethical, evidence-based care for menstrual health, pregnancy, infertility and beyond."
+      "title": "Modern Technique",
+      "text": "Laparoscopy and hysteroscopy (दूरबीन विधि) for smaller cuts, less pain and faster recovery."
     },
     {
       "icon": "heart",
-      "title": "Compassionate Support",
-      "text": "Healing begins with trust and empathy. From your first consultation to follow-ups, you are supported with sensitivity, respect and clear communication."
+      "title": "Compassionate Care",
+      "text": "Healing begins with trust. We listen, explain clearly and support you at every step."
     },
     {
       "icon": "leaf",
       "title": "Integrated Ayurveda",
-      "text": "Classical Ayurvedic principles thoughtfully integrated to restore balance, improve hormonal health, enhance fertility and promote natural healing alongside modern medicine."
-    },
-    {
-      "icon": "sun",
-      "title": "Preventive Women’s Wellness",
-      "text": "Beyond treating illness — prevention through lifestyle guidance, nutrition, yoga and routine wellness care for long-term health and vitality."
+      "text": "Classical Ayurvedic therapies alongside modern, evidence-based medicine where they help."
     },
     {
       "icon": "repeat",
-      "title": "Continuity of Care",
-      "text": "From adolescence to motherhood and menopause, consistent long-term care so you never feel lost or rushed at any stage of your journey."
+      "title": "Complete Family Care",
+      "text": "From pregnancy and childbirth to children’s health and everyday illness — the whole family under one roof."
     }
   ],
   "mission": "To promote healthy motherhood, balanced living, and preventive healthcare through the thoughtful integration of Ayurveda and modern medical science.",
@@ -174,42 +158,50 @@
     "Preventive and lifestyle-based approach"
   ],
   "why_us_about": [
-    "At Suvacha Healthcare, we believe that women’s health deserves care that is compassionate, ethical, and deeply rooted in understanding the body as a whole. Our approach combines the timeless wisdom of Ayurveda with the precision of modern medical science to provide safe, effective, and personalised care at every stage of a woman’s life.",
+    "At Shobha Hospital, we believe that women’s health deserves care that is compassionate, ethical, and deeply rooted in understanding the body as a whole. Our approach combines the timeless wisdom of Ayurveda with the precision of modern medical science to provide safe, effective, and personalised care at every stage of a woman’s life.",
     "From adolescence to motherhood and beyond, we focus not just on treating symptoms, but on identifying root causes, promoting prevention, and empowering women through education and holistic support."
   ],
-  "founder_message": "Suvacha Healthcare is built on the belief that a healthy woman creates a healthy society. By uniting Ayurveda’s timeless knowledge with modern medical science, we are committed to offering care that heals, strengthens, and empowers. Our goal is to nurture Shrēyasī Prajā — a generation that is physically strong, emotionally balanced, and spiritually enriched.",
+  "founder_message": "Shobha Hospital is built on the belief that a healthy woman creates a healthy society. By uniting Ayurveda’s timeless knowledge with modern medical science, we are committed to offering care that heals, strengthens, and empowers. Our goal is to nurture Shrēyasī Prajā — a generation that is physically strong, emotionally balanced, and spiritually enriched.",
   "contact_intro": "Whether you have questions about women’s health, pregnancy care, infertility treatment, or holistic wellness, our team is ready to guide you with care and clarity. We believe in listening first, understanding your concerns, and providing ethical, personalised healthcare solutions.",
   "contact_reasons": [
-    "Appointment bookings (offline or online consultation)",
+    "24×7 emergency care",
+    "Appointment bookings (in-hospital or online consultation)",
     "Pregnancy, gynecology, and fertility care enquiries",
-    "Panchakarma, Garbhasanskar & wellness programs",
-    "Diagnostic, pharmacy, and follow-up support",
-    "General questions or second opinions"
+    "Laboratory tests, pharmacy and follow-up support",
+    "Panchakarma, Garbhasanskar & wellness programs"
   ],
   "faqs": [
     {
+      "q": "Where is Shobha Hospital in Khanvel?",
+      "a": "Shobha Hospital Multi Speciality is at Shop No. 16–17, ND Complex, Khanvel Char Rasta, Khanvel, Silvassa, Dadra & Nagar Haveli 396230 — right at the main Khanvel crossroads, easy to reach from Silvassa, Rudana, Dudhani, Kherdi and nearby villages. Call +91 97142 06386 (24×7) or WhatsApp +91 88677 61598."
+    },
+    {
       "q": "How do I book an appointment?",
-      "a": "Fill in the appointment form on this website — it opens WhatsApp with your details pre-filled so our team can confirm a slot. You can also call us directly on +91 88677 61598."
+      "a": "Fill in the appointment form on this website — it opens WhatsApp with your details pre-filled so our team can confirm a slot. You can also call +91 97142 06386 or +91 88677 61598."
     },
     {
-      "q": "Do you offer online consultations?",
-      "a": "Yes. Along with in-clinic visits at our Khanvel clinic, our online consultation team offers gynecology and obstetric guidance, follow-ups and counselling. Choose “Online consultation” in the booking form."
+      "q": "Is emergency care available 24×7?",
+      "a": "Yes. Shobha Hospital provides 24×7 emergency services. In an emergency, call +91 97142 06386 and come straight to the hospital at Khanvel Char Rasta."
     },
     {
-      "q": "What are your clinic timings?",
-      "a": "Monday to Friday 8:00 AM – 7:00 PM, Saturday 10:00 AM – 5:00 PM and Sunday 10:00 AM – 2:00 PM. Please call ahead for specific doctor availability."
+      "q": "What are the OPD timings?",
+      "a": "Monday to Saturday 8:00 – 11:00 AM and 2:00 – 8:00 PM. On Sunday, consultations are by appointment. Emergency care is available 24×7."
     },
     {
-      "q": "Do you combine Ayurveda with modern medicine?",
-      "a": "Yes — that is the heart of Suvacha. Diagnosis and medical decisions follow modern, evidence-based protocols, and classical Ayurvedic therapies, diet, yoga and lifestyle guidance are integrated alongside where they help."
+      "q": "Do you have a laboratory and pharmacy?",
+      "a": "Yes. The hospital has an advanced pathology laboratory and an in-house pharmacy, so most tests and medicines are available under one roof."
     },
     {
       "q": "Do you support normal delivery?",
       "a": "We strongly support normal delivery whenever it is medically safe, with continuous labour monitoring, while remaining fully ready for a caesarean section when it is medically indicated."
     },
     {
-      "q": "Is male infertility also treated?",
-      "a": "Yes. Our andrology service offers semen analysis, hormonal evaluation, lifestyle optimisation and integrative treatment, and couples are counselled together without stigma or blame."
+      "q": "Do you offer online consultations?",
+      "a": "Yes. Along with visits at the hospital, our online consultation team offers gynecology and obstetric guidance, follow-ups and counselling. Choose “Online consultation” in the booking form."
+    },
+    {
+      "q": "Do you combine Ayurveda with modern medicine?",
+      "a": "Yes. Diagnosis and medical decisions follow modern, evidence-based protocols, and classical Ayurvedic therapies, diet, yoga and lifestyle guidance are integrated alongside where they help."
     },
     {
       "q": "What should I bring to my first visit?",
@@ -220,8 +212,8 @@
     "lat": 20.12882623014809,
     "lng": 73.06760853033829
   },
-  "emergency_phone": "+917273337999",
-  "emergency_display": "+91 72733 37999",
+  "emergency_phone": "+919714206386",
+  "emergency_display": "+91 97142 06386",
   "nearby": [
     "Silvassa",
     "Talasari",
@@ -233,5 +225,103 @@
   ],
   "google_cid": "3980436002316379231",
   "google_place_url": "https://maps.google.com/?cid=3980436002316379231",
-  "google_site_verification": ""
+  "google_site_verification": "",
+  "full_name": "Shobha Hospital Multi Speciality, Khanvel",
+  "brand_sub": "Multi Speciality · Khanvel",
+  "managed_by": "Dr. Sachin Ladak Shedad",
+  "parent_brand": "Suvacha Healthcare",
+  "motto": "आपकी सेहत, हमारी प्राथमिकता",
+  "phone2": "+918867761598",
+  "phone2_display": "+91 88677 61598",
+  "specialities": [
+    "Obstetrics & Gynecology",
+    "Infertility",
+    "Paediatrics",
+    "Skin care",
+    "Pathology",
+    "General Medicine",
+    "General Surgery",
+    "Laparoscopy",
+    "Normal Delivery",
+    "Garbhasanskar",
+    "Panchakarma"
+  ],
+  "facilities": [
+    {
+      "icon": "clock",
+      "title": "24×7 Emergency Care",
+      "text": "Emergency services round the clock, every day of the year.",
+      "photo": ""
+    },
+    {
+      "icon": "hospital",
+      "title": "Modern Operation Theatre",
+      "text": "Laparoscopic (keyhole) and open surgeries in a modern, well-equipped OT.",
+      "photo": "photo-ot-laparoscopy"
+    },
+    {
+      "icon": "baby",
+      "title": "Labour Room & Delivery",
+      "text": "A dedicated labour room for normal and caesarean deliveries, with care for mother and newborn.",
+      "photo": "photo-family-newborn"
+    },
+    {
+      "icon": "stethoscope",
+      "title": "Laparoscopy & Hysteroscopy",
+      "text": "Minimally invasive (दूरबीन विधि) procedures for faster recovery.",
+      "photo": "photo-ot-hysteroscopy"
+    },
+    {
+      "icon": "shield",
+      "title": "Advanced Laboratory",
+      "text": "Pathology tests on site, so reports reach your doctor quickly.",
+      "photo": ""
+    },
+    {
+      "icon": "plus",
+      "title": "Pharmacy",
+      "text": "In-house pharmacy for the medicines your doctor prescribes.",
+      "photo": ""
+    }
+  ],
+  "coming_soon": [
+    "Digital X-Ray",
+    "Sonography / Ultrasound",
+    "Cashless & Mediclaim",
+    "NABH-accredited hospital",
+    "Advanced ICU",
+    "24×7 Ambulance",
+    "Physiotherapy & Rehabilitation",
+    "2D Echo"
+  ],
+  "antenatal": {
+    "checklist": [
+      "Regular check-ups",
+      "Blood pressure monitoring",
+      "Weight monitoring",
+      "Blood & urine tests",
+      "Ultrasound scans",
+      "Iron & calcium supplements",
+      "Vaccinations as advised"
+    ],
+    "tips": [
+      "Eat a balanced diet.",
+      "Drink plenty of water.",
+      "Take medicines regularly.",
+      "Stay active & get enough rest.",
+      "Avoid smoking, alcohol and self-medication.",
+      "Never miss your antenatal visits."
+    ],
+    "warning": [
+      "Bleeding",
+      "Severe pain",
+      "Leakage of water",
+      "Severe headache",
+      "Swelling of face or hands",
+      "Reduced baby movements",
+      "High fever",
+      "Persistent vomiting"
+    ],
+    "reminder": "Timely care, proper nutrition and regular check-ups ensure a safe and healthy pregnancy."
+  }
 }

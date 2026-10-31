@@ -38,7 +38,7 @@ Reading uplifting books, practising gratitude, and learning about breastfeeding,
 - It **is not** a substitute for antenatal check-ups, scans, blood tests or medicines prescribed by your doctor.
 - It **should not** involve unprescribed herbal medicines or practices that are unsafe in pregnancy.
 
-At Suvacha, Garbhasanskar is offered alongside evidence-based obstetric care, under the supervision of our obstetricians.
+At Shobha Hospital, Garbhasanskar is offered alongside evidence-based obstetric care, under the supervision of our obstetricians.
 
 ## When can you start?
 

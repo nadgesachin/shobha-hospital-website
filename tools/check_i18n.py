@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 C = ROOT / "content"
-DEVA = re.compile(r"[ऀ-ॿ]")
+DEVA = re.compile(r"[ऀ-ॿ\u0A80-\u0AFF]")  # Devanagari or Gujarati
 PH = re.compile(r"\{[a-z]+\}")
 errors = []
 

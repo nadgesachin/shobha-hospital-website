@@ -10,7 +10,7 @@ reviewed_by:
 ---
 Nausea, tiredness, mild back pain and swollen feet are common parts of pregnancy. But some symptoms can signal a problem that needs care **the same day**. Knowing these signs — and acting quickly — protects both mother and baby.
 
-> **In an emergency, do not wait for your next appointment.** Call your doctor or go to the nearest hospital straight away. Suvacha Healthcare emergency: **+91 72733 37999**.
+> **In an emergency, do not wait for your next appointment.** Call your doctor or go to the nearest hospital straight away. Shobha Hospital emergency: **+91 97142 06386**.
 
 ## Go to hospital immediately if you have
 

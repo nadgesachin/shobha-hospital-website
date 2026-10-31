@@ -1,162 +1,10 @@
 [
   {
-    "slug": "womens-health-integrative-care",
-    "title": "Women’s Health & Integrative Care",
-    "tagline": "Holistic Care for Every Stage of a Woman’s Life",
-    "intro": [
-      "At Suvacha Healthcare, women’s health is approached with sensitivity, scientific understanding, and holistic integration. We combine modern gynecology with Ayurvedic wisdom to support women through every phase of life—adolescence, reproductive years, pregnancy, menopause, and beyond.",
-      "Our focus is not just treatment, but education, prevention, and long-term wellbeing, empowering women to understand their bodies and make informed health decisions."
-    ],
-    "sections": [
-      {
-        "title": "Menstrual Health & Hygiene",
-        "paras": [
-          "Menstrual health is a key indicator of overall wellbeing. We help women understand what is normal and when medical attention is required."
-        ],
-        "groups": [
-          {
-            "label": "Care includes",
-            "items": [
-              "Understanding the normal menstrual cycle",
-              "Management of painful, irregular, heavy, or delayed periods",
-              "Menstrual hygiene education and safe product usage",
-              "Lifestyle and dietary guidance for cycle regulation",
-              "Counselling for school, college, and working women",
-              "Early evaluation of warning signs needing medical care"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "PCOD, Hormonal Imbalance & Endometriosis",
-        "paras": [
-          "Hormonal disorders can affect periods, fertility, weight, skin, mood, and long-term health. Our integrative approach focuses on treating the root cause."
-        ],
-        "groups": [
-          {
-            "label": "We offer",
-            "items": [
-              "Diagnosis and management of PCOD / PCOS",
-              "Evaluation of hormonal imbalance (thyroid, prolactin, insulin resistance)",
-              "Endometriosis assessment and pain management",
-              "Personalised diet, exercise, and stress-management guidance",
-              "Evidence-based medical treatment combined with Ayurvedic support",
-              "Long-term lifestyle correction to prevent recurrence"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Cervical Health & White Discharge Care",
-        "paras": [
-          "We provide clear guidance and treatment for common yet often misunderstood gynecological concerns."
-        ],
-        "groups": [
-          {
-            "label": "Services include",
-            "items": [
-              "Differentiating normal vs abnormal vaginal discharge",
-              "Diagnosis and treatment of infections and inflammation",
-              "Cervical hygiene counselling",
-              "Pap smear screening and HPV awareness",
-              "STI education and prevention in simple, non-alarming language",
-              "Timely treatment to prevent complications"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Menopause & Midlife Women’s Health",
-        "paras": [
-          "Menopause is a natural transition that deserves care and understanding. We help women maintain balance, confidence, and vitality during midlife."
-        ],
-        "groups": [
-          {
-            "label": "Care includes",
-            "items": [
-              "Management of hot flashes, sleep issues, mood changes, and fatigue",
-              "Bone, heart, and metabolic health assessment",
-              "Weight and lifestyle management after menopause",
-              "Natural and medical options for symptom relief",
-              "Emotional wellbeing and mental health support",
-              "Individualised hormone therapy guidance when indicated"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Breast Health & Breast Disease Awareness",
-        "paras": [
-          "Early awareness and timely evaluation are essential for breast health."
-        ],
-        "groups": [
-          {
-            "label": "We provide",
-            "items": [
-              "Education on monthly breast self-examination (BSE)",
-              "Evaluation of breast pain, lumps, and discharge",
-              "Management of common conditions like fibroadenoma, cysts, mastitis",
-              "Guidance on ultrasound and mammography after 40",
-              "Myth-busting and reassurance through accurate information",
-              "Early referral and management when required"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Preventive & Lifestyle-Based Women’s Care",
-        "paras": [
-          "Preventive healthcare is central to our philosophy."
-        ],
-        "groups": [
-          {
-            "label": "Includes",
-            "items": [
-              "Nutrition and weight management",
-              "Stress, sleep, and mental wellness support",
-              "Yoga and lifestyle counselling",
-              "Prevention of lifestyle disorders such as anemia, obesity, thyroid imbalance, and diabetes",
-              "Long-term wellness planning for women"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Our Integrative Approach",
-        "paras": [],
-        "groups": [
-          {
-            "label": "",
-            "items": [
-              "Modern diagnostics & evidence-based gynecology",
-              "Ayurvedic therapies for hormonal balance and vitality",
-              "Lifestyle and preventive care at the core",
-              "Compassionate, confidential, and women-centered treatment"
-            ]
-          }
-        ],
-        "note": ""
-      }
-    ],
-    "short": "Menstrual health, PCOS, hormonal balance, menopause and breast health.",
-    "doctors": [
-      "lalita",
-      "sachin",
-      "neha-sunia"
-    ]
-  },
-  {
     "slug": "pregnancy-maternal-care",
     "title": "Pregnancy & Maternal Care",
     "tagline": "Comprehensive, Compassionate & Integrative Maternity Care",
     "intro": [
-      "At Suvacha Healthcare, pregnancy is treated as a sacred and transformative journey. Our Pregnancy & Maternal Care services combine modern obstetric science with Ayurvedic wisdom, ensuring the health, safety, and emotional wellbeing of both mother and baby—from planning conception to postnatal recovery.",
+      "At Shobha Hospital, pregnancy is treated as a sacred and transformative journey. Our Pregnancy & Maternal Care services combine modern obstetric science with Ayurvedic wisdom, ensuring the health, safety, and emotional wellbeing of both mother and baby—from planning conception to postnatal recovery.",
       "We provide personalised, ethical, and evidence-based maternity care under the clinical leadership of Dr. Sachin Ladak Shedad, supported by an experienced multidisciplinary team."
     ],
     "sections": [
@@ -306,11 +154,164 @@
     ]
   },
   {
+    "slug": "womens-health-integrative-care",
+    "title": "Women’s Health & Integrative Care",
+    "tagline": "Holistic Care for Every Stage of a Woman’s Life",
+    "intro": [
+      "At Shobha Hospital, women’s health is approached with sensitivity, scientific understanding, and holistic integration. We combine modern gynecology with Ayurvedic wisdom to support women through every phase of life—adolescence, reproductive years, pregnancy, menopause, and beyond.",
+      "Our focus is not just treatment, but education, prevention, and long-term wellbeing, empowering women to understand their bodies and make informed health decisions."
+    ],
+    "sections": [
+      {
+        "title": "Menstrual Health & Hygiene",
+        "paras": [
+          "Menstrual health is a key indicator of overall wellbeing. We help women understand what is normal and when medical attention is required."
+        ],
+        "groups": [
+          {
+            "label": "Care includes",
+            "items": [
+              "Understanding the normal menstrual cycle",
+              "Management of painful, irregular, heavy, or delayed periods",
+              "Menstrual hygiene education and safe product usage",
+              "Lifestyle and dietary guidance for cycle regulation",
+              "Counselling for school, college, and working women",
+              "Early evaluation of warning signs needing medical care"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "PCOD, Hormonal Imbalance & Endometriosis",
+        "paras": [
+          "Hormonal disorders can affect periods, fertility, weight, skin, mood, and long-term health. Our integrative approach focuses on treating the root cause."
+        ],
+        "groups": [
+          {
+            "label": "We offer",
+            "items": [
+              "Diagnosis and management of PCOD / PCOS",
+              "Evaluation of hormonal imbalance (thyroid, prolactin, insulin resistance)",
+              "Endometriosis assessment and pain management",
+              "Personalised diet, exercise, and stress-management guidance",
+              "Evidence-based medical treatment combined with Ayurvedic support",
+              "Long-term lifestyle correction to prevent recurrence"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Cervical Health & White Discharge Care",
+        "paras": [
+          "We provide clear guidance and treatment for common yet often misunderstood gynecological concerns."
+        ],
+        "groups": [
+          {
+            "label": "Services include",
+            "items": [
+              "Differentiating normal vs abnormal vaginal discharge",
+              "Diagnosis and treatment of infections and inflammation",
+              "Cervical hygiene counselling",
+              "Pap smear screening and HPV awareness",
+              "STI education and prevention in simple, non-alarming language",
+              "Timely treatment to prevent complications"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Menopause & Midlife Women’s Health",
+        "paras": [
+          "Menopause is a natural transition that deserves care and understanding. We help women maintain balance, confidence, and vitality during midlife."
+        ],
+        "groups": [
+          {
+            "label": "Care includes",
+            "items": [
+              "Management of hot flashes, sleep issues, mood changes, and fatigue",
+              "Bone, heart, and metabolic health assessment",
+              "Weight and lifestyle management after menopause",
+              "Natural and medical options for symptom relief",
+              "Emotional wellbeing and mental health support",
+              "Individualised hormone therapy guidance when indicated"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Breast Health & Breast Disease Awareness",
+        "paras": [
+          "Early awareness and timely evaluation are essential for breast health."
+        ],
+        "groups": [
+          {
+            "label": "We provide",
+            "items": [
+              "Education on monthly breast self-examination (BSE)",
+              "Evaluation of breast pain, lumps, and discharge",
+              "Management of common conditions like fibroadenoma, cysts, mastitis",
+              "Guidance on ultrasound and mammography after 40",
+              "Myth-busting and reassurance through accurate information",
+              "Early referral and management when required"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Preventive & Lifestyle-Based Women’s Care",
+        "paras": [
+          "Preventive healthcare is central to our philosophy."
+        ],
+        "groups": [
+          {
+            "label": "Includes",
+            "items": [
+              "Family planning and contraception counselling",
+              "Nutrition and weight management",
+              "Stress, sleep, and mental wellness support",
+              "Yoga and lifestyle counselling",
+              "Prevention of lifestyle disorders such as anemia, obesity, thyroid imbalance, and diabetes",
+              "Long-term wellness planning for women"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Our Integrative Approach",
+        "paras": [],
+        "groups": [
+          {
+            "label": "",
+            "items": [
+              "Modern diagnostics & evidence-based gynecology",
+              "Ayurvedic therapies for hormonal balance and vitality",
+              "Lifestyle and preventive care at the core",
+              "Compassionate, confidential, and women-centered treatment"
+            ]
+          }
+        ],
+        "note": ""
+      }
+    ],
+    "short": "Menstrual health, PCOS, hormonal balance, menopause and breast health.",
+    "doctors": [
+      "lalita",
+      "sachin",
+      "neha-sunia"
+    ]
+  },
+  {
     "slug": "infertility-reproductive-health",
     "title": "Infertility & Reproductive Health",
     "tagline": "Ethical, Evidence-Based & Integrative Fertility Care",
     "intro": [
-      "At Suvacha Healthcare, infertility is approached with empathy, scientific clarity, and holistic understanding. We recognise that difficulty in conceiving can be physically and emotionally challenging for couples. Our goal is to identify the root cause, provide ethical treatment, and support couples with confidence and care.",
+      "At Shobha Hospital, infertility is approached with empathy, scientific clarity, and holistic understanding. We recognise that difficulty in conceiving can be physically and emotionally challenging for couples. Our goal is to identify the root cause, provide ethical treatment, and support couples with confidence and care.",
       "We combine modern reproductive medicine with Ayurvedic and lifestyle-based interventions to enhance natural fertility and improve reproductive health outcomes."
     ],
     "sections": [
@@ -462,8 +463,8 @@
     "title": "Gynecology & Surgical Care",
     "tagline": "Advanced, Safe & Minimally Invasive Women’s Surgical Services",
     "intro": [
-      "At Suvacha Healthcare, gynecological and surgical care is delivered with precision, compassion, and responsibility. We provide evidence-based modern surgical treatment, supported by integrative post-operative care for faster recovery and long-term wellbeing.",
-      "All procedures are conducted within the established infrastructure of Shree Seva Hospital, Talasari, under the clinical leadership of Dr. Sachin Ladak Shedad, ensuring safety, hygiene, and ethical decision-making."
+      "At Shobha Hospital, gynecological and surgical care is delivered with precision, compassion, and responsibility. We provide evidence-based modern surgical treatment, supported by integrative post-operative care for faster recovery and long-term wellbeing.",
+      "All procedures are carried out in the modern operation theatre at Shobha Hospital, Khanvel, under the clinical leadership of Dr. Sachin Ladak Shedad, ensuring safety, hygiene, and ethical decision-making."
     ],
     "sections": [
       {
@@ -555,7 +556,7 @@
       {
         "title": "Breast Surgery for Benign Conditions",
         "paras": [
-          "Suvacha Healthcare offers safe evaluation and surgical treatment for non-cancerous breast conditions."
+          "Shobha Hospital offers safe evaluation and surgical treatment for non-cancerous breast conditions."
         ],
         "groups": [
           {
@@ -649,266 +650,177 @@
     ]
   },
   {
-    "slug": "garbhasanskar",
-    "title": "Garbhasanskar",
-    "tagline": "Antenatal Wellness for a Healthy Mother & Positively Nurtured Baby",
+    "slug": "emergency-care",
+    "title": "24×7 Emergency Care",
+    "tagline": "Round-the-Clock Emergency, Labour & Urgent Care in Khanvel",
+    "short": "24×7 emergency services, labour room, operation theatre and urgent care.",
     "intro": [
-      "At Suvacha Healthcare, Garbhasanskar is offered as a holistic antenatal wellness program that nurtures the physical, mental, emotional, and spiritual wellbeing of both mother and baby. Rooted in Ayurvedic wisdom and supported by modern obstetric understanding, Garbhasanskar helps create a calm, healthy pregnancy and supports positive fetal development."
+      "Shobha Hospital Multi Speciality provides emergency services 24 hours a day, 7 days a week. Whether it is a pregnancy emergency at night, a sudden illness or an injury, our team is ready to assess and treat you without delay.",
+      "With a labour room, a modern operation theatre, an on-site laboratory and a pharmacy under one roof, urgent care can begin as soon as you arrive."
     ],
     "sections": [
       {
-        "title": "Purpose of Garbhasanskar",
+        "title": "Come to the Hospital Immediately If You Notice",
         "paras": [
-          "Garbhasanskar focuses on creating a balanced internal environment for the growing baby while supporting the mother’s overall wellbeing."
+          "During pregnancy, these signs need care the same day — do not wait for your next appointment."
         ],
         "groups": [
           {
-            "label": "Benefits include",
+            "label": "In pregnancy",
             "items": [
-              "Improved maternal physical and emotional health",
-              "Reduced stress and anxiety during pregnancy",
-              "Support for healthy fetal growth and development",
-              "Preparation for normal delivery and smooth recovery",
-              "Strengthening mother–baby bonding"
+              "Bleeding",
+              "Severe pain",
+              "Leakage of water",
+              "Severe headache",
+              "Swelling of face or hands",
+              "Reduced baby movements",
+              "High fever",
+              "Persistent vomiting"
             ]
           }
         ],
-        "note": ""
+        "note": "Call +91 97142 06386 on the way so the team can prepare for your arrival."
       },
       {
-        "title": "Pregnancy Diet & Antenatal Yoga",
+        "title": "Emergency Obstetric Care",
         "paras": [
-          "Proper nutrition and safe physical activity are essential during pregnancy."
+          "Labour and delivery emergencies are handled by our obstetric team in the hospital’s labour room and operation theatre."
         ],
         "groups": [
           {
             "label": "Includes",
             "items": [
-              "Trimester-wise dietary guidance for maternal nutrition and fetal growth",
-              "Ayurvedic food principles for digestion and strength",
-              "Safe antenatal yoga practices for flexibility, stamina, and posture",
-              "Breathing exercises to prepare for labour"
+              "Labour assessment and monitoring at any hour",
+              "Normal delivery whenever medically safe",
+              "Emergency caesarean section when medically indicated",
+              "Care for bleeding and other pregnancy complications"
             ]
           }
         ],
-        "note": ""
+        "note": "Mother and baby safety always come first."
       },
       {
-        "title": "Fetal Brain & Emotional Development",
-        "paras": [
-          "Positive mental and emotional inputs during pregnancy influence fetal development."
-        ],
-        "groups": [
-          {
-            "label": "Includes",
-            "items": [
-              "Techniques to promote cognitive and emotional growth",
-              "Positive thinking, affirmations, and mindful awareness",
-              "Reading, sound, and sensory stimulation practices",
-              "Creating a calm and supportive environment for the unborn baby"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Meditation, Music Therapy & Stress Relief",
-        "paras": [
-          "Mental peace during pregnancy supports hormonal balance and fetal wellbeing."
-        ],
-        "groups": [
-          {
-            "label": "Includes",
-            "items": [
-              "Guided meditation and relaxation techniques",
-              "Music therapy for emotional stability and bonding",
-              "Stress-management practices to reduce anxiety and fatigue",
-              "Mindfulness techniques for mental clarity and calmness"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Positive Parenting & Bonding Practices",
-        "paras": [
-          "Garbhasanskar encourages conscious bonding between parents and the unborn child."
-        ],
-        "groups": [
-          {
-            "label": "Includes",
-            "items": [
-              "Garbhopchar rituals and daily wellness routines",
-              "Emotional bonding practices with the baby",
-              "Positive lifestyle habits for expectant parents",
-              "Awareness about mindful parenting from pregnancy itself"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Safe, Supportive & Integrative Approach",
-        "paras": [],
-        "groups": [
-          {
-            "label": "Garbhasanskar at Suvacha Healthcare is",
-            "items": [
-              "Conducted alongside regular antenatal medical care",
-              "Individually guided based on pregnancy stage and health status",
-              "Aligned with safety and medical recommendations",
-              "Designed to support both physical and emotional wellbeing"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Our Garbhasanskar Philosophy",
+        "title": "Facilities That Support Emergency Care",
         "paras": [],
         "groups": [
           {
             "label": "",
             "items": [
-              "Holistic nurturing of mother and child",
-              "Integration of Ayurveda and modern obstetrics",
-              "Focus on emotional balance and positive development",
-              "Compassionate, ethical, and mindful care"
+              "24×7 emergency services",
+              "Labour room and delivery services",
+              "Modern operation theatre",
+              "Advanced laboratory for urgent tests",
+              "In-house pharmacy"
             ]
           }
         ],
         "note": ""
+      },
+      {
+        "title": "Coming Soon",
+        "paras": [
+          "We are adding more services to strengthen emergency care at the hospital."
+        ],
+        "groups": [
+          {
+            "label": "",
+            "items": [
+              "24×7 ambulance",
+              "Advanced ICU",
+              "Digital X-Ray",
+              "2D Echo"
+            ]
+          }
+        ],
+        "note": "These services are not available yet — please call to confirm what is available today."
       }
     ],
-    "short": "Antenatal wellness — diet, yoga, music and bonding for mother and baby.",
     "doctors": [
-      "anushka",
-      "shobhan",
-      "sachin"
+      "sachin",
+      "randheer-kadam",
+      "anushka"
     ]
   },
   {
-    "slug": "panchakarma-therapies",
-    "title": "Panchakarma Therapies",
-    "tagline": "Classical Ayurvedic Detoxification & Rejuvenation for Holistic Healing",
+    "slug": "general-medicine-surgery",
+    "title": "General Medicine & Surgery",
+    "tagline": "From Everyday Illness to Planned Surgery — Care for the Whole Family",
+    "short": "Fever, infections, BP, diabetes, skin problems and general & laparoscopic surgery.",
     "intro": [
-      "At Suvacha Healthcare, Panchakarma therapies are offered as a scientific and individualised Ayurvedic system of detoxification, purification, and rejuvenation. These therapies aim to remove deep-seated toxins, restore dosha balance, improve metabolism, and enhance overall vitality. Panchakarma is carefully planned and supervised to support both preventive health and disease management."
+      "Shobha Hospital is a multi-speciality family hospital. Along with women’s health and maternity care, our doctors treat everyday illnesses, long-term conditions, common skin problems and conditions that need surgery.",
+      "Surgeries are performed in the hospital’s modern operation theatre, using minimally invasive laparoscopic techniques (दूरबीन विधि) wherever suitable."
     ],
     "sections": [
       {
-        "title": "Purpose of Panchakarma",
+        "title": "General Medicine",
         "paras": [
-          "Panchakarma is not just detox—it is a therapeutic process that prepares the body for healing and long-term balance."
+          "Consultation and treatment for common and long-term health problems."
         ],
         "groups": [
           {
-            "label": "Benefits include",
+            "label": "Care includes",
             "items": [
-              "Deep detoxification and metabolic correction",
-              "Hormonal balance and improved reproductive health",
-              "Strengthening of immunity and digestion",
-              "Stress reduction and mental clarity",
-              "Rejuvenation of tissues and vitality"
+              "Fever, cough, cold and infections",
+              "Blood pressure, diabetes and thyroid follow-up",
+              "Digestive and lifestyle-related problems",
+              "Common skin conditions",
+              "Joint pain and age-related health concerns"
             ]
           }
         ],
         "note": ""
       },
       {
-        "title": "Classical Panchakarma Procedures",
+        "title": "General Surgery",
         "paras": [
-          "Therapies are selected based on individual constitution, health condition, and clinical assessment."
+          "Our surgical team recommends surgery only when it is medically necessary, after explaining the options clearly."
         ],
         "groups": [
           {
-            "label": "Includes",
+            "label": "Procedures include",
             "items": [
-              "Vamana – therapeutic emesis for metabolic and respiratory balance",
-              "Virechana – purgation therapy for liver, gut, and hormonal cleansing",
-              "Basti – medicated enemas for nervous system, joint, and reproductive health",
-              "Nasya – nasal therapy for head, sinus, and neurological balance",
-              "Raktamokshana – blood purification therapy (where indicated)"
+              "Hernia repair",
+              "Gallbladder surgery (cholecystectomy)",
+              "Lipoma and sebaceous cyst removal",
+              "Piles, fissure and fistula treatment",
+              "Minor and emergency surgical care"
             ]
           }
         ],
         "note": ""
       },
       {
-        "title": "Therapeutic Applications",
+        "title": "Laparoscopic (Keyhole) Surgery",
         "paras": [
-          "Panchakarma is beneficial for both chronic conditions and preventive care."
+          "Laparoscopy uses small cuts and a camera, which usually means less pain and a faster return to daily life."
         ],
         "groups": [
           {
-            "label": "Used in",
+            "label": "Benefits",
             "items": [
-              "PCOD, hormonal imbalance, and infertility support",
-              "Digestive disorders and metabolic syndrome",
-              "Joint pain, back pain, and musculoskeletal disorders",
-              "Stress, anxiety, fatigue, and sleep disturbances",
-              "Skin disorders and chronic inflammation",
-              "Post-illness and postpartum recovery"
+              "Smaller incisions",
+              "Less pain and blood loss",
+              "Shorter hospital stay",
+              "Faster recovery"
             ]
           }
         ],
         "note": ""
       },
       {
-        "title": "Supportive & Rejuvenation Therapies",
+        "title": "Children’s Health",
         "paras": [
-          "Along with main procedures, supportive therapies enhance healing."
+          "Paediatric care for newborns and children — illnesses, growth, nutrition and immunisation guidance — is available at the hospital."
         ],
-        "groups": [
-          {
-            "label": "Includes",
-            "items": [
-              "Abhyanga (therapeutic oil massage)",
-              "Swedana (medicated steam therapy)",
-              "Shirodhara and stress-relief therapies",
-              "Rasayana therapies for rejuvenation and immunity"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Safe, Supervised & Individualised Care",
-        "paras": [],
-        "groups": [
-          {
-            "label": "All Panchakarma therapies at Suvacha Healthcare are",
-            "items": [
-              "Conducted under expert Ayurvedic supervision",
-              "Customised to individual needs",
-              "Combined with diet regulation and lifestyle guidance",
-              "Integrated with modern medical care when required"
-            ]
-          }
-        ],
-        "note": ""
-      },
-      {
-        "title": "Our Panchakarma Philosophy",
-        "paras": [],
-        "groups": [
-          {
-            "label": "",
-            "items": [
-              "Classical authenticity with clinical responsibility",
-              "Personalised therapy selection",
-              "Focus on root-cause healing",
-              "Safe, ethical, and holistic approach"
-            ]
-          }
-        ],
+        "groups": [],
         "note": ""
       }
     ],
-    "short": "Classical Ayurvedic detox and rejuvenation, individually supervised.",
     "doctors": [
+      "randheer-kadam",
+      "srinivasa",
       "neha-sunia",
-      "rangaswamy",
-      "shailesh"
+      "rangaswamy"
     ]
   },
   {
@@ -916,7 +828,7 @@
     "title": "Basic Pediatrics & Child Wellness",
     "tagline": "Holistic Care for Healthy Growth & Development",
     "intro": [
-      "At Suvacha Healthcare, pediatric care focuses on supporting children’s physical growth, immunity, and overall wellbeing from birth through adolescence. Our approach combines modern pediatric guidance with Ayurvedic principles to promote healthy development, disease prevention, and strong immunity in children."
+      "At Shobha Hospital, pediatric care focuses on supporting children’s physical growth, immunity, and overall wellbeing from birth through adolescence. Our approach combines modern pediatric guidance with Ayurvedic principles to promote healthy development, disease prevention, and strong immunity in children."
     ],
     "sections": [
       {
@@ -1067,11 +979,351 @@
     ]
   },
   {
+    "slug": "pathology-laboratory",
+    "title": "Pathology & Laboratory",
+    "tagline": "Reliable Tests Under the Same Roof",
+    "short": "On-site pathology laboratory for routine, pregnancy and pre-surgery tests.",
+    "intro": [
+      "Shobha Hospital has an advanced pathology laboratory on site, so the tests your doctor advises can be done during the same visit and the reports reach your doctor quickly.",
+      "Having the laboratory, doctors and pharmacy under one roof saves families repeated trips — especially during pregnancy, when regular blood and urine tests are part of every check-up."
+    ],
+    "sections": [
+      {
+        "title": "Tests Commonly Advised by Our Doctors",
+        "paras": [
+          "Your doctor will advise the tests you need based on your symptoms and health."
+        ],
+        "groups": [
+          {
+            "label": "Examples",
+            "items": [
+              "Complete blood count (CBC)",
+              "Blood group and Rh factor",
+              "Blood sugar tests and HbA1c",
+              "Thyroid profile",
+              "Urine analysis"
+            ]
+          }
+        ],
+        "note": "Ask our team about test availability, preparation (such as fasting) and report timing."
+      },
+      {
+        "title": "Tests During Pregnancy",
+        "paras": [
+          "Blood and urine tests are an essential part of antenatal care."
+        ],
+        "groups": [
+          {
+            "label": "Antenatal tests include",
+            "items": [
+              "Haemoglobin and anaemia screening",
+              "Blood group and Rh factor",
+              "Sugar tests including the glucose tolerance test (GTT)",
+              "Thyroid tests",
+              "Urine tests"
+            ]
+          }
+        ],
+        "note": "Regular tests help detect problems early and keep mother and baby safe."
+      },
+      {
+        "title": "Before Surgery or Delivery",
+        "paras": [
+          "Before a planned surgery or delivery, the laboratory supports the tests your surgeon or obstetrician needs to plan safe care."
+        ],
+        "groups": [],
+        "note": ""
+      },
+      {
+        "title": "Coming Soon",
+        "paras": [],
+        "groups": [
+          {
+            "label": "",
+            "items": [
+              "Digital X-Ray",
+              "Sonography / Ultrasound",
+              "2D Echo"
+            ]
+          }
+        ],
+        "note": "These services are not available yet."
+      }
+    ],
+    "doctors": [
+      "sachin",
+      "neha-sunia"
+    ]
+  },
+  {
+    "slug": "garbhasanskar",
+    "title": "Garbhasanskar",
+    "tagline": "Antenatal Wellness for a Healthy Mother & Positively Nurtured Baby",
+    "intro": [
+      "At Shobha Hospital, Garbhasanskar is offered as a holistic antenatal wellness program that nurtures the physical, mental, emotional, and spiritual wellbeing of both mother and baby. Rooted in Ayurvedic wisdom and supported by modern obstetric understanding, Garbhasanskar helps create a calm, healthy pregnancy and supports positive fetal development."
+    ],
+    "sections": [
+      {
+        "title": "Purpose of Garbhasanskar",
+        "paras": [
+          "Garbhasanskar focuses on creating a balanced internal environment for the growing baby while supporting the mother’s overall wellbeing."
+        ],
+        "groups": [
+          {
+            "label": "Benefits include",
+            "items": [
+              "Improved maternal physical and emotional health",
+              "Reduced stress and anxiety during pregnancy",
+              "Support for healthy fetal growth and development",
+              "Preparation for normal delivery and smooth recovery",
+              "Strengthening mother–baby bonding"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Pregnancy Diet & Antenatal Yoga",
+        "paras": [
+          "Proper nutrition and safe physical activity are essential during pregnancy."
+        ],
+        "groups": [
+          {
+            "label": "Includes",
+            "items": [
+              "Trimester-wise dietary guidance for maternal nutrition and fetal growth",
+              "Ayurvedic food principles for digestion and strength",
+              "Safe antenatal yoga practices for flexibility, stamina, and posture",
+              "Breathing exercises to prepare for labour"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Fetal Brain & Emotional Development",
+        "paras": [
+          "Positive mental and emotional inputs during pregnancy influence fetal development."
+        ],
+        "groups": [
+          {
+            "label": "Includes",
+            "items": [
+              "Techniques to promote cognitive and emotional growth",
+              "Positive thinking, affirmations, and mindful awareness",
+              "Reading, sound, and sensory stimulation practices",
+              "Creating a calm and supportive environment for the unborn baby"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Meditation, Music Therapy & Stress Relief",
+        "paras": [
+          "Mental peace during pregnancy supports hormonal balance and fetal wellbeing."
+        ],
+        "groups": [
+          {
+            "label": "Includes",
+            "items": [
+              "Guided meditation and relaxation techniques",
+              "Music therapy for emotional stability and bonding",
+              "Stress-management practices to reduce anxiety and fatigue",
+              "Mindfulness techniques for mental clarity and calmness"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Positive Parenting & Bonding Practices",
+        "paras": [
+          "Garbhasanskar encourages conscious bonding between parents and the unborn child."
+        ],
+        "groups": [
+          {
+            "label": "Includes",
+            "items": [
+              "Garbhopchar rituals and daily wellness routines",
+              "Emotional bonding practices with the baby",
+              "Positive lifestyle habits for expectant parents",
+              "Awareness about mindful parenting from pregnancy itself"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Safe, Supportive & Integrative Approach",
+        "paras": [],
+        "groups": [
+          {
+            "label": "Garbhasanskar at Shobha Hospital is",
+            "items": [
+              "Conducted alongside regular antenatal medical care",
+              "Individually guided based on pregnancy stage and health status",
+              "Aligned with safety and medical recommendations",
+              "Designed to support both physical and emotional wellbeing"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Our Garbhasanskar Philosophy",
+        "paras": [],
+        "groups": [
+          {
+            "label": "",
+            "items": [
+              "Holistic nurturing of mother and child",
+              "Integration of Ayurveda and modern obstetrics",
+              "Focus on emotional balance and positive development",
+              "Compassionate, ethical, and mindful care"
+            ]
+          }
+        ],
+        "note": ""
+      }
+    ],
+    "short": "Antenatal wellness — diet, yoga, music and bonding for mother and baby.",
+    "doctors": [
+      "anushka",
+      "shobhan",
+      "sachin"
+    ]
+  },
+  {
+    "slug": "panchakarma-therapies",
+    "title": "Panchakarma Therapies",
+    "tagline": "Classical Ayurvedic Detoxification & Rejuvenation for Holistic Healing",
+    "intro": [
+      "At Shobha Hospital, Panchakarma therapies are offered as a scientific and individualised Ayurvedic system of detoxification, purification, and rejuvenation. These therapies aim to remove deep-seated toxins, restore dosha balance, improve metabolism, and enhance overall vitality. Panchakarma is carefully planned and supervised to support both preventive health and disease management."
+    ],
+    "sections": [
+      {
+        "title": "Purpose of Panchakarma",
+        "paras": [
+          "Panchakarma is not just detox—it is a therapeutic process that prepares the body for healing and long-term balance."
+        ],
+        "groups": [
+          {
+            "label": "Benefits include",
+            "items": [
+              "Deep detoxification and metabolic correction",
+              "Hormonal balance and improved reproductive health",
+              "Strengthening of immunity and digestion",
+              "Stress reduction and mental clarity",
+              "Rejuvenation of tissues and vitality"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Classical Panchakarma Procedures",
+        "paras": [
+          "Therapies are selected based on individual constitution, health condition, and clinical assessment."
+        ],
+        "groups": [
+          {
+            "label": "Includes",
+            "items": [
+              "Vamana – therapeutic emesis for metabolic and respiratory balance",
+              "Virechana – purgation therapy for liver, gut, and hormonal cleansing",
+              "Basti – medicated enemas for nervous system, joint, and reproductive health",
+              "Nasya – nasal therapy for head, sinus, and neurological balance",
+              "Raktamokshana – blood purification therapy (where indicated)"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Therapeutic Applications",
+        "paras": [
+          "Panchakarma is beneficial for both chronic conditions and preventive care."
+        ],
+        "groups": [
+          {
+            "label": "Used in",
+            "items": [
+              "PCOD, hormonal imbalance, and infertility support",
+              "Digestive disorders and metabolic syndrome",
+              "Joint pain, back pain, and musculoskeletal disorders",
+              "Stress, anxiety, fatigue, and sleep disturbances",
+              "Skin disorders and chronic inflammation",
+              "Post-illness and postpartum recovery"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Supportive & Rejuvenation Therapies",
+        "paras": [
+          "Along with main procedures, supportive therapies enhance healing."
+        ],
+        "groups": [
+          {
+            "label": "Includes",
+            "items": [
+              "Abhyanga (therapeutic oil massage)",
+              "Swedana (medicated steam therapy)",
+              "Shirodhara and stress-relief therapies",
+              "Rasayana therapies for rejuvenation and immunity"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Safe, Supervised & Individualised Care",
+        "paras": [],
+        "groups": [
+          {
+            "label": "All Panchakarma therapies at Shobha Hospital are",
+            "items": [
+              "Conducted under expert Ayurvedic supervision",
+              "Customised to individual needs",
+              "Combined with diet regulation and lifestyle guidance",
+              "Integrated with modern medical care when required"
+            ]
+          }
+        ],
+        "note": ""
+      },
+      {
+        "title": "Our Panchakarma Philosophy",
+        "paras": [],
+        "groups": [
+          {
+            "label": "",
+            "items": [
+              "Classical authenticity with clinical responsibility",
+              "Personalised therapy selection",
+              "Focus on root-cause healing",
+              "Safe, ethical, and holistic approach"
+            ]
+          }
+        ],
+        "note": ""
+      }
+    ],
+    "short": "Classical Ayurvedic detox and rejuvenation, individually supervised.",
+    "doctors": [
+      "neha-sunia",
+      "rangaswamy",
+      "shailesh"
+    ]
+  },
+  {
     "slug": "holistic-wellness-preventive-care",
     "title": "Holistic Wellness & Preventive Care",
     "tagline": "Balanced Living, Long-Term Health & Disease Prevention",
     "intro": [
-      "At Suvacha Healthcare, holistic wellness and preventive care form the foundation of a healthy life. Our approach focuses on maintaining balance between body, mind, and lifestyle while preventing disease before it begins. By integrating modern medical understanding with Ayurvedic principles, we help individuals and families achieve sustainable health, vitality, and wellbeing."
+      "At Shobha Hospital, holistic wellness and preventive care form the foundation of a healthy life. Our approach focuses on maintaining balance between body, mind, and lifestyle while preventing disease before it begins. By integrating modern medical understanding with Ayurvedic principles, we help individuals and families achieve sustainable health, vitality, and wellbeing."
     ],
     "sections": [
       {
@@ -1193,7 +1445,7 @@
     "title": "Andrology & Male Infertility",
     "tagline": "Comprehensive Evaluation & Integrative Care for Male Reproductive Health",
     "intro": [
-      "At Suvacha Healthcare, male fertility is addressed with the same sensitivity, scientific approach, and holistic understanding as female reproductive health. We recognise that male factors contribute significantly to infertility, and timely evaluation and treatment can greatly improve conception outcomes. Our andrology services combine modern diagnostics with lifestyle optimisation and Ayurvedic support to enhance male reproductive health naturally and effectively."
+      "At Shobha Hospital, male fertility is addressed with the same sensitivity, scientific approach, and holistic understanding as female reproductive health. We recognise that male factors contribute significantly to infertility, and timely evaluation and treatment can greatly improve conception outcomes. Our andrology services combine modern diagnostics with lifestyle optimisation and Ayurvedic support to enhance male reproductive health naturally and effectively."
     ],
     "sections": [
       {

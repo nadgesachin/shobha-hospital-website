@@ -60,7 +60,7 @@ Depending on your needs, your doctor may suggest medicines to regulate periods, 
 
 ### Integrative Ayurvedic support
 
-At Suvacha, Ayurvedic principles — personalised diet (ahara), daily routine (dinacharya), yoga and, where suitable, Panchakarma — are used alongside modern evaluation to support metabolism and cycle regularity.
+At Shobha Hospital, Ayurvedic principles — personalised diet (ahara), daily routine (dinacharya), yoga and, where suitable, Panchakarma — are used alongside modern evaluation to support metabolism and cycle regularity.
 
 ## When should you see a doctor?
 

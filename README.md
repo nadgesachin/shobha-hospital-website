@@ -1,6 +1,6 @@
-# Suvacha Healthcare — website redesign
+# Shobha Hospital Multi Speciality, Khanvel — website
 
-A rebuilt version of https://suvachahealthcare.in as a fast static site. It needs Python 3 and Pillow, and nothing else.
+The website of Shobha Hospital Multi Speciality, Khanvel (a Suvacha Healthcare initiative), built as a fast static site for https://shobhahospitalkhanvel.com (shobhahospitalkhanvel.in and the old suvachahealthcare.in redirect to it). It needs Python 3 and Pillow, and nothing else.
 
 ```bash
 python3 build.py --serve     # build into site/ and open http://localhost:8000
@@ -35,7 +35,7 @@ URLs match the old WordPress site (`/service/<slug>/`, `/doctor/<slug>/`, `/abou
 
 ## Languages (English, हिंदी, मराठी)
 
-English is the source. Every page except the 404 is also built in Hindi (`/hi/…`) and Marathi (`/mr/…`): home, about, services and the 9 service pages, doctors list and the 11 doctor profiles, appointment, contact, pregnancy tools, and the blog with all articles. Doctor names, qualifications and the clinic address stay in English so they match the Google listing.
+English is the source text, but **Hindi is the default language** and is served at the site root (`/…`). English lives under `/en/…`, Marathi under `/mr/…` and Gujarati under `/gu/…` (old `/hi/…` links 301 to the root). Every page except the 404 is built in all four languages: home, about, services and the 12 service pages, facilities, doctors list and the 11 doctor profiles, appointment, contact, pregnancy tools, and the blog with all articles. Doctor names, qualifications and the clinic address stay in English so they match the Google listing.
 
 Translations live in `content/i18n/<lang>/`:
 
@@ -49,4 +49,4 @@ Translations live in `content/i18n/<lang>/`:
 | `strings.json` | UI phrases: English text → translation (buttons, labels, headings) |
 | `js.json` | Text used by `src/js/main.js` (booking message, calculators, open/closed badge) |
 
-After changing English text, run `python3 build.py`. Any English phrase still showing on a Hindi or Marathi page is listed in `build/missing-hi.json` / `build/missing-mr.json`; add it to that language's `strings.json`. Run `python3 tools/check_i18n.py hi` (or `mr`) to check that the translation files still match the English structure.
+After changing English text, run `python3 build.py`. Any English phrase still showing on a translated page is listed in `build/missing-<lang>.json`; add it to that language's `strings.json`. Run `python3 tools/check_i18n.py hi` (or `mr`, `gu`) to check that the translation files still match the English structure.

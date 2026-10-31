@@ -1,4 +1,4 @@
-/* Suvacha Healthcare — site behaviour. No dependencies. */
+/* Shobha Hospital — site behaviour. No dependencies. */
 (function () {
   "use strict";
   document.documentElement.classList.remove("no-js");
@@ -89,10 +89,13 @@
   if (CFG.hours) {
     var now = istNow();
     var today = CFG.hours.find(function (h) { return h.dow.indexOf(now.dow) !== -1; });
-    var open = today && now.mins >= toMins(today.open) && now.mins < toMins(today.close);
+    // OPD runs in sessions (morning / evening); emergency is always open.
+    var open = today && (today.sessions || []).find(function (s) {
+      return now.mins >= toMins(s.open) && now.mins < toMins(s.close);
+    });
     $$("[data-open-badge]").forEach(function (el) {
       el.classList.toggle("is-open", !!open);
-      el.textContent = open ? T("Open now · until {time}", { time: today.label.split("–")[1].trim() }) : T("Closed now");
+      el.textContent = open ? T("OPD open · until {time}", { time: open.close_label }) : T("OPD closed · Emergency 24×7");
     });
     $$("[data-hours-row]").forEach(function (row) {
       var days = row.getAttribute("data-hours-row").split(",").map(Number);
@@ -291,16 +294,30 @@
     });
   });
 
-  /* ---------- WhatsApp float hint (once per session) ---------- */
-  var wa = $(".wa-float");
-  if (wa) {
-    try {
-      if (!sessionStorage.getItem("wa-hint")) {
-        setTimeout(function () { wa.classList.add("is-hinting"); }, 4000);
-        setTimeout(function () { wa.classList.remove("is-hinting"); }, 9000);
-        sessionStorage.setItem("wa-hint", "1");
-      }
-    } catch (e) { /* storage blocked: skip the hint */ }
+  /* ---------- Help popup: WhatsApp / call / map, shown once per session after some scrolling ---------- */
+  var help = $("#help"), helpToggle = $("[data-help-toggle]");
+  if (help) {
+    var store = function (k, v) { try { return v ? sessionStorage.setItem(k, v) : sessionStorage.getItem(k); } catch (e) { return null; } };
+    var setHelp = function (open) {
+      help.classList.toggle("is-open", open);
+      help.setAttribute("aria-hidden", String(!open));
+      if (helpToggle) helpToggle.setAttribute("aria-expanded", String(open));
+      if (!open) store("help-seen", "1");
+    };
+    if (helpToggle) helpToggle.addEventListener("click", function () { setHelp(!help.classList.contains("is-open")); });
+    $(".help__close", help).addEventListener("click", function () { setHelp(false); });
+    $$("[data-help-done]", help).forEach(function (a) { a.addEventListener("click", function () { setHelp(false); }); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && help.classList.contains("is-open")) setHelp(false); });
+    if (!store("help-seen") && !/\/appointment\//.test(location.pathname)) {
+      var onScroll = function () {
+        var max = document.documentElement.scrollHeight - innerHeight;
+        if (scrollY > Math.min(900, max * 0.35)) {
+          removeEventListener("scroll", onScroll);
+          setTimeout(function () { setHelp(true); }, 400);
+        }
+      };
+      addEventListener("scroll", onScroll, { passive: true });
+    }
   }
 
   /* ---------- Booking form -> WhatsApp ---------- */
@@ -326,7 +343,7 @@
         return sel && sel.selectedIndex > 0 ? sel.options[sel.selectedIndex].text : "";
       };
       var lines = [
-        T("Namaste Suvacha Healthcare 🙏"),
+        T("Namaste Shobha Hospital 🙏"),
         T("I would like to book an appointment."),
         "",
         "*" + T("Name") + ":* " + fd.get("name"),
@@ -415,7 +432,7 @@
     }).join("");
     var status = left >= 0 ? T("{n} days to go", { n: left }) : T("Past your due date by {n} days — please consult your doctor", { n: -left });
     var preg = T("{w} weeks {d} days pregnant", { w: wk, d: dy });
-    var msg = T("Namaste Suvacha Healthcare 🙏") + "\n" +
+    var msg = T("Namaste Shobha Hospital 🙏") + "\n" +
       T("My estimated due date is {date} ({preg}). I would like to book an antenatal consultation.", { date: fmt(edd), preg: preg });
     showResult(form,
       '<div class="edd-hero"><small>' + T("Estimated due date") + "</small><strong>" + fmt(edd) + "</strong>" +
@@ -445,7 +462,7 @@
         '<div class="cycle-row"><span>' + T("Next period expected") + "</span><b>" + fmt(next) + "</b></div></li>";
     }).join("");
     var now = inWindow ? '<p class="block__note" style="margin:0 0 16px">🌸 <span>' + T("You are in your fertile window now (until {date}).", { date: fmt(inWindow, true) }) + "</span></p>" : "";
-    var msg = T("Namaste Suvacha Healthcare 🙏") + "\n" + T("We are planning a pregnancy and would like to book a fertility consultation.");
+    var msg = T("Namaste Shobha Hospital 🙏") + "\n" + T("We are planning a pregnancy and would like to book a fertility consultation.");
     showResult(form, now + '<ul class="cycle-list">' + items + "</ul>" +
       '<p class="form-note">' + T("Trying for 12 months without success (or 6 months if you are over 35)? A fertility evaluation for both partners is recommended.") + "</p>" +
       '<div class="tool-actions"><a class="btn btn--sm" href="' + BASE + '/appointment/?service=infertility-reproductive-health">' + ICON_CAL +
