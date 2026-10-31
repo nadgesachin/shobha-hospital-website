@@ -817,10 +817,11 @@ FACILITY_TILE_IMG = {"clock": "photo-team", "shield": "svc-pathology-laboratory"
 
 
 def facility_tiles():
+    """Photo tiles; the first row is at the very top of the home page, so those images load right away."""
     tiles = []
-    for f in SITE["facilities"]:
+    for i, f in enumerate(SITE["facilities"]):
         pic = f["photo"] or FACILITY_TILE_IMG.get(f["icon"])
-        art = (img(pic, f["title"], "(max-width: 600px) 82vw, (max-width: 860px) 50vw, 380px") if pic
+        art = (img(pic, f["title"], "(max-width: 600px) 82vw, (max-width: 860px) 50vw, 380px", eager=i < 3) if pic
                else f'<span class="tile__art">{icon(f["icon"])}</span>')
         tiles.append(f'<a class="tile reveal" href="/facilities/">{art}'
                      f'<span class="tile__label"><span class="tile__icon">{icon(f["icon"])}</span><h3>{e(f["title"])}</h3><span class="tile__go">{icon("arrow")}</span></span></a>')
@@ -896,6 +897,8 @@ def build_home():
     stats = "".join(stat_html(s) for s in SITE["stats"])
     faqs = SITE["faqs"][:4]
     body = f'''
+{facilities_section()}
+
 <section class="hero"><span class="hero__blob hero__blob--a" aria-hidden="true"></span><span class="hero__blob hero__blob--b" aria-hidden="true"></span><div class="container">
   <div>
     <span class="eyebrow hero-in" style="--d:0">{e(h["eyebrow"])}</span>
@@ -925,8 +928,6 @@ def build_home():
   <div class="info-strip__item"><span class="info-strip__icon">{icon("clock")}</span><span><small>Today</small><strong class="open-badge" data-open-badge>{e(SITE["hours"][0]["label"])}</strong></span></div>
   <a class="info-strip__item" href="#location"><span class="info-strip__icon info-strip__icon--coral">{icon("pin")}</span><span><small>Location</small><strong>{e(SITE["address"]["short"])}</strong></span></a>
 </div></div></div>
-
-{facilities_section()}
 
 <div class="marquee" role="presentation"><div class="marquee__track"><div class="marquee__group">{group}</div><div class="marquee__group" aria-hidden="true">{group}</div></div></div>
 
@@ -981,7 +982,7 @@ def build_home():
 
 {map_section()}
 '''
-    page("/", "", "", body, extra_ld=[faq_ld(faqs)], preload="hero")
+    page("/", "", "", body, extra_ld=[faq_ld(faqs)], preload=FACILITY_TILE_IMG["clock"])
 
 
 def build_about():

@@ -1182,7 +1182,7 @@ html.help-locked, html.help-locked body { overflow: hidden; }
 }
 
 /* ---------- Home facilities as photo tiles (2nd section) ---------- */
-.section--facilities { padding-top: clamp(40px, 5vw, 64px); }
+.section--facilities { padding-top: clamp(28px, 4vw, 48px); padding-bottom: clamp(28px, 4vw, 48px); }
 .tile__art { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255,255,255,.9);
   background: radial-gradient(circle at 30% 20%, var(--coral-500), var(--green-900) 75%); }
 .tile__art .icon { width: 34%; height: 34%; stroke-width: 1.4; }
