@@ -73,13 +73,16 @@ TODAY = dt.date.today().isoformat()
 
 # Doctor filter categories for /doctors/
 DOC_TAGS = {
-    "sachin": ["womens", "surgery"], "vaishali-mishra": ["womens"], "lalita": ["womens"],
-    "anushka": ["womens"], "manish": ["children"], "neha-sunia": ["ayurveda"],
-    "shailesh": ["ayurveda", "wellness"], "shobhan": ["wellness"],
-    "rangaswamy": ["ayurveda", "wellness"], "srinivasa": ["surgery"], "randheer-kadam": ["surgery"],
+    "sachin": ["womens", "surgery"], "parag-hangekar": ["womens", "surgery"], "salim-tokre": ["children"],
+    "parimal-mishal": ["medicine"], "yogesh-sunia": ["medicine"], "rohit": ["medicine"],
+    "randheer-kadam": ["surgery"], "nimesh-patel": ["surgery"], "shekhar-jadhav": ["surgery"],
+    "narain-kewalani": ["surgery", "specialists"], "vishal-dulera": ["specialists"], "joseph-gawali": ["specialists"],
+    "narendra-mahla": ["specialists"], "manisha-raut": ["lab"],
 }
-FILTERS = [("all", "All doctors"), ("womens", "Women’s health & fertility"), ("surgery", "Surgery"),
-           ("ayurveda", "Ayurveda & Panchakarma"), ("wellness", "Yoga, mind & wellness"), ("children", "Children")]
+FILTERS = [("all", "All doctors"), ("womens", "Women’s health & pregnancy"), ("children", "Children"), ("medicine", "Medicine & general care"),
+           ("surgery", "Surgery"), ("specialists", "ENT, skin, urology & dental"), ("lab", "Laboratory")]
+# Doctor profiles removed on 2026-11-01 (old Suvacha team); their URLs redirect to /doctors/.
+RETIRED_DOCTORS = ["vaishali-mishra", "lalita", "anushka", "manish", "neha-sunia", "shailesh", "shobhan", "rangaswamy", "srinivasa"]
 
 
 def e(s):
@@ -159,6 +162,7 @@ ICONS = {
     "mail": '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
     "facebook": '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
     "instagram": '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8"/>',
+    "bed": '<path d="M2 4v16M2 8h17a3 3 0 0 1 3 3v9M2 16h20M6 8v8"/><circle cx="7" cy="11.5" r="1.5"/>',
     "pin": '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
     "clock": '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
     "calendar": '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
@@ -813,7 +817,7 @@ def coming_soon():
 
 
 # Home page shows facilities as photo tiles; these fill in for facilities without their own photo.
-FACILITY_TILE_IMG = {"clock": "photo-team", "shield": "svc-pathology-laboratory"}
+FACILITY_TILE_IMG = {"clock": "photo-team", "shield": "svc-pathology-laboratory"}  # by facility icon
 
 
 def facility_tiles():
@@ -883,10 +887,11 @@ SHREYASI_SLUGS = {"pregnancy-maternal-care", "womens-health-integrative-care", "
 SHREYASI = '<p class="closing reveal">Creating <span class="deva">श्रेयसी प्रजा</span> — healthy mothers, strong families, and a balanced society.</p>'
 
 
+HERO_SPECS = ["Gynec", "OBS", "Infertility", "Pedia", "Pathology", "General & Laparoscopic Surgery", "ENT", "Skin", "Urology", "Dental"]
+
+
 def build_home():
     h = SITE["hero"]
-    words = [t(w) for w in ["Mothers", "Newborns", "Children", "Women", "Families"]]
-    rotator = "".join(f'<span style="--w:{i}">{w}</span>' for i, w in enumerate(words))
     tiles = "".join(
         f'<a class="tile reveal" href="/service/{s["slug"]}/">{img("svc-" + s["slug"], "", "(max-width: 600px) 50vw, (max-width: 860px) 50vw, 380px")}'
         f'<span class="tile__label"><h3>{e(s["title"])}</h3><span class="tile__go">{icon("arrow")}</span></span></a>' for s in SERVICES)
@@ -898,27 +903,33 @@ def build_home():
     body = f'''
 {facilities_section()}
 
-<section class="hero"><span class="hero__blob hero__blob--a" aria-hidden="true"></span><span class="hero__blob hero__blob--b" aria-hidden="true"></span><div class="container">
-  <div>
-    <span class="eyebrow hero-in" style="--d:0">{e(h["eyebrow"])}</span>
-    <h1><span class="h1-kicker hero-in" style="--d:1">Shobha Hospital – Multi Speciality Hospital in Khanvel, Silvassa</span><span class="sr-only">{e(h["title"])}: trusted care for mothers, newborns, children, women and families</span><span class="hero-in hero-title" style="--d:2" aria-hidden="true">{e(t("Trusted care for"))} <span class="rotator-wrap"><span class="rotator">{rotator}</span><svg class="swash__line" viewBox="0 0 200 16" preserveAspectRatio="none"><path d="M3 11C46 3 120 2 197 9"/></svg></span></span></h1>
-    <p class="hero__lead hero-in" style="--d:4">{e(h["title"])} · <span class="deva">{e(SITE["motto"])}</span></p>
-    <div class="hero__cta hero-in" style="--d:5">
-      <a class="btn btn--coral" href="/appointment/">{icon("calendar")} Book Appointment</a>
-      <a class="btn btn--wa" href="{wa_link()}" target="_blank" rel="noopener">{icon("whatsapp")} WhatsApp Us</a>
+<section class="hero hero--brochure"><div class="container">
+  <div class="hb-head hero-in" style="--d:0">
+    <p class="hb-by" lang="en">Dr. Sachin Shedad’s</p>
+    <h1 class="hb-title"><span class="hb-title__name">Shobha Hospital</span> <span class="hb-title__sub">Khanvel · Multi Speciality</span></h1>
+    <p class="hb-specs" lang="en">{e(" | ".join(HERO_SPECS))}</p>
+  </div>
+  <div class="hb-panel hero-in" style="--d:2">
+    <div class="hb-info">
+      <a class="hb-badge" href="{EMERG}"><strong>24<span>/</span>7</strong><span>Emergency available</span></a>
+      <div class="hb-managed">
+        <small>Managed by</small>
+        <strong class="deva-name">{e(t("Dr. Sachin Ladak Shedad"))}</strong>
+        <span class="hb-quals">MS (PTSR), IMS-BHU | FMAS-MUHS</span>
+        <span>Consultant Obstetrician &amp; Gynaecologist</span>
+        <span>Infertility Specialist &amp; Gynec Endoscopic Surgeon</span>
+      </div>
+      <div class="hero__cta">
+        <a class="btn btn--light" href="/appointment/">{icon("calendar")} Book Appointment</a>
+        <a class="btn btn--wa" href="{wa_link()}" target="_blank" rel="noopener">{icon("whatsapp")} WhatsApp Us</a>
+      </div>
     </div>
-    <div class="pulse-strip pulse-strip--hero" aria-hidden="true"></div>
-    <ul class="hero__trust">
-      <li class="hero-in" style="--d:6">{icon("check-circle")} 24×7 emergency</li>
-      <li class="hero-in" style="--d:7">{icon("check-circle")} Modern OT &amp; labour room</li>
-      <li class="hero-in" style="--d:8">{icon("check-circle")} 11 doctors</li>
-    </ul>
+    <div class="hb-photo" data-parallax>
+      {img("about-1", "Mother holding her newborn — family care at Shobha Hospital, Khanvel", "(max-width: 860px) 100vw, 560px", eager=True)}
+      <p class="hb-ribbon">{e(h["title"])}</p>
+    </div>
   </div>
-  <div class="hero__media" data-parallax>
-    <div class="hero__img">{img("hero", "A gynecologist at Shobha Hospital, Khanvel consulting with a pregnant woman", "(max-width: 860px) 90vw, 480px", eager=True)}</div>
-    <a class="float-card float-card--a float-in" style="--d:6" href="{EMERG}"><span class="float-card__icon">{icon("phone")}</span><span>24×7 Emergency<strong>{e(SITE["emergency_display"])}</strong></span></a>
-    <div class="float-card float-card--b float-in" style="--d:8"><span class="float-card__icon">{icon("hospital")}</span><span><strong>Multi speciality</strong>12 specialities &amp; services</span></div>
-  </div>
+  <div class="pulse-strip pulse-strip--hero" aria-hidden="true"></div>
 </div></section>
 
 <div class="info-strip"><div class="container"><div class="info-strip__grid">
@@ -1078,14 +1089,14 @@ def build_doctors():
     trail = [("Home", "/"), ("Doctors", "/doctors/")]
     chips = "".join(f'<button class="chip" type="button" data-filter="{k}" aria-pressed="{str(k == "all").lower()}">{e(t(v))}</button>' for k, v in FILTERS)
     body = f'''
-{page_hero("Our Doctors", "Experienced, IMS–BHU trained specialists delivering compassionate, integrative care for women, families and children.", trail, eyebrow="Meet the team")}
+{page_hero("Our Doctors", "14 doctors under one roof — women’s health and maternity, children, medicine, surgery, ENT, skin, urology, dental and pathology.", trail, eyebrow="Meet the team")}
 <section class="section"><div class="container">
   <div class="filters" role="group" aria-label="Filter doctors by speciality">{chips}</div>
   <div class="doctors-grid">{"".join(doctor_card(d) for d in DOCTORS)}</div>
 </div></section>
 {cta_band("Book with the right specialist", "Choose your preferred doctor in the booking form — or let us match you.")}
 '''
-    page("/doctors/", "Our Doctors", "Meet the Shobha Hospital team — obstetricians, gynaecologists, infertility, Panchakarma, paediatric, surgical and yoga specialists trained at IMS–BHU.",
+    page("/doctors/", "Our Doctors", "Meet the 14 doctors of Shobha Hospital, Khanvel — gynaecologist, paediatrician, physician, surgeons, urologist, ENT, skin, dental and pathology specialists.",
          body, extra_ld=[breadcrumb_ld(trail)])
 
     for d in DOCTORS:
@@ -1096,6 +1107,7 @@ def build_doctors():
         facts = [f'<li>{icon("graduation")}{e(d["qualification"])}</li>', f'<li>{icon("stethoscope")}{e(d["specialty"])}</li>']
         if d["online"]:
             facts.append(f'<li>{icon("video")}{t("Online consultations")}</li>')
+        facts.append(f'<li>{icon("clock")}{e(d["timings"]) if d.get("timings") else t("OPD timing: call to confirm")}</li>')
         roles2 = f'<p class="profile-hero__roles2">{e(d["roles2"])}</p>' if d.get("roles2") else ""
         others = [o["slug"] for o in DOCTORS if o is not d][:4]
         svc_list = "".join(f'<li><a href="/service/{s["slug"]}/">{e(s["title"])}{icon("chev-right")}</a></li>' for s in services)
@@ -1123,7 +1135,7 @@ def build_doctors():
     {f'<p class="closing reveal">{e(d["closing"])}</p>' if d["closing"] else ""}
   </div>
   <aside class="aside">
-    {book_aside("Choose an in-clinic visit or an online consultation.", f"/appointment/?doctor={d['slug']}", t("Namaste, I would like to book an appointment with {name}.").replace("{name}", name))}
+    {book_aside("Call or WhatsApp us to confirm this doctor’s OPD timing.", f"/appointment/?doctor={d['slug']}", t("Namaste, I would like to book an appointment with {name}.").replace("{name}", name))}
     {f'<div class="aside-card"><h3>Related services</h3><ul class="aside-nav">{svc_list}</ul></div>' if services else ""}
     <div class="aside-card"><h3>Other specialists</h3>{mini_docs(others)}<a class="link-arrow" style="margin-top:10px" href="/doctors/">All doctors {icon("arrow")}</a></div>
   </aside>
@@ -1553,6 +1565,7 @@ def build_meta(paths):
 /wp-login.php    /            301
 /?p=*            /            301
 /hi              /            301
+""" + "".join(f"{p}/doctor/{s}{end}  {p}/doctors/  301\n" for s in RETIRED_DOCTORS for p in ("", "/en", "/mr", "/gu") for end in ("", "/*")) + """
 /hi/*            /:splat      301
 """)
     bots = ["Googlebot", "Bingbot", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "PerplexityBot", "Google-Extended", "Applebot"]

@@ -56,15 +56,15 @@
       "label": "By appointment"
     }
   ],
-  "about_short": "Shobha Hospital Multi Speciality, Khanvel is a family hospital managed by Dr. Sachin Ladak Shedad — offering gynecology, obstetrics, infertility, paediatrics, pathology and general & surgical care, with 24×7 emergency services.",
+  "about_short": "Shobha Hospital Multi Speciality, Khanvel is a 10-bed family hospital managed by Dr. Sachin Ladak Shedad — with 14 doctors across gynecology & maternity, paediatrics, medicine, surgery, ENT, skin, urology, dental and pathology, and 24×7 emergency services.",
   "about": [
-    "Shobha Hospital Multi Speciality is Dr. Sachin Shedad’s hospital at Khanvel Char Rasta, near Silvassa — your complete family healthcare destination, with a modern operation theatre, labour room, advanced laboratory, pharmacy and 24×7 emergency care.",
+    "Shobha Hospital Multi Speciality is Dr. Sachin Shedad’s hospital at ND Complex, Khanvel Char Rasta, near Silvassa — a trusted centre for better healthcare for your whole family, with 10 beds, an operation theatre, labour room, NICU beds with phototherapy for newborns, a laboratory, pharmacy and 24×7 emergency care.",
     "Women’s health and maternity care at the hospital follow the approach of Suvacha Healthcare, Dr. Sachin’s initiative guided by the mission “Creating श्रेयसी प्रजा” — integrating the timeless wisdom of Ayurveda with the scientific precision of modern medicine."
   ],
   "hero": {
     "eyebrow": "Multi Speciality Hospital · Khanvel",
     "title": "Your Complete Family Healthcare Destination",
-    "lead": "Gynec, OBS, infertility, paediatrics, pathology and general & surgical care — with 24×7 emergency services, managed by Dr. Sachin Ladak Shedad."
+    "lead": "Gynecology & maternity, paediatrics, medicine, surgery, ENT, skin, urology, dental and pathology — 14 doctors and 24×7 emergency services, managed by Dr. Sachin Ladak Shedad."
   },
   "stats": [
     {
@@ -72,16 +72,16 @@
       "label": "Emergency care"
     },
     {
-      "value": "11",
+      "value": "14",
       "label": "Specialist doctors"
     },
     {
-      "value": "12",
+      "value": "16",
       "label": "Specialities & services"
     },
     {
-      "value": "IMS–BHU",
-      "label": "Trained doctors"
+      "value": "10",
+      "label": "Bed hospital"
     }
   ],
   "journey": [
@@ -125,7 +125,7 @@
     {
       "icon": "user",
       "title": "Experienced Doctors",
-      "text": "IMS–BHU trained specialists across gynecology, obstetrics, infertility, paediatrics, surgery and Ayurveda."
+      "text": "14 doctors across gynecology & maternity, paediatrics, medicine, surgery, ENT, skin, urology, dental and pathology."
     },
     {
       "icon": "shield",
@@ -168,7 +168,7 @@
     "Appointment bookings (in-hospital or online consultation)",
     "Pregnancy, gynecology, and fertility care enquiries",
     "Laboratory tests, pharmacy and follow-up support",
-    "Panchakarma, Garbhasanskar & wellness programs"
+    "ENT, skin, urology and dental consultations"
   ],
   "faqs": [
     {
@@ -186,6 +186,10 @@
     {
       "q": "What are the OPD timings?",
       "a": "Monday to Saturday 8:00 – 11:00 AM and 2:00 – 8:00 PM. On Sunday, consultations are by appointment. Emergency care is available 24×7."
+    },
+    {
+      "q": "Which specialists are available at Shobha Hospital?",
+      "a": "Shobha Hospital has 14 doctors: gynaecologist & obstetrician, gynae-oncologist & laparoscopic surgeon, paediatrician, medicine specialist, general and laparoscopic surgeons, urologist, ENT specialist, skin specialist, dentist, pathologist and medical officers. Call +91 97142 06386 for each doctor’s OPD timings."
     },
     {
       "q": "Do you have a laboratory and pharmacy?",
@@ -230,52 +234,65 @@
   "brand_sub": "Multi Speciality · Khanvel",
   "managed_by": "Dr. Sachin Ladak Shedad",
   "parent_brand": "Suvacha Healthcare",
-  "motto": "आपकी सेहत, हमारी प्राथमिकता",
+  "motto": "आपका स्वास्थ्य, हमारी प्राथमिकता",
   "phone2": "+918867761598",
   "phone2_display": "+91 88677 61598",
   "specialities": [
     "Obstetrics & Gynecology",
-    "Infertility",
-    "Paediatrics",
-    "Skin care",
-    "Pathology",
-    "General Medicine",
-    "General Surgery",
-    "Laparoscopy",
     "Normal Delivery",
-    "Garbhasanskar",
-    "Panchakarma"
+    "Paediatrics & NICU",
+    "General Medicine",
+    "General & Laparoscopic Surgery",
+    "Gynae-Oncology",
+    "ENT",
+    "Skin Care",
+    "Urology",
+    "Dental Care",
+    "Pathology",
+    "Garbhasanskar"
   ],
   "facilities": [
     {
       "icon": "clock",
       "title": "24×7 Emergency Care",
-      "text": "Emergency services round the clock, every day of the year.",
+      "text": "Emergency medical services round the clock, every day of the year.",
+      "photo": ""
+    },
+    {
+      "icon": "bed",
+      "title": "10-Bed Hospital",
+      "text": "A well-equipped 10-bed hospital for patients who need admission and observation.",
       "photo": ""
     },
     {
       "icon": "hospital",
-      "title": "Modern Operation Theatre",
-      "text": "Laparoscopic (keyhole) and open surgeries in a modern, well-equipped OT.",
+      "title": "Operation Theatre",
+      "text": "Laparoscopic (keyhole) and open surgeries in a well-equipped operation theatre.",
       "photo": "photo-ot-laparoscopy"
     },
     {
       "icon": "baby",
-      "title": "Labour Room & Delivery",
-      "text": "A dedicated labour room for normal and caesarean deliveries, with care for mother and newborn.",
+      "title": "Labour Room & Maternity",
+      "text": "A dedicated labour room and maternity services for normal and caesarean deliveries.",
       "photo": "photo-family-newborn"
+    },
+    {
+      "icon": "heart",
+      "title": "NICU Beds & Phototherapy",
+      "text": "NICU beds and phototherapy for newborns who need special care, such as jaundice.",
+      "photo": ""
+    },
+    {
+      "icon": "shield",
+      "title": "Laboratory & Tests",
+      "text": "Laboratory with a range of tests on site, so reports reach your doctor quickly.",
+      "photo": ""
     },
     {
       "icon": "stethoscope",
       "title": "Laparoscopy & Hysteroscopy",
       "text": "Minimally invasive (दूरबीन विधि) procedures for faster recovery.",
       "photo": "photo-ot-hysteroscopy"
-    },
-    {
-      "icon": "shield",
-      "title": "Advanced Laboratory",
-      "text": "Pathology tests on site, so reports reach your doctor quickly.",
-      "photo": ""
     },
     {
       "icon": "plus",

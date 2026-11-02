@@ -1205,3 +1205,42 @@ html.help-locked, html.help-locked body { overflow: hidden; }
 .tiles--facilities .tile { flex: 0 0 calc(33.333% - 11px); scroll-snap-align: center; }
 @media (max-width: 860px) { .tiles--facilities .tile { flex-basis: 62%; } }
 @media (max-width: 600px) { .tiles--facilities { margin: 0 -16px; padding: 0 16px; gap: 12px; } .tiles--facilities .tile { flex-basis: 84%; } }
+
+/* ---------- Home banner in the style of the hospital brochure's front page ---------- */
+.hero--brochure { padding: clamp(18px, 3vw, 34px) 0 6px; background: linear-gradient(180deg, #fff, var(--cream)); overflow: visible; }
+.hero--brochure .container { display: block; }
+.hb-head { text-align: center; margin-bottom: clamp(14px, 2vw, 22px); }
+.hb-by { margin: 0; font-style: italic; font-weight: 700; color: #2f3d93; font-size: .95rem; }
+.hb-title { margin: 0; line-height: 1.02; }
+.hb-title__name { display: block; font-family: var(--font-serif); font-weight: 700; font-size: clamp(2.5rem, 6.4vw, 4.6rem); color: var(--coral-700); letter-spacing: -.01em; }
+.hb-title__sub { display: block; margin-top: 6px; font-family: var(--font-sans); font-weight: 700; font-size: clamp(1rem, 2vw, 1.35rem); letter-spacing: .08em; text-transform: uppercase; color: var(--green-900); }
+.hb-specs { margin: 12px auto 0; max-width: 980px; font-weight: 700; color: var(--ink); font-size: clamp(.9rem, 1.6vw, 1.08rem); line-height: 1.7; }
+.hb-specs { word-spacing: .12em; }
+.hb-panel { position: relative; display: grid; grid-template-columns: 1fr 1.15fr; min-height: 430px; border-radius: 26px; overflow: hidden; color: #fff;
+  background: linear-gradient(125deg, var(--coral-600) 0%, var(--coral-700) 45%, var(--green-800) 100%); box-shadow: 0 30px 60px -30px rgba(74,16,41,.6); }
+.hb-panel::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 0 34%, rgba(255,255,255,.08) 34% 46%, transparent 46% 100%), linear-gradient(115deg, transparent 0 52%, rgba(0,0,0,.08) 52% 60%, transparent 60%); }
+.hb-info { position: relative; z-index: 1; padding: clamp(24px, 3.4vw, 44px); display: flex; flex-direction: column; justify-content: center; gap: 22px; }
+.hb-badge { align-self: flex-start; display: inline-flex; flex-direction: column; align-items: center; padding: 10px 16px; border: 2px solid rgba(255,255,255,.75); border-radius: 18px; color: #fff; text-decoration: none; line-height: 1; transition: transform .2s; }
+.hb-badge:hover { transform: scale(1.04); color: #fff; }
+.hb-badge strong { font-size: 2.6rem; font-style: italic; font-weight: 800; letter-spacing: -.02em; }
+.hb-badge strong span { opacity: .7; }
+.hb-badge > span { margin-top: 6px; font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-style: italic; }
+.hb-managed { display: flex; flex-direction: column; gap: 4px; }
+.hb-managed small { font-size: .85rem; letter-spacing: .06em; opacity: .85; }
+.hb-managed strong { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.1; }
+.hb-managed span { opacity: .92; font-size: .95rem; }
+.hb-quals { font-weight: 700; opacity: 1 !important; letter-spacing: .02em; }
+.hb-info .hero__cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
+.hb-photo { position: relative; clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%); }
+.hb-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
+.hb-ribbon { position: absolute; right: 0; bottom: 22px; margin: 0; padding: 10px 22px 10px 26px; background: #fff; color: var(--coral-700);
+  font-family: var(--font-serif); font-weight: 700; font-size: clamp(1.05rem, 1.8vw, 1.35rem); line-height: 1.2; border-radius: 16px 0 0 16px; box-shadow: 0 12px 30px -12px rgba(0,0,0,.4); max-width: 72%; text-align: right; }
+.hero--brochure .pulse-strip--hero { max-width: none; margin: 12px 0 0; }
+@media (max-width: 860px) {
+  .hb-panel { grid-template-columns: 1fr; min-height: 0; }
+  .hb-photo { order: -1; height: 300px; clip-path: polygon(0 0, 100% 0, 100% 86%, 0 100%); }
+  .hb-ribbon { bottom: 34px; }
+  .hb-info { padding-top: 14px; }
+  .hb-info .hero__cta .btn { flex: 1 1 100%; justify-content: center; }
+}
