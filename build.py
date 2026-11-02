@@ -925,7 +925,7 @@ def build_home():
       </div>
     </div>
     <div class="hb-photo" data-parallax>
-      {img("about-1", "Mother holding her newborn — family care at Shobha Hospital, Khanvel", "(max-width: 860px) 100vw, 560px", eager=True)}
+      {img("hero-family", "Parents holding their newborn — family care at Shobha Hospital, Khanvel", "(max-width: 860px) 100vw, 560px", eager=True)}
       <p class="hb-ribbon">{e(h["title"])}</p>
     </div>
   </div>

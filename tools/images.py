@@ -15,6 +15,8 @@ IMAGES = {
     "about-2": "ChatGPT-Image-Jan-13-2026-06_48_26-AM.png",
     "about-3": "ChatGPT-Image-Jan-13-2026-07_06_24-AM.png",
     "lotus": "lotus-6474572_1920.jpg",
+    # home banner: Indian parents with their newborn (Pexels, free licence) — https://www.pexels.com/photo/30012175/
+    "hero-family": "pexels-dream-makkerzz-30012175.jpg",
     # services
     "svc-womens-health-integrative-care": "kimia-kazemi-4jpue-X7cFU-unsplash.jpg",
     "svc-pregnancy-maternal-care": "shashank-verma-lxdDwKSWuT8-unsplash.jpg",

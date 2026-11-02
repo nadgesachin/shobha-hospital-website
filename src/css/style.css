@@ -1239,7 +1239,7 @@ html.help-locked, html.help-locked body { overflow: hidden; }
 .hb-quals { font-weight: 700; opacity: 1 !important; letter-spacing: .02em; }
 .hb-info .hero__cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
 .hb-photo { position: relative; clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%); }
-.hb-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
+.hb-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; }
 .hb-ribbon { position: absolute; right: 0; bottom: 22px; margin: 0; padding: 10px 22px 10px 26px; background: #fff; color: var(--coral-700);
   font-family: var(--font-serif); font-weight: 700; font-size: clamp(1.05rem, 1.8vw, 1.35rem); line-height: 1.2; border-radius: 16px 0 0 16px; box-shadow: 0 12px 30px -12px rgba(0,0,0,.4); max-width: 72%; text-align: right; }
 .hero--brochure .pulse-strip--hero { max-width: none; margin: 12px 0 0; }
@@ -1267,4 +1267,9 @@ html.help-locked, html.help-locked body { overflow: hidden; }
   .hb-title__sub { gap: 8px; }
   .hb-title__sub::before, .hb-title__sub::after { width: 30px; }
   .hb-title__sub > span { white-space: nowrap; font-size: .88rem; padding: .35em .95em; }
+}
+@media (max-width: 860px) {
+  .hb-photo { height: 360px; }
+  .hb-photo img { object-position: center 30%; }
+  .hb-ribbon { bottom: 40px; font-size: .95rem; padding: 8px 14px 8px 18px; }
 }
