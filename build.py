@@ -227,7 +227,7 @@ def dr_name(d):
 
 def brand_html(cls="brand"):
     """Lotus mark + hospital name as live text (translatable, crisp, and readable by search engines)."""
-    return (f'<span class="{cls}__mark"><img src="/assets/img/logo-mark-128.webp" srcset="/assets/img/logo-mark-128.webp 1x, /assets/img/logo-mark-256.webp 2x" width="199" height="128" alt=""></span>'
+    return (f'<span class="{cls}__mark"><img src="/assets/img/logo-mark-128.webp" srcset="/assets/img/logo-mark-128.webp 1x, /assets/img/logo-mark-256.webp 2x" width="160" height="128" alt=""></span>'
             f'<span class="{cls}__text"><strong>{e(t("Shobha Hospital"))}</strong><small>{e(t("Multi Speciality · Khanvel"))}</small></span>')
 
 
@@ -402,7 +402,7 @@ def footer():
   <div class="help-backdrop" data-help-close></div>
   <section class="help" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <button class="help__close" type="button" aria-label="Close">{icon("x")}</button>
-    <div class="help__head"><span class="help__avatar"><img src="/assets/img/logo-mark-64.webp" width="99" height="64" alt=""></span>
+    <div class="help__head"><span class="help__avatar"><img src="/assets/img/logo-mark-64.webp" width="80" height="64" alt=""></span>
       <span><strong id="help-title">Shobha Hospital</strong><small><span class="help__dot"></span>We reply quickly on WhatsApp</small></span></div>
     <p class="help__bubble">Namaste 🙏 How can we help you today?</p>
     <div class="help__opts">
@@ -564,7 +564,7 @@ INTRO_FLAG = ('<script>try{sessionStorage.getItem("intro")?document.documentElem
 def intro_html():
     """Phone-only opening: lotus logo, a heartbeat line drawing across, then the page (pure CSS, ~1.8s)."""
     return (f'<div class="intro" aria-hidden="true"><div class="intro__inner">'
-            f'<img src="/assets/img/logo-mark-256.webp" width="397" height="256" alt="">'
+            f'<img src="/assets/img/logo-mark-256.webp" width="320" height="256" alt="">'
             f'<svg class="ecg ecg--intro" viewBox="0 0 320 60" preserveAspectRatio="none"><path d="{ECG_PATH}"/></svg>'
             f'<p class="intro__name">{e(t("Shobha Hospital"))}</p><p class="intro__tag">{e(SITE["motto"])}</p></div></div>\n')
 
@@ -906,7 +906,7 @@ def build_home():
 <section class="hero hero--brochure"><div class="container">
   <div class="hb-head hero-in" style="--d:0">
     <p class="hb-by" lang="en">Dr. Sachin Shedad’s</p>
-    <h1 class="hb-title"><span class="hb-title__name">Shobha Hospital</span> <span class="hb-title__sub">Khanvel · Multi Speciality</span></h1>
+    <h1 class="hb-title"><span class="hb-title__name">Shobha Hospital</span> <span class="hb-title__sub"><span>Khanvel · Multi Speciality</span></span></h1>
     <p class="hb-specs" lang="en">{e(" | ".join(HERO_SPECS))}</p>
   </div>
   <div class="hb-panel hero-in" style="--d:2">

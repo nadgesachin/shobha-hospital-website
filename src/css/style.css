@@ -2,6 +2,12 @@
    Palette drawn from the logo: forest green, lotus coral, temple gold, warm cream. */
 
 :root {
+  /* from the hospital logo: navy "Multispeciality" pill, gold ring/ECG, leaf green */
+  --navy-950: #0c1c44;
+  --navy-900: #14296b;
+  --navy-700: #24489a;
+  --navy-100: #e8eefa;
+  --leaf-600: #2f8a3b;
   --green-950: #2e0a1b;
   --green-900: #4a1029;
   --green-800: #6d1a3f;
@@ -123,7 +129,7 @@ ul { padding-left: 1.2em; }
 .link-arrow:hover .icon { transform: translateX(4px); }
 
 /* ---------- Top bar + header ---------- */
-.topbar { background: var(--green-950); color: #ead3dd; font-size: .875rem; }
+.topbar { background: var(--navy-900); color: #dfe6f6; font-size: .875rem; }
 .topbar .container { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; }
 .topbar a { color: #ead3dd; text-decoration: none; }
 .topbar a:hover { color: #fff; }
@@ -465,21 +471,21 @@ a.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); c
 .mv-card--green .checklist .icon { color: var(--gold-500); }
 
 /* ---------- Footer ---------- */
-.footer { background: var(--green-950); color: #dcbfcb; padding: clamp(56px, 7vw, 88px) 0 0; font-size: .97rem; }
+.footer { background: var(--navy-950); color: #cdd6ec; padding: clamp(56px, 7vw, 88px) 0 0; font-size: .97rem; }
 .footer a { color: #f2dce5; text-decoration: none; }
 .footer a:hover { color: var(--gold-500); }
 .footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 40px; padding-bottom: 48px; }
 .brand--footer { background: var(--cream); padding: 8px 16px 8px 10px; border-radius: 16px; margin-bottom: 20px; }
-.footer__managed { font-size: .86rem; color: #c49aab; }
+.footer__managed { font-size: .86rem; color: #9fb0d6; }
 .footer h2.footer__h { color: #fff; font-family: var(--font-sans); font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; margin-bottom: 1.2em; }
 .footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 .footer__contact li { display: flex; gap: 12px; align-items: flex-start; }
-.footer__contact small { color: #c49aab; }
+.footer__contact small { color: #9fb0d6; }
 .footer__contact .icon { color: var(--gold-500); margin-top: .25em; }
 .footer__hours li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed rgba(255,255,255,.1); padding-bottom: 8px; }
 .footer__bottom { border-top: 1px solid rgba(255,255,255,.1); padding: 22px 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: .88rem; }
 .footer__tagline { font-family: var(--font-deva); color: var(--gold-500); font-size: 1.15rem; }
-.footer .disclaimer { font-size: .82rem; color: #c49aab; margin-top: 18px; }
+.footer .disclaimer { font-size: .82rem; color: #9fb0d6; margin-top: 18px; }
 
 /* ---------- Floating WhatsApp + mobile bar ---------- */
 .wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 80; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
@@ -1243,4 +1249,22 @@ html.help-locked, html.help-locked body { overflow: hidden; }
   .hb-ribbon { bottom: 34px; }
   .hb-info { padding-top: 14px; }
   .hb-info .hero__cta .btn { flex: 1 1 100%; justify-content: center; }
+}
+
+/* ---------- Logo-inspired accents: navy "Multi Speciality" pill with gold border and gold ECG lines ---------- */
+.brand__text small { display: inline-block; align-self: flex-start; background: var(--navy-900); color: #fff; border: 1px solid var(--gold-500);
+  border-radius: 999px; padding: 2px 9px; letter-spacing: .06em; }
+.footer .brand__text small { color: #fff; }
+.hb-title__sub { display: inline-flex; align-items: center; gap: 14px; width: auto; margin-top: 10px; padding: 0; background: none; color: var(--navy-900); }
+.hb-title__sub::before, .hb-title__sub::after { content: ""; width: clamp(40px, 9vw, 120px); height: 20px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='20' viewBox='0 0 120 20'%3E%3Cpath d='M0 10H70l4-7 5 14 4-9 3 2h34' fill='none' stroke='%23c49a3a' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%; }
+.hb-title__sub::after { transform: scaleX(-1); }
+.hb-title__sub { font-size: 0; }
+.hb-title__sub > span { font-size: clamp(.95rem, 1.9vw, 1.3rem); background: var(--navy-900); color: #fff; border: 2px solid var(--gold-500); border-radius: 999px;
+  padding: .35em 1.2em; box-shadow: 0 6px 18px -8px rgba(20,41,107,.6); }
+.hb-badge { border-color: var(--gold-500); }
+.eyebrow::before { background: var(--gold-500); }
+@media (max-width: 600px) {
+  .hb-title__sub { gap: 8px; }
+  .hb-title__sub::before, .hb-title__sub::after { width: 30px; }
+  .hb-title__sub > span { white-space: nowrap; font-size: .88rem; padding: .35em .95em; }
 }
