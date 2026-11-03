@@ -227,7 +227,7 @@ def dr_name(d):
 
 def brand_html(cls="brand"):
     """Lotus mark + hospital name as live text (translatable, crisp, and readable by search engines)."""
-    return (f'<span class="{cls}__mark"><img src="/assets/img/logo-mark-128.webp" srcset="/assets/img/logo-mark-128.webp 1x, /assets/img/logo-mark-256.webp 2x" width="160" height="128" alt=""></span>'
+    return (f'<span class="{cls}__mark"><img src="/assets/img/logo3-mark-128.webp" srcset="/assets/img/logo3-mark-128.webp 1x, /assets/img/logo3-mark-256.webp 2x" width="160" height="128" alt=""></span>'
             f'<span class="{cls}__text"><strong>{e(t("Shobha Hospital"))}</strong><small>{e(t("Multi Speciality · Khanvel"))}</small></span>')
 
 
@@ -245,7 +245,7 @@ def clinic_ld():
         "description": SITE["about_short"],
         "slogan": SITE["tagline"],
         "url": SITE["url"],
-        "logo": SITE["url"] + "/assets/img/logo-square.png",
+        "logo": SITE["url"] + "/assets/img/logo3-square.png",
         "image": SITE["url"] + "/assets/og/hero.jpg",
         "telephone": SITE["phone"],
         "email": SITE["email"],
@@ -402,7 +402,7 @@ def footer():
   <div class="help-backdrop" data-help-close></div>
   <section class="help" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <button class="help__close" type="button" aria-label="Close">{icon("x")}</button>
-    <div class="help__head"><span class="help__avatar"><img src="/assets/img/logo-mark-64.webp" width="80" height="64" alt=""></span>
+    <div class="help__head"><span class="help__avatar"><img src="/assets/img/logo3-mark-64.webp" width="80" height="64" alt=""></span>
       <span><strong id="help-title">Shobha Hospital</strong><small><span class="help__dot"></span>We reply quickly on WhatsApp</small></span></div>
     <p class="help__bubble">Namaste 🙏 How can we help you today?</p>
     <div class="help__opts">
@@ -523,8 +523,8 @@ def page(path, title, description, body, extra_ld=(), og_image="hero", og_type="
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="{meta["og"]}">
 {art}<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
+<link rel="icon" href="/assets/img/favicon3-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/img/favicon3-180.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -564,7 +564,7 @@ INTRO_FLAG = ('<script>try{sessionStorage.getItem("intro")?document.documentElem
 def intro_html():
     """Phone-only opening: lotus logo, a heartbeat line drawing across, then the page (pure CSS, ~1.8s)."""
     return (f'<div class="intro" aria-hidden="true"><div class="intro__inner">'
-            f'<img src="/assets/img/logo-mark-256.webp" width="320" height="256" alt="">'
+            f'<img src="/assets/img/logo3-mark-256.webp" width="320" height="256" alt="">'
             f'<svg class="ecg ecg--intro" viewBox="0 0 320 60" preserveAspectRatio="none"><path d="{ECG_PATH}"/></svg>'
             f'<p class="intro__name">{e(t("Shobha Hospital"))}</p><p class="intro__tag">{e(SITE["motto"])}</p></div></div>\n')
 
@@ -1575,8 +1575,8 @@ def build_meta(paths):
     (OUT / "site.webmanifest").write_text(json.dumps({
         "name": SITE["full_name"], "short_name": "Shobha Hospital", "start_url": "/", "display": "standalone",
         "background_color": "#fffafb", "theme_color": "#4a1029",
-        "icons": [{"src": "/assets/img/favicon-180.png", "sizes": "180x180", "type": "image/png"},
-                  {"src": "/assets/img/favicon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=2))
+        "icons": [{"src": "/assets/img/favicon3-180.png", "sizes": "180x180", "type": "image/png"},
+                  {"src": "/assets/img/favicon3-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=2))
 
 
 def main():
