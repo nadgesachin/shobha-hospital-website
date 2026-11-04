@@ -1,6 +1,6 @@
 # Shobha Hospital Multi Speciality, Khanvel — website
 
-The website of Shobha Hospital Multi Speciality, Khanvel (a Suvacha Healthcare initiative), built as a fast static site for https://shobhahospitalkhanvel.com (shobhahospitalkhanvel.in and the old suvachahealthcare.in redirect to it). It needs Python 3 and Pillow, and nothing else.
+The website of Shobha Hospital Multi Speciality, Khanvel (a Suvacha Healthcare initiative), built as a fast static site for https://shobhahospitalkhanvel.in (shobhahospitalkhanvel.com and the old suvachahealthcare.in redirect to it), hosted on Hostinger. It needs Python 3 and Pillow, and nothing else.
 
 ```bash
 python3 build.py --serve     # build into site/ and open http://localhost:8000

@@ -5,3 +5,5 @@ __pycache__/
 .DS_Store
 .netlify/
 build/
+hostinger-upload.zip
+hostinger-htaccess.txt
